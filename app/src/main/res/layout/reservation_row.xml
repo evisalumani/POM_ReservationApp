@@ -1,0 +1,27 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:padding="6dip" >
+
+    <TextView
+        android:id="@+id/reservation_noOfPersons"
+        android:layout_width="250dip"
+        android:layout_height="wrap_content"
+        android:layout_alignWithParentIfMissing="true"
+        android:gravity="center_vertical"
+        android:text="Number of persons"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/reservation_tableNo"
+        android:layout_width="250dip"
+        android:layout_height="26dip"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="Table Number"
+        android:textSize="12sp"
+        android:layout_below="@+id/reservation_noOfPersons"
+        android:layout_alignParentStart="true" />
+
+
+</RelativeLayout>

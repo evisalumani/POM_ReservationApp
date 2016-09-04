@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight">
+
+    <ImageView
+        android:id="@+id/searchResult_image"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="6dip"
+        android:contentDescription="TODO"
+        android:src="@drawable/ic_local_dining" />
+
+    <TextView
+        android:id="@+id/searchResult_restaurantName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/searchResult_image"
+        android:text="Restaurant name"
+        android:textSize="16sp" />
+
+    <RatingBar
+        android:id="@+id/searchResult_ratingbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/ratingBarStyleSmall"
+        android:isIndicator="true"
+        android:layout_toRightOf="@id/searchResult_image"
+        android:layout_below="@id/searchResult_restaurantName" />
+
+    <TextView
+        android:id="@+id/searchResult_restaurantDescription"
+        android:layout_width="fill_parent"
+        android:layout_height="26dip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/searchResult_image"
+        android:layout_below="@id/searchResult_ratingbar"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="Restaurant description"
+        android:textSize="12sp"
+        android:textStyle="italic"/>
+</RelativeLayout>

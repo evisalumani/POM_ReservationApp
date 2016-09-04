@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="de.tum.pom16.teamtba.reservationapp.activities.RestaurantReviewsActivity">
+
+    <TextView
+        android:id="@+id/restaurant_reviews_restaurantName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"/>
+
+    <TextView
+        android:id="@+id/restaurant_reviews_nrOfReviews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/restaurant_reviews_restaurantName"
+        android:textSize="20dp"/>
+
+    <RatingBar
+        android:id="@+id/restaurant_reviews_ratingbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:stepSize="0.5"
+        android:isIndicator="true"
+        android:layout_below="@id/restaurant_reviews_nrOfReviews"/>
+
+    <TextView
+        android:id="@+id/restaurant_reviews_avgRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4.5"
+        android:textSize="35dp"
+        android:layout_toRightOf="@id/restaurant_reviews_ratingbar"
+        android:layout_alignTop="@id/restaurant_reviews_ratingbar" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/restaurant_reviews_listview"
+        android:layout_below="@id/restaurant_reviews_ratingbar"/>
+
+</RelativeLayout>

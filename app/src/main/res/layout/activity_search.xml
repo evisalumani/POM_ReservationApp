@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="6dip">
+
+    <AutoCompleteTextView
+        android:id="@+id/search_name_textview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Restaurant Name"
+        android:inputType="text"
+        android:imeOptions="actionSend" />
+    <Button
+        android:id="@+id/search_search_button"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="searchRestaurantByName"
+        />
+    <Button
+        android:id="@+id/search_nearMe_button"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Near Me"
+        android:layout_below="@+id/search_search_button"
+        android:layout_alignStart="@+id/search_search_button"
+        android:layout_marginTop="42dp"
+        android:onClick="searchNearMe"
+        />
+
+</RelativeLayout>

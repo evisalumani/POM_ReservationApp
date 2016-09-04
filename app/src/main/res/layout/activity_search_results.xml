@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="79dp"
+            android:layout_weight="0.05">
+            <Button
+                android:id="@+id/searchResults_filter_button"
+                android:layout_gravity="right|top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filter"
+                android:padding="5dp"
+                android:onClick="filterSearchResults" />
+        </fragment>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_below="@id/searchResults_filter_button"
+            android:layout_height="79dp"
+            android:id="@+id/searchResults_listview"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.05" />
+
+    </LinearLayout>
+</FrameLayout>
+
+
+    <!--map:cameraTargetLat="48.137524"
+    map:cameraTargetLng="11.576466"
+    map:cameraZoom="15"
+    map:uiRotateGestures="true"
+    map:uiTiltGestures="true"
+    map:uiScrollGestures="true"
+    map:uiZoomGestures="true"
+    map:mapType="normal"
+
+    map:cameraTargetLat="48.137524"
+            map:cameraTargetLng="11.576466"
+            map:cameraZoom="15"/
+    -->
+
