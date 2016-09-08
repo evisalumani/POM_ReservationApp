@@ -9,6 +9,7 @@ import com.annimon.stream.Stream;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 /**
@@ -29,6 +30,7 @@ public class Restaurant implements Parcelable {
 
     private List<Table> tables = new ArrayList<Table>();
     private List<RestaurantReview> reviews = new ArrayList<RestaurantReview>();
+    private Hashtable<Integer, OpeningTimes> openingTimes = new Hashtable<>(); //Integer for day_of_week
 
     private int tablesNumber;
 
@@ -128,6 +130,21 @@ public class Restaurant implements Parcelable {
         } else {
             return "€€€";
         }
+    }
+
+    public void setOpeningTimes(int dayOfWeek, int openingHour, int closingHour) {
+        if (openingTimes != null) {
+            openingTimes.put(dayOfWeek, new OpeningTimes(openingHour, closingHour));
+        }
+    }
+
+    public Hashtable<Integer, OpeningTimes> getOpeningTimes() {
+        return openingTimes;
+    }
+
+    public OpeningTimes getOpeningTimes(int dayOfWeek) {
+        //Note: if null is returned, than the restaurant is closed at that day of the week
+        return openingTimes.get(dayOfWeek);
     }
 
     public float getAverageRating() {

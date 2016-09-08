@@ -3,6 +3,10 @@ package de.tum.pom16.teamtba.reservationapp.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Hashtable;
+
 /**
  * Created by hamed on 18/06/16.
  */
@@ -16,6 +20,9 @@ public class Table implements Parcelable {
     private int openingHoursDuration;
     private int tableCapacity;
     boolean[] reservationStatus;
+
+    Hashtable<Integer, OpeningTimes> openingTimes = new Hashtable<Integer, OpeningTimes>();
+    Hashtable<DateTimeSlot, Boolean> tableReservationStatus = new Hashtable<DateTimeSlot, Boolean>();
 
     public Table(int tableId, int capacity) {
         this.tableId = tableId;
@@ -94,6 +101,14 @@ public class Table implements Parcelable {
     public void setOpeningHoursDuration(int openingHoursDuration) {
         this.openingHoursDuration = openingHoursDuration;
     }
+
+    public void setOpeningTimes(Hashtable<Integer, OpeningTimes> openingTimes) {
+        this.openingTimes = openingTimes;
+        GregorianCalendar calendar = new GregorianCalendar();
+        //calendar.setTime();
+        calendar.get(Calendar.DAY_OF_WEEK);
+    }
+
 
     public void setReservationStatus(boolean[] reservationStatus) {
         this.reservationStatus = reservationStatus;
