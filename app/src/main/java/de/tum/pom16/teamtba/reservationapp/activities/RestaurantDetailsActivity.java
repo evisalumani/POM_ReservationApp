@@ -1,8 +1,11 @@
 package de.tum.pom16.teamtba.reservationapp.activities;
 
+import android.app.SearchManager;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.SupportMapFragment;
 import de.tum.pom16.teamtba.reservationapp.R;
@@ -14,6 +17,25 @@ import de.tum.pom16.teamtba.reservationapp.viewmodels.RestaurantReviewsViewModel
  */
 public class RestaurantDetailsActivity extends MapCallbackActivity {
     Restaurant restaurant;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        handleIntent(getIntent());
+    }
+
+    private void handleIntent(Intent intent) {
+        if(Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            //use the query to search
+            Toast.makeText(this, query, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
 
     @Override
     protected void initializeModel() {

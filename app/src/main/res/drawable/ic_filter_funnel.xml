@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportWidth="24.0"
+        android:viewportHeight="24.0">
+    <path
+        android:pathData="M3,2L20.989,2L21,2L21,2.011L21,4L20.921,4L14,10.921L14,22.909L10,18.909L10,10.906L3.094,4L3,4L3,2Z"
+        android:fillAlpha="1"
+        android:fillColor="#FFFFFF"
+        android:strokeWidth="0.2"
+        android:strokeLineJoin="round"/>
+</vector>
+
+<!--
+Source: https://github.com/Templarian/MaterialDesign/blob/master/icons/svg/filter.svg
+-->
