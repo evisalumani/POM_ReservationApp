@@ -2,6 +2,7 @@ package de.tum.pom16.teamtba.reservationapp.activities;
 
 import android.app.SearchManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -29,6 +30,11 @@ public class RestaurantDetailsActivity extends MapCallbackActivity {
             String query = intent.getStringExtra(SearchManager.QUERY);
             //use the query to search
             Toast.makeText(this, "JUST SUBMITTED A QUERY" + query, Toast.LENGTH_SHORT).show();
+            //doSearch(query)
+        } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            // Handle a suggestions click (because the suggestions all use ACTION_VIEW)
+            Uri data = intent.getData();
+            //showResult(data);
         }
     }
 
