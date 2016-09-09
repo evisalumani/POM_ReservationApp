@@ -1,17 +1,9 @@
 package de.tum.pom16.teamtba.reservationapp.activities;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.SearchView;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.ArrayAdapter;
-
 
 import java.util.List;
 
@@ -78,21 +70,5 @@ public class SearchActivity extends AppActivity {
         if (restaurants != null) {
             goToSearchResults(restaurants);
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_action_bar, menu);
-
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem searchMenuItem = menu.findItem(R.id.menu_search);
-        SearchView searchView = (SearchView) searchMenuItem.getActionView();
-        if (searchView != null) {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        }
-        //searchView.setIconifiedByDefault(true);
-        return true;
     }
 }

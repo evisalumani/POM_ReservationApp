@@ -28,7 +28,7 @@ public class RestaurantDetailsActivity extends MapCallbackActivity {
         if(Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             //use the query to search
-            Toast.makeText(this, query, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "JUST SUBMITTED A QUERY" + query, Toast.LENGTH_SHORT).show();
         }
     }
 

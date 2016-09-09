@@ -1,6 +1,7 @@
 package de.tum.pom16.teamtba.reservationapp.activities;
 
 import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +30,18 @@ public class AppActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_action_bar, menu);
+
+        //configure search
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        MenuItem searchMenuItem = menu.findItem(R.id.menu_search);
+        SearchView searchView = (SearchView) searchMenuItem.getActionView();
+
+        if (searchView != null) {
+            //can be replaced with getComponentName() if this searchable activity is the current activity
+            ComponentName componentName = new ComponentName(getApplication(), RestaurantDetailsActivity.class);
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName));
+        }
+        //searchView.setIconifiedByDefault(true);
 
         return true;
     }
