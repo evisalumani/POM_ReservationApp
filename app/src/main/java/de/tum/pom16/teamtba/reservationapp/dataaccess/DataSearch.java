@@ -38,10 +38,14 @@ public class DataSearch {
     public static List<Table> filterTablesByTimeSlot(Restaurant restaurant, int timeSlot) {
         //TODO: check timeSlot between opening and closing time
         return Stream.of(restaurant.getTables()).filter(table -> !table.getReservation(timeSlot)).collect(Collectors.toList());
-        //return Stream.of(restaurant.getTables()).filter(t => !t.getReservation(timeSlot)).collect(Collectors.toList());
     }
 
     public static Optional<Restaurant> filterRestaurantByName(List<Restaurant> restaurants, String restaurantName) {
         return Stream.of(restaurants).filter(restaurant -> restaurant.getName().equalsIgnoreCase(restaurantName)).findFirst();
+    }
+
+    public static List<Restaurant> filterRestaurantContainingString(List<Restaurant> restaurants, String queryString) {
+
+        return Stream.of(restaurants).filter(restaurant -> restaurant.getName().toLowerCase().contains(queryString.toLowerCase())).collect(Collectors.toList());
     }
 }

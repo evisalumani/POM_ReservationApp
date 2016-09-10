@@ -26,11 +26,13 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.tum.pom16.teamtba.reservationapp.R;
 import de.tum.pom16.teamtba.reservationapp.customviews.SearchResultsAdapter;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.DataGenerator;
+import de.tum.pom16.teamtba.reservationapp.dataaccess.DataSearch;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.DataSort;
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 import de.tum.pom16.teamtba.reservationapp.utilities.*;
@@ -45,11 +47,11 @@ public class SearchResultsActivity extends MapCallbackActivity {
     //model
     List<Restaurant> searchResults;
     LocationUtility locationUtility;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
+
     private GoogleApiClient client;
+
+    SearchView searchView;
+    private String queryTerm = "";
 
     @Override
     protected void initializeModel() {
@@ -159,29 +161,62 @@ public class SearchResultsActivity extends MapCallbackActivity {
         //configure search
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchMenuItem = menu.findItem(R.id.menu_search);
-        SearchView searchView = (SearchView) searchMenuItem.getActionView(); //MenuItemCompat.getActionView(searchMenuItem)
+        searchView = (SearchView) searchMenuItem.getActionView(); //MenuItemCompat.getActionView(searchMenuItem)
 
         if (searchView != null) {
-            //can be replaced with getComponentName() if this searchable activity is the current activity
-
-            //if results are displayed on a different activity:
+            //if results are displayed on a different activity, e.g.
             //ComponentName componentName = new ComponentName(getApplication(), RestaurantDetailsActivity.class);
+            //searchable activity is the current activity
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         }
-        //searchView.setIconifiedByDefault(true);
+
+        searchView.setIconifiedByDefault(true);
+
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    //set the last query term, by which results are filtered
+                   // && queryTerm.length() > 0
+                    if (queryTerm != null) {
+                        searchView.setQuery(queryTerm, false);
+                    }
+                }
+            }
+        });
 
         //callbacks
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //perform final search
+                //collapse the search view
+//                List<Restaurant> temp = DataSearch.filterRestaurantContainingString(DataGenerator.generateDummyData(), queryTerm);
+//                ((SearchResultsAdapter) searchResultsAdapter).refreshRestaurants(temp);
+                //searchMenuItem.collapseActionView();
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //text has changed, apply filtering?
-                return false;
+                //text has changed => apply filtering on the search results
+                newText = newText.trim();
+                List<Restaurant> tempSearchResults = new ArrayList<Restaurant>();
+                if (newText != null) {
+                    //queryTerm = newText.length() == 0 ? queryTerm : newText;
+                    queryTerm = newText;
+                    tempSearchResults = DataSearch.filterRestaurantContainingString(DataGenerator.generateDummyData(), newText);
+                    ((SearchResultsAdapter) searchResultsAdapter).refreshRestaurants(tempSearchResults);
+                }
+//                if (newText != null && newText.length() > 0) {
+//                    queryTerm = newText;
+//                    List<Restaurant> tempSearchResults = DataSearch.filterRestaurantContainingString(DataGenerator.generateDummyData(), newText);
+//                    //notify changes to the listview
+//                    ((SearchResultsAdapter) searchResultsAdapter).refreshRestaurants(tempSearchResults);
+//                } else {
+//                    //Toast.makeText(getApplicationContext(), "empty query", Toast.LENGTH_SHORT).show();
+//                    //show all
+//                }
+                return true; //what's
             }
         });
 
@@ -191,11 +226,6 @@ public class SearchResultsActivity extends MapCallbackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-
         handleIntent(getIntent());
     }
 
@@ -214,4 +244,14 @@ public class SearchResultsActivity extends MapCallbackActivity {
         handleIntent(intent);
     }
 
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//
+//        if (searchView != null) {
+//            searchView.setQuery("tan", false);
+//            searchView.clearFocus();
+//            //searchView.onActionViewCollapsed();
+//        }
+//    }
 }
