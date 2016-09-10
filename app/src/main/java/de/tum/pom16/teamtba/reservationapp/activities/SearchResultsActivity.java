@@ -189,9 +189,7 @@ public class SearchResultsActivity extends MapCallbackActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //collapse the search view
-//                List<Restaurant> temp = DataSearch.filterRestaurantContainingString(DataGenerator.generateDummyData(), queryTerm);
-//                ((SearchResultsAdapter) searchResultsAdapter).refreshRestaurants(temp);
+                //collapse search view?
                 //searchMenuItem.collapseActionView();
                 return false;
             }
@@ -207,16 +205,8 @@ public class SearchResultsActivity extends MapCallbackActivity {
                     tempSearchResults = DataSearch.filterRestaurantContainingString(DataGenerator.generateDummyData(), newText);
                     ((SearchResultsAdapter) searchResultsAdapter).refreshRestaurants(tempSearchResults);
                 }
-//                if (newText != null && newText.length() > 0) {
-//                    queryTerm = newText;
-//                    List<Restaurant> tempSearchResults = DataSearch.filterRestaurantContainingString(DataGenerator.generateDummyData(), newText);
-//                    //notify changes to the listview
-//                    ((SearchResultsAdapter) searchResultsAdapter).refreshRestaurants(tempSearchResults);
-//                } else {
-//                    //Toast.makeText(getApplicationContext(), "empty query", Toast.LENGTH_SHORT).show();
-//                    //show all
-//                }
-                return true; //what's
+//
+                return true;
             }
         });
 
@@ -234,7 +224,7 @@ public class SearchResultsActivity extends MapCallbackActivity {
         if(Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             //use the query to search
-            Toast.makeText(this, "JUST SUBMITTED A QUERY" + query, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Query" + query, Toast.LENGTH_SHORT).show();
             //doSearch(query)
         }
     }
@@ -244,14 +234,4 @@ public class SearchResultsActivity extends MapCallbackActivity {
         handleIntent(intent);
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//
-//        if (searchView != null) {
-//            searchView.setQuery("tan", false);
-//            searchView.clearFocus();
-//            //searchView.onActionViewCollapsed();
-//        }
-//    }
 }

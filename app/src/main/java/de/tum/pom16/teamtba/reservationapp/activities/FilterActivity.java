@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
-import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -21,6 +19,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import de.tum.pom16.teamtba.reservationapp.R;
+import de.tum.pom16.teamtba.reservationapp.customviews.DateDialogFragment;
 import de.tum.pom16.teamtba.reservationapp.customviews.TimeSlotDialogFragment;
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.*;

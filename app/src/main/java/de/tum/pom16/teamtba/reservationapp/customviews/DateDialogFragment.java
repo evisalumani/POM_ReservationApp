@@ -1,4 +1,4 @@
-package de.tum.pom16.teamtba.reservationapp.activities;
+package de.tum.pom16.teamtba.reservationapp.customviews;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
