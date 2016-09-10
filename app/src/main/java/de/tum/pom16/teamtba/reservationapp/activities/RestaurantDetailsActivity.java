@@ -22,26 +22,8 @@ public class RestaurantDetailsActivity extends MapCallbackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        handleIntent(getIntent());
     }
 
-    private void handleIntent(Intent intent) {
-        if(Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            //use the query to search
-            Toast.makeText(this, "JUST SUBMITTED A QUERY" + query, Toast.LENGTH_SHORT).show();
-            //doSearch(query)
-        } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            // Handle a suggestions click (because the suggestions all use ACTION_VIEW)
-            Uri data = intent.getData();
-            //showResult(data);
-        }
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        handleIntent(intent);
-    }
 
     @Override
     protected void initializeModel() {

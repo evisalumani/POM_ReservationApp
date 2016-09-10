@@ -1,16 +1,28 @@
 package de.tum.pom16.teamtba.reservationapp.activities;
 
 import android.Manifest;
+import android.app.SearchManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -33,6 +45,11 @@ public class SearchResultsActivity extends MapCallbackActivity {
     //model
     List<Restaurant> searchResults;
     LocationUtility locationUtility;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void initializeModel() {
@@ -133,4 +150,68 @@ public class SearchResultsActivity extends MapCallbackActivity {
             }
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_action_bar, menu);
+
+        //configure search
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        MenuItem searchMenuItem = menu.findItem(R.id.menu_search);
+        SearchView searchView = (SearchView) searchMenuItem.getActionView(); //MenuItemCompat.getActionView(searchMenuItem)
+
+        if (searchView != null) {
+            //can be replaced with getComponentName() if this searchable activity is the current activity
+
+            //if results are displayed on a different activity:
+            //ComponentName componentName = new ComponentName(getApplication(), RestaurantDetailsActivity.class);
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        }
+        //searchView.setIconifiedByDefault(true);
+
+        //callbacks
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //perform final search
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //text has changed, apply filtering?
+                return false;
+            }
+        });
+
+        return true;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+        handleIntent(getIntent());
+    }
+
+
+    private void handleIntent(Intent intent) {
+        if(Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            //use the query to search
+            Toast.makeText(this, "JUST SUBMITTED A QUERY" + query, Toast.LENGTH_SHORT).show();
+            //doSearch(query)
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
+
 }

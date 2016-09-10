@@ -25,27 +25,6 @@ import de.tum.pom16.teamtba.reservationapp.utilities.HockeyAppIntegration;
  * Created by evisa on 7/7/16.
  */
 public class AppActivity extends AppCompatActivity {
-    //display action bar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_action_bar, menu);
-
-        //configure search
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem searchMenuItem = menu.findItem(R.id.menu_search);
-        SearchView searchView = (SearchView) searchMenuItem.getActionView();
-
-        if (searchView != null) {
-            //can be replaced with getComponentName() if this searchable activity is the current activity
-            ComponentName componentName = new ComponentName(getApplication(), RestaurantDetailsActivity.class);
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName));
-        }
-        //searchView.setIconifiedByDefault(true);
-
-        return true;
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
