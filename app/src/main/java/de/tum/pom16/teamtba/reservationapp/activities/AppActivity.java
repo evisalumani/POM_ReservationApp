@@ -1,11 +1,13 @@
 package de.tum.pom16.teamtba.reservationapp.activities;
 
+//import android.app.ActionBar;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -57,6 +59,14 @@ public class AppActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         checkForUpdates(); //HockeyApp
+
+        //setDisplayHomeAsUpEnabled(true) on the
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            //actionBar.setHomeAsUpIndicator(0); //use default <- arrow
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            
+        }
 
         initializeModel();
         initializeView();

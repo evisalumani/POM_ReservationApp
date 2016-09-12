@@ -17,6 +17,12 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/menu_calendar"
+        android:icon="@drawable/ic_calendar_24dp"
+        android:title="Calendar"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/menu_hockeyapp_feedback"
         android:title="Feedback"
         app:showAsAction="ifRoom"/>
