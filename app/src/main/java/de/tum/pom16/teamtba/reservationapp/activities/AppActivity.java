@@ -61,12 +61,12 @@ public class AppActivity extends AppCompatActivity {
         checkForUpdates(); //HockeyApp
 
         //setDisplayHomeAsUpEnabled(true) on the
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            //actionBar.setHomeAsUpIndicator(0); //use default <- arrow
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            
-        }
+//        ActionBar actionBar = getSupportActionBar();
+//        if (actionBar != null) {
+//            //actionBar.setHomeAsUpIndicator(0); //use default <- arrow
+//            actionBar.setDisplayHomeAsUpEnabled(true);
+//
+//        }
 
         initializeModel();
         initializeView();
