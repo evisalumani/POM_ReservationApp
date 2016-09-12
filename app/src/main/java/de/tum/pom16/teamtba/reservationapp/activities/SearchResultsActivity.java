@@ -77,7 +77,6 @@ public class SearchResultsActivity extends MapCallbackActivity {
 
     @Override
     protected void initializeView() {
-        super.initializeView();
         setContentView(R.layout.activity_search_results);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -109,6 +108,8 @@ public class SearchResultsActivity extends MapCallbackActivity {
                 goToRestaurantDetails(restaurant);
             }
         });
+
+        super.initializeView();
     }
 
     @Override

@@ -23,6 +23,7 @@
 
          
 
+
         <meta-data
             android:name="net.hockeyapp.android.appIdentifier"
             android:value="${HOCKEYAPP_APP_ID}" />
@@ -44,7 +45,7 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".activities.RestaurantDetailsActivity"></activity>
+        <activity android:name=".activities.RestaurantDetailsActivity" />
         <activity android:name=".activities.FilterActivity" />
         <activity android:name=".activities.ReservationActivity" />
 
@@ -59,6 +60,10 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".activities.RestaurantReviewsActivity" />
+        <activity
+            android:name=".activities.FilterResultsActivity"
+            android:label="@string/title_activity_filter_results"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

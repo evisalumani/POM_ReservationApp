@@ -1,12 +1,12 @@
 package de.tum.pom16.teamtba.reservationapp.activities;
 
-//import android.app.ActionBar;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -33,6 +33,9 @@ public class AppActivity extends AppCompatActivity {
             case R.id.menu_hockeyapp_feedback:
                 showFeedbackActivity();
                 break;
+            case R.id.menu_filter:
+                showFilterActivity();
+                break;
             default:
                 break;
         }
@@ -55,6 +58,11 @@ public class AppActivity extends AppCompatActivity {
         FeedbackManager.showFeedbackActivity(this);
     }
 
+    public void showFilterActivity() {
+        Intent intent = new Intent(this, FilterResultsActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,13 +75,22 @@ public class AppActivity extends AppCompatActivity {
 //            actionBar.setDisplayHomeAsUpEnabled(true);
 //
 //        }
-
         initializeModel();
         initializeView();
     }
 
     protected void initializeModel() {}
     protected void initializeView() {}
+
+    protected void setupActionBar() {
+        //getSupportActionBar returns an android.support.v7.app.ActionBar;
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            // Show the Up button in the action bar.
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            //actionBar.setDisplayShowHomeEnabled(true);
+        }
+    }
 
     @Override
     protected void onResume() {
