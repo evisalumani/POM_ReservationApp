@@ -1,7 +1,7 @@
 package de.tum.pom16.teamtba.reservationapp.dataaccess;
 
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
-import de.tum.pom16.teamtba.reservationapp.models.RestaurantType;
+import de.tum.pom16.teamtba.reservationapp.models.CuisineType;
 
 /**
  * Created by evisa on 6/1/16.
@@ -13,6 +13,6 @@ public class TypeFilterCriteria extends FilterCriteria {
 
     @Override
     public boolean filter(Restaurant restaurant) {
-        return restaurant.getType() == (RestaurantType)criteria;
+        return restaurant.getType() == (CuisineType)criteria;
     }
 }

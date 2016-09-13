@@ -1,27 +1,48 @@
 package de.tum.pom16.teamtba.reservationapp.dataaccess;
 
+import android.text.BoringLayout;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
+
+import de.tum.pom16.teamtba.reservationapp.models.CuisineType;
 
 /**
  * Created by evisa on 9/6/16.
  */
 public class GlobalSearchFilters {
-    private String location;
     private String cuisineType;
+    private String location;
     private String priceCategory;
     private String ratings;
     private Calendar date;
+    //time
+    //sort by
 
+    private Map<CuisineType, Boolean> cuisines; //multi-select possible for cuisines
     private Hashtable<SearchFilterType, FilterCriteria> filterCriteria;
 
     //singleton
     private static GlobalSearchFilters sharedInstance;
 
     private GlobalSearchFilters() {
+        cuisines = new HashMap<>();
         filterCriteria = new Hashtable<SearchFilterType, FilterCriteria>();
+        setupCuisines();
+    }
+
+    private void setupCuisines() {
+        if (cuisines != null) {
+            for (CuisineType cuisine : CuisineType.values()) {
+                boolean defaultSelected = cuisine == CuisineType.ALL ? true : false;
+                cuisines.put(cuisine, defaultSelected);
+            }
+        }
     }
 
     public static GlobalSearchFilters getSharedInstance() {
@@ -50,5 +71,45 @@ public class GlobalSearchFilters {
         }
 
         return "--/--/----";
+    }
+
+    public String getCuisineType() {
+        return cuisineType;
+    }
+
+    public void setCuisineType(String cuisineType) {
+        this.cuisineType = cuisineType;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getPriceCategory() {
+        return priceCategory;
+    }
+
+    public void setPriceCategory(String priceCategory) {
+        this.priceCategory = priceCategory;
+    }
+
+    public String getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(String ratings) {
+        this.ratings = ratings;
+    }
+
+    public Map<CuisineType, Boolean> getCuisines() {
+        return cuisines;
+    }
+
+    public void setCuisines(Map<CuisineType, Boolean> cuisines) {
+        this.cuisines = cuisines;
     }
 }

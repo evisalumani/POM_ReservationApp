@@ -21,7 +21,7 @@ public class Restaurant implements Parcelable {
     private String description;
     private String address;
     private Location gpsLocation;
-    private RestaurantType type;
+    private CuisineType type;
     private double averagePrice;
     private float averageRating;
     private int openingHour;
@@ -34,7 +34,7 @@ public class Restaurant implements Parcelable {
 
     private int tablesNumber;
 
-    public Restaurant(String name, String description, String address, double latitude, double longitude, RestaurantType type, double averagePrice, int openingHour, int closingHour, int inTablesNumber) {
+    public Restaurant(String name, String description, String address, double latitude, double longitude, CuisineType type, double averagePrice, int openingHour, int closingHour, int inTablesNumber) {
         this.name = name;
         this.description = description;
         this.address = address;
@@ -106,11 +106,11 @@ public class Restaurant implements Parcelable {
 
     public void setLongitude(double longitude) { this.gpsLocation.setLongitude(longitude); }
 
-    public RestaurantType getType() {
+    public CuisineType getType() {
         return type;
     }
 
-    public void setType(RestaurantType type) {
+    public void setType(CuisineType type) {
         this.type = type;
     }
 
@@ -249,7 +249,7 @@ public class Restaurant implements Parcelable {
             description = in.readString();
             address = in.readString();
             gpsLocation = Location.CREATOR.createFromParcel(in);
-            type = RestaurantType.valueOf(in.readString());
+            type = CuisineType.valueOf(in.readString());
             averagePrice = in.readDouble();
             averageRating = in.readFloat();
             in.readTypedList(tables,Table.CREATOR);

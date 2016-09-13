@@ -23,7 +23,7 @@ import de.tum.pom16.teamtba.reservationapp.customviews.DateDialogFragment;
 import de.tum.pom16.teamtba.reservationapp.customviews.TimeSlotDialogFragment;
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.*;
-import de.tum.pom16.teamtba.reservationapp.models.RestaurantType;
+import de.tum.pom16.teamtba.reservationapp.models.CuisineType;
 
 /**
  * Created by evisa on 6/5/16.
@@ -75,7 +75,7 @@ public class FilterActivity extends AppActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String restaurantType = (String) parent.getItemAtPosition(position);
                 if (!restaurantType.equalsIgnoreCase("all")) {
-                    TypeFilterCriteria typeCriteria = new TypeFilterCriteria(RestaurantType.valueOf(restaurantType.toUpperCase()));
+                    TypeFilterCriteria typeCriteria = new TypeFilterCriteria(CuisineType.valueOf(restaurantType.toUpperCase()));
                     //filterCriteria.add(typeCriteria);
                     GlobalSearchFilters.getSharedInstance().addSearchCriteria(SearchFilterType.CUISINE_TYPE, typeCriteria);
                 }
