@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,140 +10,156 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="de.tum.pom16.teamtba.reservationapp.activities.FilterResultsActivity"
-    tools:showIn="@layout/activity_filter_results">
+    tools:showIn="@layout/activity_filter_results"
+    >
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       >
 
-    <ImageView
-        android:id="@+id/filter_icon_cuisine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_restaurant_menu_24dp"
-        android:layout_alignParentTop="true"
-        android:paddingRight="15dp" />
+        <ImageView
+            android:id="@+id/filter_icon_cuisine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_restaurant_menu_24dp"
+            android:layout_alignParentTop="true"
+            android:padding="15dp" />
 
-    <TextView
-        android:id="@+id/filter_cuisine_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cuisine"
-        android:layout_toRightOf="@id/filter_icon_cuisine"
-        android:layout_alignBottom="@id/filter_icon_cuisine"/>
+        <TextView
+            android:id="@+id/filter_cuisine_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="Cuisine"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/filter_icon_cuisine"
+            android:layout_alignBottom="@id/filter_icon_cuisine"/>
 
-    <ImageView
-        android:id="@+id/filter_icon_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="15dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/filter_icon_cuisine"
-        android:src="@drawable/ic_location_24dp"/>
+        <ImageView
+            android:id="@+id/filter_icon_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/filter_icon_cuisine"
+            android:src="@drawable/ic_location_24dp"/>
 
-    <TextView
-        android:id="@+id/filter_location_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Current Location"
-        android:layout_toRightOf="@id/filter_icon_location"
-        android:layout_below="@id/filter_cuisine_textview"
-        android:layout_alignBottom="@id/filter_icon_location"/>
+        <TextView
+            android:id="@+id/filter_location_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="Current Location"
+            android:layout_toRightOf="@id/filter_icon_location"
+            android:layout_below="@id/filter_cuisine_textview"
+            android:layout_alignBottom="@id/filter_icon_location"/>
 
-    <ImageView
-        android:id="@+id/filter_icon_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="15dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/filter_icon_location"
-        android:src="@drawable/ic_euro_symbol_24px"/>
+        <ImageView
+            android:id="@+id/filter_icon_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/filter_icon_location"
+            android:src="@drawable/ic_euro_symbol_24px"/>
 
-    <TextView
-        android:id="@+id/filter_price_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Price"
-        android:layout_toRightOf="@id/filter_icon_price"
-        android:layout_below="@id/filter_location_textview"
-        android:layout_alignBottom="@id/filter_icon_price"
-        />
+        <TextView
+            android:id="@+id/filter_price_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="Price"
+            android:layout_toRightOf="@id/filter_icon_price"
+            android:layout_below="@id/filter_location_textview"
+            android:layout_alignBottom="@id/filter_icon_price"
+            />
 
-    <ImageView
-        android:id="@+id/filter_icon_rating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="15dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/filter_icon_price"
-        android:src="@drawable/ic_star_24dp"/>
+        <ImageView
+            android:id="@+id/filter_icon_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/filter_icon_price"
+            android:src="@drawable/ic_star_24dp"/>
 
-    <TextView
-        android:id="@+id/filter_rating_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Rating"
-        android:layout_toRightOf="@id/filter_icon_rating"
-        android:layout_below="@id/filter_price_textview"
-        android:layout_alignBottom="@id/filter_icon_rating"
-        />
+        <TextView
+            android:id="@+id/filter_rating_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="Rating"
+            android:layout_toRightOf="@id/filter_icon_rating"
+            android:layout_below="@id/filter_price_textview"
+            android:layout_alignBottom="@id/filter_icon_rating"
+            />
 
-    <!-- need a horizontal separator here -->
+        <!-- need a horizontal separator here -->
 
-    <ImageView
-        android:id="@+id/filter_icon_calendar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="15dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/filter_icon_rating"
-        android:src="@drawable/ic_calendar_black_24dp"
-        />
+        <ImageView
+            android:id="@+id/filter_icon_calendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/filter_icon_rating"
+            android:src="@drawable/ic_calendar_black_24dp"
+            />
 
-    <TextView
-        android:id="@+id/filter_date_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="--/--/----"
-        android:layout_toRightOf="@id/filter_icon_calendar"
-        android:layout_below="@id/filter_rating_textview"
-        android:layout_alignBottom="@id/filter_icon_calendar"
-        />
+        <TextView
+            android:id="@+id/filter_date_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="--/--/----"
+            android:layout_toRightOf="@id/filter_icon_calendar"
+            android:layout_below="@id/filter_rating_textview"
+            android:layout_alignBottom="@id/filter_icon_calendar"
+            />
 
-    <ImageView
-        android:id="@+id/filter_icon_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="15dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/filter_icon_calendar"
-        android:src="@drawable/ic_time_24dp"/>
+        <ImageView
+            android:id="@+id/filter_icon_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/filter_icon_calendar"
+            android:src="@drawable/ic_time_24dp"/>
 
-    <TextView
-        android:id="@+id/filter_time_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="--:--"
-        android:layout_toRightOf="@id/filter_icon_time"
-        android:layout_below="@id/filter_date_textview"
-        android:layout_alignBottom="@id/filter_icon_time"/>
-
-
-    <!-- horizontal separator needed-->
-
-    <ImageView
-        android:id="@+id/filter_icon_sort"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="15dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/filter_icon_time"
-        android:src="@drawable/ic_sort_content_24dp"/>
-
-    <TextView
-        android:id="@+id/filter_sort_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sort by"
-        android:layout_toRightOf="@id/filter_icon_sort"
-        android:layout_below="@id/filter_time_textview"
-        android:layout_alignBottom="@id/filter_icon_sort"/>
+        <TextView
+            android:id="@+id/filter_time_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="--:--"
+            android:layout_toRightOf="@id/filter_icon_time"
+            android:layout_below="@id/filter_date_textview"
+            android:layout_alignBottom="@id/filter_icon_time"/>
 
 
-</RelativeLayout>
+        <!-- horizontal separator needed-->
+
+        <ImageView
+            android:id="@+id/filter_icon_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/filter_icon_time"
+            android:src="@drawable/ic_sort_content_24dp"/>
+
+        <TextView
+            android:id="@+id/filter_sort_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="Sort by"
+            android:layout_toRightOf="@id/filter_icon_sort"
+            android:layout_below="@id/filter_time_textview"
+            android:layout_alignBottom="@id/filter_icon_sort"/>
+
+    </RelativeLayout>
+</ScrollView>
+
