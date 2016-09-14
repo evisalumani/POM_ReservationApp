@@ -5,11 +5,13 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.widget.ListView;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -56,7 +58,29 @@ public class CuisineDialogFragment extends DialogFragment {
                     //TODO: apply logic, or some state machine, for the different cases of interaction
                     //e.g. All is by default selected, if a specific type is selected, All will be deselected etc.
 
-                    checkedItems[which] = isChecked;
+                    if (which == 0 && isChecked) {
+                        //ALL (0th position) is selected ->
+                        //set ALL to true, and the rest to false (since it encompasses all)
+                        Arrays.fill(checkedItems, false);
+                        checkedItems[0] = true;
+
+                        //notify UI
+                        deselectAllCuisinesInDialog(dialog);
+                    } else if (which != 0 && isChecked && checkedItems[0]) {
+                        //if a specific cuisine is chosen, and ALL was set to true ->
+                        //set ALL to false
+                        checkedItems[which] = isChecked;
+                        checkedItems[0] = false;
+
+                        setCuisineInDialog(dialog, 0, false);
+                        //(which, isChecked) is modified by the default behavior of the checkbox, no need to set it up manually like for (0, false)
+                    } else {
+                        checkedItems[which] = isChecked;
+                    }
+
+                    //if everything is deselected until nothing remains -> ALL is selected
+
+                    //if all specific cuisines are selected -> they become deselected and ALL selected
                 }
             });
 
@@ -87,6 +111,18 @@ public class CuisineDialogFragment extends DialogFragment {
             CuisineType cuisineType = CuisineType.valueOf(cuisineStr);
             filters.setCuisineChoice(cuisineType, checkedItems[i]);
         }
+    }
+
+    private void deselectAllCuisinesInDialog(DialogInterface dialog) {
+        ListView listView = ((AlertDialog)dialog).getListView();
+        for (int i=0; i<listView.getCount(); i++) {
+            listView.setItemChecked(i, i == 0? true : false); //ALL remains selected
+        }
+    }
+
+    private void setCuisineInDialog(DialogInterface dialog, int position, boolean isChecked) {
+        ListView listView = ((AlertDialog)dialog).getListView();
+        listView.setItemChecked(position, isChecked);
     }
 
     private boolean[] fromListToPrimitiveBooleanArray(List<Boolean> booleanList)  {
