@@ -1,12 +1,14 @@
 package de.tum.pom16.teamtba.reservationapp.dataaccess;
 
 import android.text.BoringLayout;
+import android.util.SparseBooleanArray;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +33,7 @@ public class GlobalSearchFilters {
     private static GlobalSearchFilters sharedInstance;
 
     private GlobalSearchFilters() {
-        cuisines = new HashMap<>();
+        cuisines = new LinkedHashMap<>(); //linked hashmap preserves the order of insertion
         filterCriteria = new Hashtable<SearchFilterType, FilterCriteria>();
         setupCuisines();
     }
@@ -112,4 +114,11 @@ public class GlobalSearchFilters {
     public void setCuisines(Map<CuisineType, Boolean> cuisines) {
         this.cuisines = cuisines;
     }
+
+    public void setCuisineChoice(CuisineType cuisineType, boolean isSelected) {
+        if (cuisines != null) {
+            cuisines.put(cuisineType, isSelected); //replaces old value for the existing key
+        }
+    }
+
 }
