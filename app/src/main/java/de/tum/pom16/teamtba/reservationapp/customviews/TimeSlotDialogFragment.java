@@ -45,8 +45,11 @@ public class TimeSlotDialogFragment extends BaseDialogFragment {
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO: update filters
+                //update filters
+                String timeSlotStr = (String) items[which];
+                filters.setTimeSlot(HourTimeSlot.fromString(timeSlotStr));
 
+                //update ui
                 updateTextInCallingActivity(String.valueOf(items[which]));
             }
         });

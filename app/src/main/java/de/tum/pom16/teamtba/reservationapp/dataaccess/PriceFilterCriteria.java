@@ -1,5 +1,6 @@
 package de.tum.pom16.teamtba.reservationapp.dataaccess;
 
+import de.tum.pom16.teamtba.reservationapp.models.Constants;
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 
 /**
@@ -14,6 +15,12 @@ public class PriceFilterCriteria extends FilterCriteria {
     @Override
     public boolean filter(Restaurant restaurant) {
         //at most a certain price
-        return restaurant.getAveragePrice() <= (double) criteria;
+        int priceCategory = (int) criteria;
+        if (priceCategory != Constants.PRICE_ALL) {
+            //return
+        }
+
+        return true;
+        //return restaurant.getAveragePrice() <= (double) criteria;
     }
 }

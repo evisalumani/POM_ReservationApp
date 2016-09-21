@@ -86,6 +86,14 @@ public class HourTimeSlot implements Comparable {
         return formatTimeElement(hour) + ":" + formatTimeElement(minute);
     }
 
+    public static HourTimeSlot fromString(String str) {
+        String parts[] = str.split(":");
+        if (parts != null && parts.length == 2) {
+            return new HourTimeSlot(Integer.valueOf(parts[0]), Integer.valueOf(parts[1]));
+        }
+        return null;
+    }
+
     private boolean containsValidMinutes(int minutes) {
         int[] validMinutes = getValidMinutesNumbers();
         for (int i=0; i<validMinutes.length; i++) {

@@ -3,9 +3,6 @@ package de.tum.pom16.teamtba.reservationapp.activities;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,7 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.Calendar;
+import java.util.Hashtable;
 
 import de.tum.pom16.teamtba.reservationapp.R;
 import de.tum.pom16.teamtba.reservationapp.customviews.CuisineDialogFragment;
@@ -21,8 +18,12 @@ import de.tum.pom16.teamtba.reservationapp.customviews.DateDialogFragment;
 import de.tum.pom16.teamtba.reservationapp.customviews.PriceDialogFragment;
 import de.tum.pom16.teamtba.reservationapp.customviews.SortByDialogFragment;
 import de.tum.pom16.teamtba.reservationapp.customviews.TimeSlotDialogFragment;
+import de.tum.pom16.teamtba.reservationapp.dataaccess.FilterCriteria;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.GlobalSearchFilters;
+import de.tum.pom16.teamtba.reservationapp.dataaccess.SearchFilterType;
+import de.tum.pom16.teamtba.reservationapp.models.Constants;
 import de.tum.pom16.teamtba.reservationapp.models.CuisineType;
+import de.tum.pom16.teamtba.reservationapp.models.HourTimeSlot;
 
 public class FilterResultsActivity extends AppActivity {
     private GlobalSearchFilters filters;
@@ -54,27 +55,33 @@ public class FilterResultsActivity extends AppActivity {
         timeTextView = (TextView) findViewById(R.id.filter_time_textview);
         sortByTextView = (TextView) findViewById(R.id.filter_sort_textview);
 
-        setupSavedFilters();
+        setupUIForSavedFilters();
         setupUIListeners();
     }
 
-    private void setupSavedFilters() {
+    private void setupUIForSavedFilters() {
         //date is set to today by default
-        filters.setDate(Calendar.getInstance());
+        int nrOfSpecificCuisinesSelected = filters.getNrOfSpecificCuisinesSelected();
+        cuisineTextView.setText("Cuisines: (" + (nrOfSpecificCuisinesSelected == 0 ? "All" : String.valueOf(nrOfSpecificCuisinesSelected)) + ")");
+
+        int priceCategory = filters.getMaxPriceCategory();
+        priceTextView.setText("Price (max): " + Constants.getPriceCategoryStrings()[priceCategory]);
 
         dateTextView.setText(filters.getDateString());
 
+        HourTimeSlot timeSlot = filters.getTimeSlot();
+        timeTextView.setText(timeSlot == null ? "Any Time" : timeSlot.toString());
+
+        int sortBy = filters.getPropertyToSortBy();
+        sortByTextView.setText("Sort by: " + Constants.getSortByStrings()[sortBy]);
     }
 
     private void setupUIListeners() {
         cuisineTextView.setOnClickListener(getCuisineClickListener());
-
-        //location
+        //TODO: add location listener
         priceTextView.setOnClickListener(getPriceClickListener());
-
         dateTextView.setOnClickListener(getDateClickListener());
         timeTextView.setOnClickListener(getTimeClickListener());
-
         sortByTextView.setOnClickListener(getSortByClickListener());
     }
 

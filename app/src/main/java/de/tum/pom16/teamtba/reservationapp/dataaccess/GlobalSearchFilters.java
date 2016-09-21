@@ -1,5 +1,7 @@
 package de.tum.pom16.teamtba.reservationapp.dataaccess;
 
+import com.google.android.gms.wearable.DataApi;
+
 import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
@@ -7,6 +9,7 @@ import java.util.Map;
 
 import de.tum.pom16.teamtba.reservationapp.models.Constants;
 import de.tum.pom16.teamtba.reservationapp.models.CuisineType;
+import de.tum.pom16.teamtba.reservationapp.models.HourTimeSlot;
 
 /**
  * Created by evisa on 9/6/16.
@@ -16,7 +19,7 @@ public class GlobalSearchFilters {
     private String location;
     private int maxPriceCategory;
     private Calendar date;
-    //time
+    private HourTimeSlot timeSlot;
     private int propertyToSortBy;
 
     private Hashtable<SearchFilterType, FilterCriteria> filterCriteria;
@@ -25,39 +28,34 @@ public class GlobalSearchFilters {
     //singleton
     private static GlobalSearchFilters sharedInstance;
 
+    //set up default filters
     private GlobalSearchFilters() {
-        cuisines = new LinkedHashMap<>(); //linked hashmap preserves the order of insertion
         filterCriteria = new Hashtable<SearchFilterType, FilterCriteria>();
 
         //setup cuisines
-        setupCuisines();
+        setupCuisines(); //"All" by default -> no filter on cuisines
 
-        //setup location
+        //TODO: setup location
 
-        //setup price
-        setupPrice();
+        //price -> 0 by default -> no filter on price
 
-        //setup rating
+        //date -> current data
+        setDate(Calendar.getInstance());
 
-        //setup date
+        //time - null by default -> no filter on time
 
-        //setup time
-
-        //setup sort by
-
+        //sort by
+        setPropertyToSortBy(Constants.SORT_BY_DISTANCE);
     }
 
     private void setupCuisines() {
+        cuisines = new LinkedHashMap<>(); //linked hashmap preserves the order of insertion
         if (cuisines != null) {
             for (CuisineType cuisine : CuisineType.values()) {
                 boolean defaultSelected = cuisine == CuisineType.ALL ? true : false;
                 cuisines.put(cuisine, defaultSelected);
             }
         }
-    }
-
-    private void setupPrice() {
-        maxPriceCategory = 2; //average
     }
 
     public static GlobalSearchFilters getSharedInstance() {
@@ -74,6 +72,10 @@ public class GlobalSearchFilters {
 
     public void setDate(Calendar date) {
         this.date = date;
+
+        if (filterCriteria != null) {
+            filterCriteria.put(SearchFilterType.DATE, new DateFilterCriteria(date));
+        }
     }
 
     public Calendar getDate() {
@@ -102,6 +104,10 @@ public class GlobalSearchFilters {
 
     public void setMaxPriceCategory(int maxPriceCategory) {
         this.maxPriceCategory = maxPriceCategory;
+
+        if (filterCriteria != null) {
+            filterCriteria.put(SearchFilterType.PRICE_CATEGORY, new PriceFilterCriteria(maxPriceCategory));
+        }
     }
 
     public Map<CuisineType, Boolean> getCuisines() {
@@ -113,8 +119,10 @@ public class GlobalSearchFilters {
     }
 
     public void setCuisineChoice(CuisineType cuisineType, boolean isSelected) {
-        if (cuisines != null) {
+        if (cuisines != null && filterCriteria != null) {
             cuisines.put(cuisineType, isSelected); //replaces old value for the existing key
+
+            filterCriteria.put(SearchFilterType.CUISINE_TYPE, new TypeFilterCriteria(cuisines));
         }
     }
 
@@ -135,5 +143,35 @@ public class GlobalSearchFilters {
         } else {
             dataSort = null;
         }
+    }
+
+    public HourTimeSlot getTimeSlot() {
+        return timeSlot;
+    }
+
+    public void setTimeSlot(HourTimeSlot timeSlot) {
+        this.timeSlot = timeSlot;
+
+        if (filterCriteria != null) {
+            filterCriteria.put(SearchFilterType.TIMESLOT, new TimeSlotFilterCriteria(timeSlot));
+        }
+    }
+
+    public Hashtable<SearchFilterType, FilterCriteria> getFilterCriteria() {
+        return filterCriteria;
+    }
+
+    public int getNrOfSpecificCuisinesSelected() {
+        int nrOfSpecificCuisinesSelected = 0;
+
+        if (cuisines != null) {
+            if (cuisines.get(CuisineType.ALL)) return 0;
+
+            for (boolean b : cuisines.values()) {
+                if (b) nrOfSpecificCuisinesSelected++;
+            }
+        }
+
+        return nrOfSpecificCuisinesSelected;
     }
 }

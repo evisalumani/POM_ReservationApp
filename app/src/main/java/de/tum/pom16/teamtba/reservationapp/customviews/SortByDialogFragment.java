@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.Calendar;
 
 import de.tum.pom16.teamtba.reservationapp.dataaccess.GlobalSearchFilters;
+import de.tum.pom16.teamtba.reservationapp.models.Constants;
 
 /**
  * Created by evisa on 9/21/16.
@@ -22,7 +23,7 @@ public class SortByDialogFragment extends BaseDialogFragment {
     }
 
     protected void setupItems() {
-        items = new CharSequence[] { "Nearest Distance", "Lowest Price", "Highest Rating" };
+        items = Constants.getSortByStrings();
     }
 
     @Override

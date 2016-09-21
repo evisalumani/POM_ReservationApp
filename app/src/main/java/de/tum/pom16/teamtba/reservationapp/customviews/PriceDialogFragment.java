@@ -19,7 +19,7 @@ public class PriceDialogFragment extends BaseDialogFragment {
     }
 
     protected void setupItems() {
-        items = new CharSequence[] {"Any Price", "€", "€€", "€€€", "€€€€"};
+        items = Constants.getPriceCategoryStrings();
     }
 
     @Override
@@ -30,9 +30,10 @@ public class PriceDialogFragment extends BaseDialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //update filters
+                filters.setMaxPriceCategory(which);
 
                 //update UI
-                updateTextInCallingActivity("Max Price: " + items[which]);
+                updateTextInCallingActivity("Price (max): " + items[which]);
             }
         });
 
