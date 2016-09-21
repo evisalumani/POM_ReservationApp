@@ -215,14 +215,14 @@ public class FilterActivity extends AppActivity {
     private void initializeTimeFilterUI() {
         TextView timeTextView = (TextView) findViewById(R.id.filter_selectedTime_textview);
 
-        timeTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TimeSlotDialogFragment timeDialog = new TimeSlotDialogFragment();
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                timeDialog.show(fragmentTransaction, "TimePicker");
-            }
-        });
+//        timeTextView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                TimeSlotDialogFragment timeDialog = new TimeSlotDialogFragment();
+//                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+//                timeDialog.show(fragmentTransaction, "TimePicker");
+//            }
+//        });
 //        String[] allTimeSlots
 //        np.setDisplayedValues();
 //        time.setIs24HourView(true);

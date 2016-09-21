@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
 
 import de.tum.pom16.teamtba.reservationapp.dataaccess.GlobalSearchFilters;
 import de.tum.pom16.teamtba.reservationapp.models.Constants;
@@ -12,23 +13,12 @@ import de.tum.pom16.teamtba.reservationapp.models.Constants;
 /**
  * Created by evisa on 9/21/16.
  */
-public class PriceDialogFragment extends DialogFragment {
-    //model
-    private GlobalSearchFilters filters;
-    private String title;
-    private CharSequence[] items;
-    private boolean[] checkedItems;
-
-    public PriceDialogFragment() {
+public class PriceDialogFragment extends BaseDialogFragment {
+    public PriceDialogFragment(View view, String title) {
+        super(view, title);
     }
 
-    public PriceDialogFragment(String title) {
-        filters = GlobalSearchFilters.getSharedInstance();
-        this.title = title;
-        setupItems();
-    }
-
-    private void setupItems() {
+    protected void setupItems() {
         items = new CharSequence[] {"Any Price", "€", "€€", "€€€", "€€€€"};
     }
 
@@ -39,11 +29,13 @@ public class PriceDialogFragment extends DialogFragment {
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                //update filters
 
+                //update UI
+                updateTextInCallingActivity("Max Price: " + items[which]);
             }
         });
 
-                //positive, set neutral
         return builder.create();
     }
 }

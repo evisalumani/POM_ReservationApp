@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 
 import com.annimon.stream.Collectors;
@@ -21,23 +22,16 @@ import de.tum.pom16.teamtba.reservationapp.models.CuisineType;
 /**
  * Created by evisa on 9/13/16.
  */
-public class CuisineDialogFragment extends DialogFragment {
+public class CuisineDialogFragment extends BaseDialogFragment {
     //model
-    private GlobalSearchFilters filters;
-    private String title;
-    private CharSequence[] items;
     private boolean[] checkedItems;
+    private int nrOfSelectedCuisines;
 
-    public CuisineDialogFragment() {
+    public CuisineDialogFragment(View view, String title) {
+        super(view, title);
     }
 
-    public CuisineDialogFragment(String title) {
-        filters = GlobalSearchFilters.getSharedInstance();
-        this.title = title;
-        setupItems();
-    }
-
-    private void setupItems() {
+    protected void setupItems() {
         Set<String> cuisineSet = Stream.of(filters.getCuisines().keySet()).map(key -> key.toString()).collect(Collectors.toSet());
         items = cuisineSet.toArray(new String[cuisineSet.size()]);
 
@@ -99,6 +93,7 @@ public class CuisineDialogFragment extends DialogFragment {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     setSelectedCuisines();
+                    updateTextInCallingActivity("Cuisines: (" + (checkedItems[0] ? "All" :nrOfSelectedCuisines) + ")");
                 }
             });
 
@@ -108,8 +103,6 @@ public class CuisineDialogFragment extends DialogFragment {
                     getDialog().dismiss(); //dismiss dialog
                 }
             });
-
-
         }
 
         return builder.create();
@@ -117,10 +110,14 @@ public class CuisineDialogFragment extends DialogFragment {
 
     private void setSelectedCuisines() {
         //set up filters' cuisines according to checkedItems boolean array
+        nrOfSelectedCuisines = 0;
+
         for (int i=0; i<checkedItems.length; i++) {
             String cuisineStr = String.valueOf(items[i]);
             CuisineType cuisineType = CuisineType.valueOf(cuisineStr);
             filters.setCuisineChoice(cuisineType, checkedItems[i]);
+
+            if (checkedItems[i]) nrOfSelectedCuisines++;
         }
     }
 

@@ -1,15 +1,8 @@
 package de.tum.pom16.teamtba.reservationapp.dataaccess;
 
-import android.text.BoringLayout;
-import android.util.SparseBooleanArray;
-
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import de.tum.pom16.teamtba.reservationapp.models.Constants;
@@ -21,7 +14,7 @@ import de.tum.pom16.teamtba.reservationapp.models.CuisineType;
 public class GlobalSearchFilters {
     private Map<CuisineType, Boolean> cuisines; //multi-select possible for cuisines
     private String location;
-    private int priceCategory;
+    private int maxPriceCategory;
     private Calendar date;
     //time
     private int propertyToSortBy;
@@ -64,7 +57,7 @@ public class GlobalSearchFilters {
     }
 
     private void setupPrice() {
-        priceCategory = 2; //average
+        maxPriceCategory = 2; //average
     }
 
     public static GlobalSearchFilters getSharedInstance() {
@@ -103,12 +96,12 @@ public class GlobalSearchFilters {
         this.location = location;
     }
 
-    public int getPriceCategory() {
-        return priceCategory;
+    public int getMaxPriceCategory() {
+        return maxPriceCategory;
     }
 
-    public void setPriceCategory(int priceCategory) {
-        this.priceCategory = priceCategory;
+    public void setMaxPriceCategory(int maxPriceCategory) {
+        this.maxPriceCategory = maxPriceCategory;
     }
 
     public Map<CuisineType, Boolean> getCuisines() {

@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
@@ -24,25 +25,29 @@ import de.tum.pom16.teamtba.reservationapp.models.Table;
 /**
  * Created by evisa on 9/8/16.
  */
-public class TimeSlotDialogFragment extends DialogFragment {
+public class TimeSlotDialogFragment extends BaseDialogFragment {
+    private final static String ANY_TIME_SLOT = "Any time";
 
-    public final static String ANY_TIME_SLOT = "Any time";
+    public TimeSlotDialogFragment(View view, String title) {
+        super(view, title);
+    }
+
+    protected void setupItems() {
+        List<String> timeSlotStringList = Stream.of(HourTimeSlot.getAllDailyTimeSlots()).map(slot -> slot.toString()).collect(Collectors.toList());
+        timeSlotStringList.add(0, TimeSlotDialogFragment.ANY_TIME_SLOT);
+        items = timeSlotStringList.toArray(new String[timeSlotStringList.size()]);
+    }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        List<String> timeSlotStringList = Stream.of(HourTimeSlot.getAllDailyTimeSlots()).map(slot -> slot.toString()).collect(Collectors.toList());
-        timeSlotStringList.add(0, TimeSlotDialogFragment.ANY_TIME_SLOT);
-
-        CharSequence[] timeSlotsArray = timeSlotStringList.toArray(new String[timeSlotStringList.size()]);
-
-        builder.setTitle("Pick time slot");
-
-        builder.setItems(timeSlotsArray, new DialogInterface.OnClickListener() {
+        builder.setTitle(title);
+        builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getActivity(), timeSlotsArray[which], Toast.LENGTH_SHORT).show();
+                //TODO: update filters
 
+                updateTextInCallingActivity(String.valueOf(items[which]));
             }
         });
 

@@ -11,7 +11,7 @@ public abstract class Constants {
     public static final int PRICE_EXPENSIVE = 4;
 
     //sort by
-    public static final int SORT_BY_DISTANCE = 1;
-    public static final int SORT_BY_PRICE = 2;
-    public static final int SORT_BY_RATING = 3;
+    public static final int SORT_BY_DISTANCE = 0;
+    public static final int SORT_BY_PRICE = 1;
+    public static final int SORT_BY_RATING = 2;
 }

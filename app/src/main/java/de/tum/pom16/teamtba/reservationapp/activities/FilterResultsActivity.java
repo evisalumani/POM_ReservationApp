@@ -82,7 +82,7 @@ public class FilterResultsActivity extends AppActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SortByDialogFragment dateDialog = new SortByDialogFragment("Sort By");
+                SortByDialogFragment dateDialog = new SortByDialogFragment(sortByTextView, "Sort By");
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 dateDialog.show(fragmentTransaction, "SortByDialog");
             }
@@ -93,7 +93,7 @@ public class FilterResultsActivity extends AppActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PriceDialogFragment dateDialog = new PriceDialogFragment("Max Price");
+                PriceDialogFragment dateDialog = new PriceDialogFragment(priceTextView, "Max Price");
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 dateDialog.show(fragmentTransaction, "PriceDialog");
             }
@@ -115,7 +115,7 @@ public class FilterResultsActivity extends AppActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CuisineDialogFragment dateDialog = new CuisineDialogFragment("Cuisine");
+                CuisineDialogFragment dateDialog = new CuisineDialogFragment(cuisineTextView, "Cuisine");
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 dateDialog.show(fragmentTransaction, "CuisineDialog");
             }
@@ -152,7 +152,7 @@ public class FilterResultsActivity extends AppActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimeSlotDialogFragment timeDialog = new TimeSlotDialogFragment();
+                TimeSlotDialogFragment timeDialog = new TimeSlotDialogFragment(timeTextView, "Pick time slot");
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 timeDialog.show(fragmentTransaction, "TimeSlotPicker");
             }

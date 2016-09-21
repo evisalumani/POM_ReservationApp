@@ -5,29 +5,23 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
+import java.util.Calendar;
 
 import de.tum.pom16.teamtba.reservationapp.dataaccess.GlobalSearchFilters;
 
 /**
  * Created by evisa on 9/21/16.
  */
-public class SortByDialogFragment extends DialogFragment {
-    //model
-    private GlobalSearchFilters filters;
-    private String title;
-    private CharSequence[] items;
-    private boolean[] checkedItems;
+public class SortByDialogFragment extends BaseDialogFragment {
 
-    public SortByDialogFragment() {
+    public SortByDialogFragment(View view, String title) {
+        super(view, title);
     }
 
-    public SortByDialogFragment(String title) {
-        filters = GlobalSearchFilters.getSharedInstance();
-        this.title = title;
-        setupItems();
-    }
-
-    private void setupItems() {
+    protected void setupItems() {
         items = new CharSequence[] { "Nearest Distance", "Lowest Price", "Highest Rating" };
     }
 
@@ -38,7 +32,11 @@ public class SortByDialogFragment extends DialogFragment {
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                //update filters
+                filters.setPropertyToSortBy(which);
 
+                //update ui
+                updateTextInCallingActivity("Sort by: " + items[which]);
             }
         });
 

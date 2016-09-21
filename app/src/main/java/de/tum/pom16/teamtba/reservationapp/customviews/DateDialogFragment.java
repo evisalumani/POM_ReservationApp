@@ -20,19 +20,16 @@ import de.tum.pom16.teamtba.reservationapp.dataaccess.GlobalSearchFilters;
 /**
  * Created by evisa on 9/7/16.
  */
-public class DateDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-    private TextView selectedDateTextView;
+public class DateDialogFragment extends BaseDialogFragment implements DatePickerDialog.OnDateSetListener {
     private Calendar selectedDate;
 
-    public DateDialogFragment() {}
-
     public DateDialogFragment(View view, Calendar date) {
-        selectedDateTextView = (TextView)view;
+        super(view, null);
         selectedDate = date;
     }
 
     public Dialog onCreateDialog(Bundle savedInstance) {
-        if (selectedDateTextView != null && selectedDate != null) {
+        if (viewInCallingActivity != null && selectedDate != null) {
             return new DatePickerDialog(getActivity(), this, selectedDate.get(Calendar.YEAR), selectedDate.get(Calendar.MONTH), selectedDate.get(Calendar.DAY_OF_MONTH));
         }
 
@@ -42,12 +39,8 @@ public class DateDialogFragment extends DialogFragment implements DatePickerDial
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         selectedDate.set(year, monthOfYear, dayOfMonth);
-        GlobalSearchFilters.getSharedInstance().setDate(selectedDate);
+        filters.setDate(selectedDate);
 
-        setDateText();
-    }
-
-    public void setDateText() {
-        selectedDateTextView.setText(GlobalSearchFilters.getSharedInstance().getDateString());
+        updateTextInCallingActivity(filters.getDateString());
     }
 }
