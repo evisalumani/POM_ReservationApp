@@ -52,11 +52,12 @@ public class CuisineDialogFragment extends DialogFragment {
 
         if (title != null && items != null && checkedItems != null) {
             builder.setTitle(title);
+
             builder.setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                    //TODO: apply logic, or some state machine, for the different cases of interaction
-                    //e.g. All is by default selected, if a specific type is selected, All will be deselected etc.
+                    //apply logic for the different cases of interaction
+                    //TODO: use a state or observer pattern
 
                     if (which == 0 && isChecked) {
                         //ALL (0th position) is selected ->
@@ -79,8 +80,18 @@ public class CuisineDialogFragment extends DialogFragment {
                     }
 
                     //if everything is deselected until nothing remains -> ALL is selected
+                    if (areAllOptionsDeselected(dialog)) {
+                        checkedItems[0] = true;
+                        setCuisineInDialog(dialog, 0, true);
+                    }
 
                     //if all specific cuisines are selected -> they become deselected and ALL selected
+                    if (areAllSpecificCuisinesSelected(dialog)) {
+                        //select "All"
+                        Arrays.fill(checkedItems, false);
+                        checkedItems[0] = true;
+                        deselectAllCuisinesInDialog(dialog);
+                    }
                 }
             });
 
@@ -118,6 +129,29 @@ public class CuisineDialogFragment extends DialogFragment {
         for (int i=0; i<listView.getCount(); i++) {
             listView.setItemChecked(i, i == 0? true : false); //ALL remains selected
         }
+    }
+
+    private boolean areAllOptionsDeselected(DialogInterface dialog) {
+        ListView listView = ((AlertDialog)dialog).getListView();
+        for (int i=0; i<listView.getCount(); i++) {
+            if (listView.isItemChecked(i)) {
+                return false; //something is selected
+            }
+        }
+
+        return true;
+    }
+
+    private boolean areAllSpecificCuisinesSelected(DialogInterface dialog) {
+        ListView listView = ((AlertDialog)dialog).getListView();
+        //position 0 is for "All" option => start iterating at 1
+        for (int i=1; i<listView.getCount(); i++) {
+            if (!listView.isItemChecked(i)) {
+                return false; //there is a not selected cuisine
+            }
+        }
+
+        return true;
     }
 
     private void setCuisineInDialog(DialogInterface dialog, int position, boolean isChecked) {

@@ -18,8 +18,10 @@ import java.util.Calendar;
 import de.tum.pom16.teamtba.reservationapp.R;
 import de.tum.pom16.teamtba.reservationapp.customviews.CuisineDialogFragment;
 import de.tum.pom16.teamtba.reservationapp.customviews.DateDialogFragment;
+import de.tum.pom16.teamtba.reservationapp.customviews.PriceDialogFragment;
 import de.tum.pom16.teamtba.reservationapp.customviews.TimeSlotDialogFragment;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.GlobalSearchFilters;
+import de.tum.pom16.teamtba.reservationapp.models.CuisineType;
 
 public class FilterResultsActivity extends AppActivity {
     private GlobalSearchFilters filters;
@@ -42,7 +44,7 @@ public class FilterResultsActivity extends AppActivity {
         //set up saved filters
         filters = GlobalSearchFilters.getSharedInstance();
 
-        //set up UI elements
+        //initialize UI elements
         cuisineTextView = (TextView) findViewById(R.id.filter_cuisine_textview);
         locationTextView = (TextView) findViewById(R.id.filter_location_textview);
         priceTextView = (TextView) findViewById(R.id.filter_price_textview);
@@ -52,7 +54,7 @@ public class FilterResultsActivity extends AppActivity {
         sortByTextView = (TextView) findViewById(R.id.filter_sort_textview);
 
         setupSavedFilters();
-
+        setupUIListeners();
     }
 
     private void setupSavedFilters() {
@@ -60,9 +62,27 @@ public class FilterResultsActivity extends AppActivity {
         filters.setDate(Calendar.getInstance());
 
         dateTextView.setText(filters.getDateString());
-        dateTextView.setOnClickListener(getDateClickListener());
 
+    }
+
+    private void setupUIListeners() {
+        cuisineTextView.setOnClickListener(getCuisineClickListener());
+
+        //location
+        priceTextView.setOnClickListener(getPriceClickListener());
+        dateTextView.setOnClickListener(getDateClickListener());
         timeTextView.setOnClickListener(getTimeClickListener());
+    }
+
+    private View.OnClickListener getPriceClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PriceDialogFragment dateDialog = new PriceDialogFragment("Max Price");
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                dateDialog.show(fragmentTransaction, "PriceDialog");
+            }
+        };
     }
 
     private View.OnClickListener getDateClickListener() {
@@ -72,6 +92,17 @@ public class FilterResultsActivity extends AppActivity {
                 DateDialogFragment dateDialog = new DateDialogFragment(view, filters.getDate());
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 dateDialog.show(fragmentTransaction, "DatePicker");
+            }
+        };
+    }
+
+    private View.OnClickListener getCuisineClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CuisineDialogFragment dateDialog = new CuisineDialogFragment("Cuisine");
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                dateDialog.show(fragmentTransaction, "CuisineDialog");
             }
         };
     }
@@ -106,9 +137,9 @@ public class FilterResultsActivity extends AppActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CuisineDialogFragment timeDialog = new CuisineDialogFragment();
+                TimeSlotDialogFragment timeDialog = new TimeSlotDialogFragment();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                timeDialog.show(fragmentTransaction, "TimePicker");
+                timeDialog.show(fragmentTransaction, "TimeSlotPicker");
             }
         };
     }

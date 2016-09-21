@@ -20,7 +20,7 @@ import de.tum.pom16.teamtba.reservationapp.models.CuisineType;
 public class GlobalSearchFilters {
     private String cuisineType;
     private String location;
-    private String priceCategory;
+    private int priceCategory;
     private String ratings;
     private Calendar date;
     //time
@@ -35,7 +35,23 @@ public class GlobalSearchFilters {
     private GlobalSearchFilters() {
         cuisines = new LinkedHashMap<>(); //linked hashmap preserves the order of insertion
         filterCriteria = new Hashtable<SearchFilterType, FilterCriteria>();
+
+        //setup cuisines
         setupCuisines();
+
+        //setup location
+
+        //setup price
+        setupPrice();
+
+        //setup rating
+
+        //setup date
+
+        //setup time
+
+        //setup sort by
+
     }
 
     private void setupCuisines() {
@@ -45,6 +61,10 @@ public class GlobalSearchFilters {
                 cuisines.put(cuisine, defaultSelected);
             }
         }
+    }
+
+    private void setupPrice() {
+        priceCategory = 2; //average
     }
 
     public static GlobalSearchFilters getSharedInstance() {
@@ -91,11 +111,11 @@ public class GlobalSearchFilters {
         this.location = location;
     }
 
-    public String getPriceCategory() {
+    public int getPriceCategory() {
         return priceCategory;
     }
 
-    public void setPriceCategory(String priceCategory) {
+    public void setPriceCategory(int priceCategory) {
         this.priceCategory = priceCategory;
     }
 
