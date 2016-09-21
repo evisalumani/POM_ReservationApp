@@ -19,6 +19,7 @@ import de.tum.pom16.teamtba.reservationapp.R;
 import de.tum.pom16.teamtba.reservationapp.customviews.CuisineDialogFragment;
 import de.tum.pom16.teamtba.reservationapp.customviews.DateDialogFragment;
 import de.tum.pom16.teamtba.reservationapp.customviews.PriceDialogFragment;
+import de.tum.pom16.teamtba.reservationapp.customviews.SortByDialogFragment;
 import de.tum.pom16.teamtba.reservationapp.customviews.TimeSlotDialogFragment;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.GlobalSearchFilters;
 import de.tum.pom16.teamtba.reservationapp.models.CuisineType;
@@ -70,8 +71,22 @@ public class FilterResultsActivity extends AppActivity {
 
         //location
         priceTextView.setOnClickListener(getPriceClickListener());
+
         dateTextView.setOnClickListener(getDateClickListener());
         timeTextView.setOnClickListener(getTimeClickListener());
+
+        sortByTextView.setOnClickListener(getSortByClickListener());
+    }
+
+    private View.OnClickListener getSortByClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SortByDialogFragment dateDialog = new SortByDialogFragment("Sort By");
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                dateDialog.show(fragmentTransaction, "SortByDialog");
+            }
+        };
     }
 
     private View.OnClickListener getPriceClickListener() {

@@ -12,22 +12,22 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.tum.pom16.teamtba.reservationapp.models.Constants;
 import de.tum.pom16.teamtba.reservationapp.models.CuisineType;
 
 /**
  * Created by evisa on 9/6/16.
  */
 public class GlobalSearchFilters {
-    private String cuisineType;
+    private Map<CuisineType, Boolean> cuisines; //multi-select possible for cuisines
     private String location;
     private int priceCategory;
-    private String ratings;
     private Calendar date;
     //time
-    //sort by
+    private int propertyToSortBy;
 
-    private Map<CuisineType, Boolean> cuisines; //multi-select possible for cuisines
     private Hashtable<SearchFilterType, FilterCriteria> filterCriteria;
+    private DataSort dataSort;
 
     //singleton
     private static GlobalSearchFilters sharedInstance;
@@ -95,14 +95,6 @@ public class GlobalSearchFilters {
         return "--/--/----";
     }
 
-    public String getCuisineType() {
-        return cuisineType;
-    }
-
-    public void setCuisineType(String cuisineType) {
-        this.cuisineType = cuisineType;
-    }
-
     public String getLocation() {
         return location;
     }
@@ -119,14 +111,6 @@ public class GlobalSearchFilters {
         this.priceCategory = priceCategory;
     }
 
-    public String getRatings() {
-        return ratings;
-    }
-
-    public void setRatings(String ratings) {
-        this.ratings = ratings;
-    }
-
     public Map<CuisineType, Boolean> getCuisines() {
         return cuisines;
     }
@@ -141,4 +125,22 @@ public class GlobalSearchFilters {
         }
     }
 
+    public int getPropertyToSortBy() {
+        return propertyToSortBy;
+    }
+
+    public void setPropertyToSortBy(int propertyToSortBy) {
+        this.propertyToSortBy = propertyToSortBy;
+
+        if (propertyToSortBy == Constants.SORT_BY_DISTANCE) {
+            //TODO: add user location to constructor
+            dataSort = new SortByDistance(true, null);
+        } else if (propertyToSortBy == Constants.SORT_BY_PRICE) {
+            dataSort = new SortByPrice(true);
+        } else if (propertyToSortBy == Constants.SORT_BY_RATING) {
+            dataSort = new SortByRating(false);
+        } else {
+            dataSort = null;
+        }
+    }
 }

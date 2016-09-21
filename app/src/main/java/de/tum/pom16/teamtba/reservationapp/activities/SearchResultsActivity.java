@@ -37,6 +37,7 @@ import de.tum.pom16.teamtba.reservationapp.customviews.SearchResultsAdapter;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.DataGenerator;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.DataSearch;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.DataSort;
+import de.tum.pom16.teamtba.reservationapp.dataaccess.SortByDistance;
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 import de.tum.pom16.teamtba.reservationapp.utilities.*;
 
@@ -147,7 +148,12 @@ public class SearchResultsActivity extends MapCallbackActivity {
     public void setupNearMeRestaurants(Location latestLocation) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && latestLocation != null) {
             //sort by distance to user
-            searchResults = DataSort.sortRestaurantsByDistanceFromUser(searchResults, latestLocation);
+            //searchResults = DataSort.sortRestaurantsByDistanceFromUser(searchResults, latestLocation);
+
+            //TODO: refactoring
+            SortByDistance sortByDistance = new SortByDistance(true, latestLocation);
+            sortByDistance.setRestaurants(searchResults);
+            searchResults = sortByDistance.sort();
 
             //notify changes to the listview
             ((SearchResultsAdapter) searchResultsAdapter).refreshRestaurants(searchResults);

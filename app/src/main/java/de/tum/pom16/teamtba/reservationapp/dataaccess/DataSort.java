@@ -5,6 +5,7 @@ import android.location.Location;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
@@ -13,14 +14,23 @@ import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
  * Created by evisa on 7/17/16.
  */
 public class DataSort {
-    public static final int TOP_RESULTS = 100;
+    protected List<Restaurant> restaurants; //model to sort
+    protected boolean isAscending;
 
-    public static List<Restaurant> sortRestaurantsByDistanceFromUser(List<Restaurant> restaurants, Location userLocation) {
-        //set distance from user to each restaurant
-        Stream.of(restaurants).forEach(restaurant -> restaurant.setDistanceFromUserLocation(userLocation));
+    public DataSort(boolean isAscending) {
+        restaurants = new ArrayList<Restaurant>();
+        this.isAscending = isAscending;
+    }
 
-        //sort by distance
-        restaurants = Stream.of(restaurants).sorted((r1, r2) -> Float.compare(r1.getDistanceFromUserLocation(), r2.getDistanceFromUserLocation())).collect(Collectors.toList());
+    public List<Restaurant> getRestaurants() {
         return restaurants;
+    }
+
+    public void setRestaurants(List<Restaurant> restaurants) {
+        this.restaurants = restaurants;
+    }
+
+    protected List<Restaurant> sort() {
+        return restaurants; //return restaurants unsorted
     }
 }
