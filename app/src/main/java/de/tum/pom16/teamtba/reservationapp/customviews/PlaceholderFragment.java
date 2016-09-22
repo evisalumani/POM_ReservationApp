@@ -5,6 +5,7 @@ package de.tum.pom16.teamtba.reservationapp.customviews;
  */
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +22,12 @@ public class PlaceholderFragment extends Fragment {
      * The fragment argument representing the section number for this
      * fragment.
      */
-    public static final String ARG_SECTION_NUMBER = "section_number";
+    //model
+    private int fragmentResource;
+    private Restaurant restaurant;
 
-    public PlaceholderFragment() {
+    protected PlaceholderFragment(int fragmentResource) {
+        this.fragmentResource = fragmentResource;
     }
 
     /**
@@ -31,38 +35,34 @@ public class PlaceholderFragment extends Fragment {
      * number.
      */
     public static PlaceholderFragment newInstance(int sectionNumber, Restaurant restaurant) {
-        PlaceholderFragment fragment = new PlaceholderFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        fragment.setArguments(args);
+        PlaceholderFragment fragment = null;
+        switch(sectionNumber) {
+            case 1:
+                fragment = new RestaurantDetailsFragment(R.layout.content_scrolling);
+                break;
+            case 2:
+                fragment = new RestaurantReviewsFragment(R.layout.fragment_restuarant_reviews);
+                break;
+            case 3:
+                fragment = new RestaurantReservationFragment(R.layout.fragment_restaurant_reservations);
+                break;
+        }
+
+        fragment.setRestaurant(restaurant);
         return fragment;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //getArguments() returns a Bundle, defined at Fragment class
-        int fragmentResource = getFragmentResource(getArguments());
-        if (fragmentResource != 0) {
-            View fragmentView = inflater.inflate(fragmentResource, container, false);
-            return fragmentView;
-        }
-
-//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-//            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-        return null;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    private int getFragmentResource(Bundle bundle) {
-        int sectionNr = bundle.getInt(PlaceholderFragment.ARG_SECTION_NUMBER);
-        switch(sectionNr) {
-            case 1:
-                return R.layout.content_scrolling;
-            case 2:
-                return R.layout.fragment_restuarant_reviews;
-            case 3:
-                return R.layout.fragment_restaurant_reservations;
-        }
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
 
-        return 0;
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(fragmentResource, container, false);
     }
 }

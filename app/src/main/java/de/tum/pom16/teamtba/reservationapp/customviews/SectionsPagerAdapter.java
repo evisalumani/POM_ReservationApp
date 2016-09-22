@@ -13,20 +13,16 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     //model
     private Restaurant restaurant;
 
-    public SectionsPagerAdapter(FragmentManager fm) {
+    public SectionsPagerAdapter(FragmentManager fm, Restaurant restaurant) {
         super(fm);
+        this.restaurant = restaurant;
     }
 
     @Override
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        //return PlaceholderFragment.newInstance(position + 1, restaurant);
-        if (position == 0) {
-            return new RestaurantDetailsFragment(restaurant);
-        } else {
-            return PlaceholderFragment.newInstance(position + 1, restaurant);
-        }
+        return PlaceholderFragment.newInstance(position + 1, restaurant);
     }
 
     @Override
@@ -46,13 +42,5 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 return "Reserve";
         }
         return null;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
     }
 }

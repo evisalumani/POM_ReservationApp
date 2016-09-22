@@ -24,7 +24,7 @@ import de.tum.pom16.teamtba.reservationapp.R;
 import de.tum.pom16.teamtba.reservationapp.customviews.SectionsPagerAdapter;
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 
-public class RestaurantOverviewActivity extends AppCompatActivity {
+public class RestaurantOverviewActivity extends AppActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -58,8 +58,7 @@ public class RestaurantOverviewActivity extends AppCompatActivity {
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mSectionsPagerAdapter.setRestaurant(restaurant);
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), restaurant);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -67,6 +66,8 @@ public class RestaurantOverviewActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+        setupActionBar();
     }
 
 
@@ -82,12 +83,11 @@ public class RestaurantOverviewActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            startActivity(new Intent(this, SearchResultsActivity.class));
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
