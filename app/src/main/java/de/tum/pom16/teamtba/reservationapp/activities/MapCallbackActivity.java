@@ -3,6 +3,7 @@ package de.tum.pom16.teamtba.reservationapp.activities;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -90,4 +91,17 @@ public class MapCallbackActivity extends AppActivity implements OnMapReadyCallba
         }
     }
 
+    public class X implements OnMapReadyCallback {
+
+        @Override
+        public void onMapReady(GoogleMap googleMap) {
+
+        }
+    }
+
+    public class Y extends X {
+
+    }
+
 }
+

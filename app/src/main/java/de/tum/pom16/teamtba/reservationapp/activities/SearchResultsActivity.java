@@ -36,7 +36,6 @@ import de.tum.pom16.teamtba.reservationapp.R;
 import de.tum.pom16.teamtba.reservationapp.customviews.SearchResultsAdapter;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.DataGenerator;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.DataSearch;
-import de.tum.pom16.teamtba.reservationapp.dataaccess.DataSort;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.SortByDistance;
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 import de.tum.pom16.teamtba.reservationapp.utilities.*;
@@ -81,15 +80,6 @@ public class SearchResultsActivity extends MapCallbackActivity {
         setContentView(R.layout.activity_search_results);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);

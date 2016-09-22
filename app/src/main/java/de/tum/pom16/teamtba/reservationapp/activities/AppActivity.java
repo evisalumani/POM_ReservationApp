@@ -112,7 +112,7 @@ public class AppActivity extends AppCompatActivity {
 
     //common transitions between screens
     protected void goToRestaurantDetails(Restaurant restaurant) {
-        Intent intent = new Intent(this, RestaurantDetailsActivity.class);
+        Intent intent = new Intent(this, RestaurantOverviewActivity.class);
         intent.putExtra(IntentType.INTENT_TO_RESTAURANT_DETAILS.name(), restaurant);
         startActivity(intent);
     }
