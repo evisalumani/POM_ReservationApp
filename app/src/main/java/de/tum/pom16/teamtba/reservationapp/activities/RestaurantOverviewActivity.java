@@ -56,15 +56,6 @@ public class RestaurantOverviewActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
     }
 
 
@@ -80,12 +71,12 @@ public class RestaurantOverviewActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -98,7 +89,7 @@ public class RestaurantOverviewActivity extends AppCompatActivity {
          * The fragment argument representing the section number for this
          * fragment.
          */
-        private static final String ARG_SECTION_NUMBER = "section_number";
+        public static final String ARG_SECTION_NUMBER = "section_number";
 
         public PlaceholderFragment() {
         }
@@ -118,12 +109,33 @@ public class RestaurantOverviewActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_restaurant_overview, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
+            //getArguments() returns a Bundle, defined at Fragment class
+            int fragmentResource = getFragmentResource(getArguments());
+            if (fragmentResource != 0) {
+                View fragmentView = inflater.inflate(fragmentResource, container, false);
+                return fragmentView;
+            }
+
+//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+//            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            return null;
+        }
+
+        private int getFragmentResource(Bundle bundle) {
+            int sectionNr = bundle.getInt(PlaceholderFragment.ARG_SECTION_NUMBER);
+            switch(sectionNr) {
+                case 1:
+                    return R.layout.fragment_restaurant_details;
+                case 2:
+                    return R.layout.fragment_restuarant_reviews;
+                case 3:
+                    return R.layout.fragment_restaurant_reservations;
+            }
+
+            return 0;
         }
     }
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -152,11 +164,11 @@ public class RestaurantOverviewActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "Details";
                 case 1:
-                    return "SECTION 2";
+                    return "Reviews";
                 case 2:
-                    return "SECTION 3";
+                    return "Reserve";
             }
             return null;
         }
