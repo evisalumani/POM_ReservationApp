@@ -140,13 +140,8 @@ public class SearchResultsActivity extends MapCallbackActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == LocationUtility.REQUEST_LOCATION) {
             //length == 1 before
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // user has granted permission
-                locationUtility.setLatestLocation();
-            } else {
-                // Permission was denied or request was cancelled (from the dialog)
-                Toast.makeText(this.getApplicationContext(), "Location permission not granted", Toast.LENGTH_SHORT).show();
-            }
+            //set isLocationPermitted boolean value, depending on whether the permission was granted or denied from the user via the dialog
+            locationUtility.setLocationPermitted(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED);
         }
     }
 
@@ -155,16 +150,9 @@ public class SearchResultsActivity extends MapCallbackActivity {
         switch (requestCode) {
             // Check for the integer request code originally supplied to startResolutionForResult().
             case LocationUtility.REQUEST_LOCATION_SETTING:
-                switch (resultCode) {
-                    case Activity.RESULT_OK:
-                        //Log.i(TAG, "User agreed to make required location settings changes.");
-                        //startLocationUpdates();
-                        Toast.makeText(this, "YYYYYAAAAA", Toast.LENGTH_SHORT).show();
-                        break;
-                    case Activity.RESULT_CANCELED:
-                        //Log.i(TAG, "User chose not to make required location settings changes.");
-                        break;
-                }
+                //Activity_RESULT_OK, Activity_RESULT_CANCELED
+                locationUtility.setGPSEnabled(resultCode == Activity.RESULT_OK);
+                locationUtility.retrieveLastLocation();
                 break;
         }
     }

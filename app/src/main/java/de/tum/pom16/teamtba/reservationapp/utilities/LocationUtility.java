@@ -107,9 +107,10 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
             // permission has been granted, continue as usual
             // check if GPS is enabled
             //setLatestLocation();
+            isLocationPermitted = true;
 
-            latestLocation = LocationServices.FusedLocationApi.getLastLocation(mLocationClient);
-            if (latestLocation == null) {
+//            latestLocation = LocationServices.FusedLocationApi.getLastLocation(mLocationClient);
+//            if (latestLocation == null) {
                 //LocationServices.FusedLocationApi.requestLocationUpdates(mLocationClient, locationRequest, this);
                 PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(mLocationClient, locationSettingsRequest);
                 result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
@@ -119,7 +120,10 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
                         final LocationSettingsStates states = lsResult.getLocationSettingsStates();
 
                         if (status.getStatusCode() == LocationSettingsStatusCodes.SUCCESS) {
-                            handleNewLocation(null);
+                            //handleNewLocation(null);
+                            isGPSEnabled = true;
+                            retrieveLastLocation();
+
                         } else if (status.getStatusCode() == LocationSettingsStatusCodes.RESOLUTION_REQUIRED ) {
                             // show user dialog
                             try {
@@ -133,8 +137,17 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
                     }
                 });
 
-            } else {
-                handleNewLocation(latestLocation);
+//            } else {
+//                handleNewLocation(latestLocation);
+//            }
+        }
+    }
+
+    public void retrieveLastLocation() {
+        if (isLocationPermitted && isGPSEnabled && ActivityCompat.checkSelfPermission(activityContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            latestLocation = LocationServices.FusedLocationApi.getLastLocation(mLocationClient);
+            if (latestLocation != null) {
+                Toast.makeText(activityContext, "hello world", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -169,6 +182,22 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
             LocationServices.FusedLocationApi.removeLocationUpdates(mLocationClient, this);
             mLocationClient.disconnect();
         }
+    }
+
+    public boolean isLocationPermitted() {
+        return isLocationPermitted;
+    }
+
+    public void setLocationPermitted(boolean locationPermitted) {
+        isLocationPermitted = locationPermitted;
+    }
+
+    public boolean isGPSEnabled() {
+        return isGPSEnabled;
+    }
+
+    public void setGPSEnabled(boolean GPSEnabled) {
+        isGPSEnabled = GPSEnabled;
     }
 
     @Override
