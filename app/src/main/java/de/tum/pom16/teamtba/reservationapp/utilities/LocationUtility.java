@@ -52,7 +52,7 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
         createLocationSettingsRequest();
     }
 
-    public void createLocationClient() {
+    public synchronized void createLocationClient() {
         if (mLocationClient == null) {
             //create new
             mLocationClient = new GoogleApiClient.Builder(activityContext)
@@ -149,18 +149,24 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
     public void onConnected(@Nullable Bundle bundle) {
         //TODO: might make them void
         checkIfLocationPermitted();
-        checkIfGpsEnabled();
+        //checkIfGpsEnabled();
 
         if (!isLocationPermitted) {
             //prompt for location dialog
             showDialogForPermittingLocation();
-        } else if (!isGPSEnabled){
-            //prompt for gps dialog
-            showDialogForEnablingGPS();
         } else {
-            //retrieve last location
-            retrieveLastLocation();
+            checkIfGpsEnabled();
         }
+
+
+
+//        if (!isGPSEnabled){
+//            //prompt for gps dialog
+//            showDialogForEnablingGPS();
+//        } else {
+//            //retrieve last location
+//            retrieveLastLocation();
+//        }
     }
 
     public void showDialogForPermittingLocation() {
@@ -171,7 +177,8 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
         try {
             // Show the dialog by calling startResolutionForResult(),
             // and check the result in onActivityResult().
-            gpsStatus.startResolutionForResult(activityContext, LocationUtility.REQUEST_LOCATION_SETTING);
+            if (gpsStatus != null)
+                gpsStatus.startResolutionForResult(activityContext, LocationUtility.REQUEST_LOCATION_SETTING);
         } catch (IntentSender.SendIntentException e) {
             // Ignore the error.
         }
@@ -181,7 +188,8 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
         if (!wasLocationPermitted) {
             Toast.makeText(activityContext, "Location was not permitted", Toast.LENGTH_SHORT).show();
         } else if (!isGPSEnabled) {
-            showDialogForEnablingGPS();
+            //showDialogForEnablingGPS();
+            checkIfGpsEnabled();
         } else {
             //retrieve last location
             retrieveLastLocation();
@@ -237,7 +245,7 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
     }
 
     public boolean checkIfLocationPermitted() {
-        isLocationPermitted = ActivityCompat.checkSelfPermission(activityContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED;
+        isLocationPermitted = ActivityCompat.checkSelfPermission(activityContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
         return  isLocationPermitted;
     }
 
@@ -250,6 +258,22 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
                 gpsStatus = locationSettingsResult.getStatus();
                 //final LocationSettingsStates states = locationSettingsResult.getLocationSettingsStates();
                 isGPSEnabled = gpsStatus.getStatusCode() == LocationSettingsStatusCodes.SUCCESS;
+
+                if (gpsStatus.getStatusCode() == LocationSettingsStatusCodes.SUCCESS) {
+                            //handleNewLocation(null);
+                            retrieveLastLocation();
+
+                        } else if (gpsStatus.getStatusCode() == LocationSettingsStatusCodes.RESOLUTION_REQUIRED ) {
+                            // show user dialog
+                            try {
+                                // Show the dialog by calling startResolutionForResult(),
+                                // and check the result in onActivityResult().
+                                gpsStatus.startResolutionForResult(activityContext, LocationUtility.REQUEST_LOCATION_SETTING);
+                            } catch (IntentSender.SendIntentException e) {
+                                // Ignore the error.
+                            }
+                        }
+
             }
         });
 
