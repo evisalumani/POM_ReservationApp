@@ -32,7 +32,7 @@ import de.tum.pom16.teamtba.reservationapp.activities.SearchResultsActivity;
  */
 
 //LocationListener interfce for location updates
-public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
+public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener, ResultCallback<LocationSettingsResult> {
     public final static int REQUEST_LOCATION = 1000;
     public final static int REQUEST_LOCATION_SETTING = 2000;
 
@@ -155,7 +155,8 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
             //prompt for location dialog
             showDialogForPermittingLocation();
         } else {
-            checkIfGpsEnabled();
+            //checkIfGpsEnabled();
+            checkLocationSettings();
         }
 
 
@@ -167,6 +168,16 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
 //            //retrieve last location
 //            retrieveLastLocation();
 //        }
+    }
+
+
+    protected void checkLocationSettings() {
+        PendingResult<LocationSettingsResult> result =
+                LocationServices.SettingsApi.checkLocationSettings(
+                        mLocationClient,
+                        locationSettingsRequest
+                );
+        result.setResultCallback(this);
     }
 
     public void showDialogForPermittingLocation() {
@@ -189,7 +200,8 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
             Toast.makeText(activityContext, "Location was not permitted", Toast.LENGTH_SHORT).show();
         } else if (!isGPSEnabled) {
             //showDialogForEnablingGPS();
-            checkIfGpsEnabled();
+            //checkIfGpsEnabled();
+            checkLocationSettings();
         } else {
             //retrieve last location
             retrieveLastLocation();
@@ -302,4 +314,30 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
     public void onLocationChanged(Location location) {
 
     }
+
+    @Override
+    public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
+        final Status status = locationSettingsResult.getStatus();
+        switch (status.getStatusCode()) {
+            case LocationSettingsStatusCodes.SUCCESS:
+                isGPSEnabled = true;
+                retrieveLastLocation();
+                break;
+            case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+            // show user dialog
+            try {
+                // Show the dialog by calling startResolutionForResult(),
+                // and check the result in onActivityResult().
+                status.startResolutionForResult(activityContext, LocationUtility.REQUEST_LOCATION_SETTING);
+            } catch (IntentSender.SendIntentException e) {
+                // Ignore the error.
+            }
+                break;
+            case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                //do something
+                break;
+        }
+
+    }
+
 }
