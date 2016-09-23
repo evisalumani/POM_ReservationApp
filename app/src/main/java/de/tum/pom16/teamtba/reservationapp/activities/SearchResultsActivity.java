@@ -141,7 +141,9 @@ public class SearchResultsActivity extends MapCallbackActivity {
         if (requestCode == LocationUtility.REQUEST_LOCATION) {
             //length == 1 before
             //set isLocationPermitted boolean value, depending on whether the permission was granted or denied from the user via the dialog
-            locationUtility.setLocationPermitted(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED);
+            boolean isPermissionGranted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+            locationUtility.setLocationPermitted(isPermissionGranted);
+            locationUtility.onReceivingLocationPermission(isPermissionGranted);
         }
     }
 
@@ -151,8 +153,9 @@ public class SearchResultsActivity extends MapCallbackActivity {
             // Check for the integer request code originally supplied to startResolutionForResult().
             case LocationUtility.REQUEST_LOCATION_SETTING:
                 //Activity_RESULT_OK, Activity_RESULT_CANCELED
-                locationUtility.setGPSEnabled(resultCode == Activity.RESULT_OK);
-                locationUtility.retrieveLastLocation();
+                boolean isGpsEnabled = resultCode == Activity.RESULT_OK;
+                locationUtility.setGPSEnabled(isGpsEnabled);
+                locationUtility.onReceivingGpsPermission(isGpsEnabled);
                 break;
         }
     }
