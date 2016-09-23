@@ -1,16 +1,15 @@
 package de.tum.pom16.teamtba.reservationapp.activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -23,9 +22,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -51,16 +50,18 @@ public class SearchResultsActivity extends MapCallbackActivity {
     List<Restaurant> searchResults;
     LocationUtility locationUtility;
 
-    private GoogleApiClient client;
+    private GoogleApiClient googleApiClient;
+    private Location userLatestLocation;
 
     SearchView searchView;
     private String queryTerm = "";
+
 
     @Override
     protected void initializeModel() {
         super.initializeModel();
 
-        locationUtility = new LocationUtility(this);
+        //locationUtility = new LocationUtility(this);
 
         Intent intent = getIntent();
         List<Restaurant> filteredRestaurants = intent.getParcelableArrayListExtra(IntentType.INTENT_FILTER_TO_SEARCH_RESULTS.name());
@@ -105,17 +106,29 @@ public class SearchResultsActivity extends MapCallbackActivity {
 
     @Override
     protected void onStart() {
-        locationUtility.connect();
+
         super.onStart();
+        locationUtility.connect();
+        //googleApiClient.connect();
     }
 
     @Override
     protected void onStop() {
+
+
+        super.onStop();
         if (locationUtility.isConnected()) {
             locationUtility.disconnect();
         }
+//        if (googleApiClient.isConnected()) {
+//            googleApiClient.disconnect();
+//        }
+    }
 
-        super.onStop();
+    @Override
+    protected void onPause() {
+        super.onPause();
+        locationUtility.removeLocationUpdates();
     }
 
     public void filterSearchResults(View view) {
@@ -123,15 +136,36 @@ public class SearchResultsActivity extends MapCallbackActivity {
         startActivity(intent);
     }
 
+    @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == LocationUtility.REQUEST_LOCATION) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            //length == 1 before
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // user has granted permission
                 locationUtility.setLatestLocation();
             } else {
-                // Permission was denied or request was cancelled
+                // Permission was denied or request was cancelled (from the dialog)
                 Toast.makeText(this.getApplicationContext(), "Location permission not granted", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            // Check for the integer request code originally supplied to startResolutionForResult().
+            case LocationUtility.REQUEST_LOCATION_SETTING:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        //Log.i(TAG, "User agreed to make required location settings changes.");
+                        //startLocationUpdates();
+                        Toast.makeText(this, "YYYYYAAAAA", Toast.LENGTH_SHORT).show();
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        //Log.i(TAG, "User chose not to make required location settings changes.");
+                        break;
+                }
+                break;
         }
     }
 
@@ -155,6 +189,8 @@ public class SearchResultsActivity extends MapCallbackActivity {
         }
 
     }
+
+
 
     public void addMarkersForSearchResults() {
         if (searchResults != null) {
@@ -228,6 +264,9 @@ public class SearchResultsActivity extends MapCallbackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         handleIntent(getIntent());
+
+        locationUtility = new LocationUtility(this);
+        //buildGoogleApiClient();
     }
 
 
@@ -240,9 +279,39 @@ public class SearchResultsActivity extends MapCallbackActivity {
         }
     }
 
+//    protected synchronized void buildGoogleApiClient() {
+//        googleApiClient = new GoogleApiClient.Builder(this)
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(this)
+//                .addApi(LocationServices.API)
+//                .build();
+//    }
+
+
     @Override
     protected void onNewIntent(Intent intent) {
         handleIntent(intent);
     }
 
+//    @Override
+//    public void onConnected(@Nullable Bundle bundle) {
+//        //GoogleAPIClient is connected
+//        userLatestLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+//        if (userLatestLocation != null) {
+//            Toast.makeText(this, "Location: " + userLatestLocation.getLatitude() + ", " + userLatestLocation.getLongitude(), Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
+//
+//    @Override
+//    public void onConnectionSuspended(int cause) {
+//        //connection suspended
+//        googleApiClient.connect(); //reconnect
+//    }
+//
+//    @Override
+//    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+//        //connectionResult.getErrorCode();
+//        //do something
+//    }
 }
