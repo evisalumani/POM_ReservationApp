@@ -58,8 +58,6 @@ public class SearchResultsActivity extends MapCallbackActivity {
     protected void initializeModel() {
         super.initializeModel();
 
-        //locationUtility = new LocationUtility(this);
-
         Intent intent = getIntent();
         List<Restaurant> filteredRestaurants = intent.getParcelableArrayListExtra(IntentType.INTENT_FILTER_TO_SEARCH_RESULTS.name());
 
@@ -234,7 +232,7 @@ public class SearchResultsActivity extends MapCallbackActivity {
                     tempSearchResults = DataSearch.filterRestaurantContainingString(DataGenerator.generateDummyData(), newText);
                     ((SearchResultsAdapter) searchResultsAdapter).refreshRestaurants(tempSearchResults);
                 }
-//
+
                 return true;
             }
         });
@@ -248,7 +246,6 @@ public class SearchResultsActivity extends MapCallbackActivity {
         handleIntent(getIntent());
 
         locationUtility = new LocationUtility(this);
-        //buildGoogleApiClient();
     }
 
 

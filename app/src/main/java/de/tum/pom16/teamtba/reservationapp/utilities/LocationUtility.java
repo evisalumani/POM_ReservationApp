@@ -32,6 +32,7 @@ import de.tum.pom16.teamtba.reservationapp.activities.SearchResultsActivity;
  */
 
 //LocationListener interface for location updates
+    //TODO: DI for starting/removing location updates
 public class LocationUtility implements ConnectionCallbacks,
                                         OnConnectionFailedListener,
                                         LocationListener,
@@ -46,9 +47,7 @@ public class LocationUtility implements ConnectionCallbacks,
     private LocationSettingsRequest locationSettingsRequest;
     private boolean isLocationPermitted; //for the app
     private boolean isGPSEnabled; //for the device
-    private Status gpsStatus; //TODO: need it or not?
-    private boolean isUserInputReceivedBeforeForLocationPermission;
-    private boolean isUserInputReceivedBeforeForGPSEnabling;
+    private Status gpsStatus;
 
     private String[] locationServicesAPIPermissions = {
                 Manifest.permission.INTERNET,
@@ -141,7 +140,6 @@ public class LocationUtility implements ConnectionCallbacks,
     }
 
     public void onReceivingLocationPermission(boolean wasLocationPermitted) {
-        isUserInputReceivedBeforeForLocationPermission = true;
         if (!wasLocationPermitted) {
             Toast.makeText(activityContext, "Location was not permitted", Toast.LENGTH_SHORT).show();
         } else if (!isGPSEnabled) {
@@ -153,7 +151,6 @@ public class LocationUtility implements ConnectionCallbacks,
     }
 
     public void onReceivingGpsPermission(boolean wasGpsEnabled) {
-        isUserInputReceivedBeforeForGPSEnabling = true;
         if (!wasGpsEnabled) {
             Toast.makeText(activityContext, "GPS was not enabled", Toast.LENGTH_SHORT).show();
         } else {
