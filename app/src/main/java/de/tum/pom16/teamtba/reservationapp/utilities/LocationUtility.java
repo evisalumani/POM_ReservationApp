@@ -31,8 +31,11 @@ import de.tum.pom16.teamtba.reservationapp.activities.SearchResultsActivity;
  * Created by evisa on 7/14/16.
  */
 
-//LocationListener interfce for location updates
-public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener, ResultCallback<LocationSettingsResult> {
+//LocationListener interface for location updates
+public class LocationUtility implements ConnectionCallbacks,
+                                        OnConnectionFailedListener,
+                                        LocationListener,
+                                        ResultCallback<LocationSettingsResult> {
     public final static int REQUEST_LOCATION = 1000;
     public final static int REQUEST_LOCATION_SETTING = 2000;
 
@@ -43,7 +46,7 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
     private LocationSettingsRequest locationSettingsRequest;
     private boolean isLocationPermitted; //for the app
     private boolean isGPSEnabled; //for the device
-    private Status gpsStatus;
+    private Status gpsStatus; //TODO: need it or not?
 
     public LocationUtility(Activity context) {
         this.activityContext = context;
@@ -66,7 +69,7 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
     public void createLocationRequest() {
         locationRequest = new LocationRequest();
         locationRequest.setInterval(10000); //10'000 ms (10 s)
-        locationRequest.setFastestInterval(5000); //5000 ms (5s)
+        locationRequest.setFastestInterval(5000); //5000 ms (5s); 60'000 (1 min)
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
@@ -85,7 +88,9 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
     }
 
     public void connect() {
-        mLocationClient.connect();
+        if (mLocationClient != null) {
+            mLocationClient.connect();
+        }
     }
 
     public boolean isConnected() {
@@ -93,7 +98,9 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
     }
 
     public void disconnect() {
-        mLocationClient.disconnect();
+        if (mLocationClient != null) {
+            mLocationClient.disconnect();
+        }
     }
 
 //    @Override
@@ -147,8 +154,27 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        //TODO: might make them void
-        checkIfLocationPermitted();
+        checkIfLocationPermitted(); //isLocationPermitted is set on this method, depending on the permissions granted
+
+        if (ActivityCompat.checkSelfPermission(activityContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            //Location permission granted
+            latestLocation = LocationServices.FusedLocationApi.getLastLocation(mLocationClient);
+            if (latestLocation == null) {
+                LocationServices.FusedLocationApi.requestLocationUpdates(mLocationClient, locationRequest, this);
+            }
+            else {
+                handleNewLocation(latestLocation);
+            }
+        } else {
+            //location not granted
+            
+        }
+
+        latestLocation = LocationServices.FusedLocationApi.getLastLocation(mLocationClient);
+
+
+
+
         //checkIfGpsEnabled();
 
         if (!isLocationPermitted) {
@@ -222,15 +248,16 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
             latestLocation = LocationServices.FusedLocationApi.getLastLocation(mLocationClient);
             if (latestLocation != null) {
                 Toast.makeText(activityContext, "Location EXISTS", Toast.LENGTH_SHORT).show();
+                handleNewLocation(latestLocation);
             } else {
                 Toast.makeText(activityContext, "Null Location", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-//    public void handleNewLocation(Location location) {
-//        Toast.makeText(activityContext, "YAY", Toast.LENGTH_SHORT).show();
-//    }
+    public void handleNewLocation(Location location) {
+        Toast.makeText(activityContext, "YAY", Toast.LENGTH_SHORT).show();
+    }
 
     public void setLatestLocation() {
         if (ActivityCompat.checkSelfPermission(activityContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -256,9 +283,8 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
         isLocationPermitted = locationPermitted;
     }
 
-    public boolean checkIfLocationPermitted() {
+    public void checkIfLocationPermitted() {
         isLocationPermitted = ActivityCompat.checkSelfPermission(activityContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-        return  isLocationPermitted;
     }
 
     public boolean checkIfGpsEnabled() {
@@ -302,17 +328,18 @@ public class LocationUtility implements ConnectionCallbacks, OnConnectionFailedL
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        mLocationClient.connect(); //reconnect
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        //connectionResult.getErrorCode();
+        //do something
     }
 
     @Override
     public void onLocationChanged(Location location) {
-
+        handleNewLocation(location);
     }
 
     @Override

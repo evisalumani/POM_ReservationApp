@@ -305,4 +305,11 @@ public class SearchResultsActivity extends MapCallbackActivity {
 //        //connectionResult.getErrorCode();
 //        //do something
 //    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        locationUtility.connect();
+    }
 }
