@@ -48,6 +48,12 @@ public class LocationUtility implements ConnectionCallbacks,
     private boolean isGPSEnabled; //for the device
     private Status gpsStatus; //TODO: need it or not?
 
+    private String[] locationServicesAPIPermissions = {
+                Manifest.permission.INTERNET,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION };
+
     public LocationUtility(Activity context) {
         this.activityContext = context;
         createLocationClient();
@@ -57,7 +63,6 @@ public class LocationUtility implements ConnectionCallbacks,
 
     public synchronized void createLocationClient() {
         if (mLocationClient == null) {
-            //create new
             mLocationClient = new GoogleApiClient.Builder(activityContext)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
@@ -103,97 +108,10 @@ public class LocationUtility implements ConnectionCallbacks,
         }
     }
 
-//    @Override
-//    public void onConnected(@Nullable Bundle bundle) {
-//        //ContextCompat
-//        if (ActivityCompat.checkSelfPermission(activityContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            // check and require permission
-//            // 1st argument requires Activity
-//            // Dialog "Allow X to access this device's location?"
-//            ActivityCompat.requestPermissions(activityContext, new String[]{ Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-//        } else {
-//            // permission has been granted, continue as usual
-//            // check if GPS is enabled
-//            //setLatestLocation();
-//            isLocationPermitted = true;
-//
-////            latestLocation = LocationServices.FusedLocationApi.getLastLocation(mLocationClient);
-////            if (latestLocation == null) {
-//                //LocationServices.FusedLocationApi.requestLocationUpdates(mLocationClient, locationRequest, this);
-//                PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(mLocationClient, locationSettingsRequest);
-//                result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
-//                    @Override
-//                    public void onResult(@NonNull LocationSettingsResult lsResult) {
-//                        final Status status = lsResult.getStatus();
-//                        final LocationSettingsStates states = lsResult.getLocationSettingsStates();
-//
-//                        if (status.getStatusCode() == LocationSettingsStatusCodes.SUCCESS) {
-//                            //handleNewLocation(null);
-//                            isGPSEnabled = true;
-//                            retrieveLastLocation();
-//
-//                        } else if (status.getStatusCode() == LocationSettingsStatusCodes.RESOLUTION_REQUIRED ) {
-//                            // show user dialog
-//                            try {
-//                                // Show the dialog by calling startResolutionForResult(),
-//                                // and check the result in onActivityResult().
-//                                status.startResolutionForResult(activityContext, LocationUtility.REQUEST_LOCATION_SETTING);
-//                            } catch (IntentSender.SendIntentException e) {
-//                                // Ignore the error.
-//                            }
-//                        }
-//                    }
-//                });
-//
-////            } else {
-////                handleNewLocation(latestLocation);
-////            }
-//        }
-//    }
-
-
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         checkIfLocationPermitted(); //isLocationPermitted is set on this method, depending on the permissions granted
-
-        if (ActivityCompat.checkSelfPermission(activityContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            //Location permission granted
-            latestLocation = LocationServices.FusedLocationApi.getLastLocation(mLocationClient);
-            if (latestLocation == null) {
-                LocationServices.FusedLocationApi.requestLocationUpdates(mLocationClient, locationRequest, this);
-            }
-            else {
-                handleNewLocation(latestLocation);
-            }
-        } else {
-            //location not granted
-            
-        }
-
-        latestLocation = LocationServices.FusedLocationApi.getLastLocation(mLocationClient);
-
-
-
-
-        //checkIfGpsEnabled();
-
-        if (!isLocationPermitted) {
-            //prompt for location dialog
-            showDialogForPermittingLocation();
-        } else {
-            //checkIfGpsEnabled();
-            checkLocationSettings();
-        }
-
-
-
-//        if (!isGPSEnabled){
-//            //prompt for gps dialog
-//            showDialogForEnablingGPS();
-//        } else {
-//            //retrieve last location
-//            retrieveLastLocation();
-//        }
+        checkLocationSettings();
     }
 
 
@@ -207,7 +125,7 @@ public class LocationUtility implements ConnectionCallbacks,
     }
 
     public void showDialogForPermittingLocation() {
-        ActivityCompat.requestPermissions(activityContext, new String[]{ Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        ActivityCompat.requestPermissions(activityContext, locationServicesAPIPermissions, REQUEST_LOCATION);
     }
 
     public void showDialogForEnablingGPS() {
@@ -227,7 +145,7 @@ public class LocationUtility implements ConnectionCallbacks,
         } else if (!isGPSEnabled) {
             //showDialogForEnablingGPS();
             //checkIfGpsEnabled();
-            checkLocationSettings();
+//            checkLocationSettings();
         } else {
             //retrieve last location
             retrieveLastLocation();
@@ -287,37 +205,6 @@ public class LocationUtility implements ConnectionCallbacks,
         isLocationPermitted = ActivityCompat.checkSelfPermission(activityContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
-    public boolean checkIfGpsEnabled() {
-        PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(mLocationClient, locationSettingsRequest);
-        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
-            @Override
-            public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
-                //final Status status = locationSettingsResult.getStatus();
-                gpsStatus = locationSettingsResult.getStatus();
-                //final LocationSettingsStates states = locationSettingsResult.getLocationSettingsStates();
-                isGPSEnabled = gpsStatus.getStatusCode() == LocationSettingsStatusCodes.SUCCESS;
-
-                if (gpsStatus.getStatusCode() == LocationSettingsStatusCodes.SUCCESS) {
-                            //handleNewLocation(null);
-                            retrieveLastLocation();
-
-                        } else if (gpsStatus.getStatusCode() == LocationSettingsStatusCodes.RESOLUTION_REQUIRED ) {
-                            // show user dialog
-                            try {
-                                // Show the dialog by calling startResolutionForResult(),
-                                // and check the result in onActivityResult().
-                                gpsStatus.startResolutionForResult(activityContext, LocationUtility.REQUEST_LOCATION_SETTING);
-                            } catch (IntentSender.SendIntentException e) {
-                                // Ignore the error.
-                            }
-                        }
-
-            }
-        });
-
-        return isGPSEnabled;
-    }
-
     public boolean isGPSEnabled() {
         return isGPSEnabled;
     }
@@ -345,26 +232,38 @@ public class LocationUtility implements ConnectionCallbacks,
     @Override
     public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
         final Status status = locationSettingsResult.getStatus();
-        switch (status.getStatusCode()) {
-            case LocationSettingsStatusCodes.SUCCESS:
-                isGPSEnabled = true;
-                retrieveLastLocation();
-                break;
-            case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-            // show user dialog
-            try {
-                // Show the dialog by calling startResolutionForResult(),
-                // and check the result in onActivityResult().
-                status.startResolutionForResult(activityContext, LocationUtility.REQUEST_LOCATION_SETTING);
-            } catch (IntentSender.SendIntentException e) {
-                // Ignore the error.
-            }
-                break;
-            case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                //do something
-                break;
+        gpsStatus = status;
+        isGPSEnabled = status.getStatusCode() == LocationSettingsStatusCodes.SUCCESS;
+        //Other status codes: RESOLUTION_REQUIRED, SETTINGS_CHANGE_UNAVAILABLE
+
+       if(ActivityCompat.checkSelfPermission(activityContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && !isLocationPermitted) {
+           showDialogForPermittingLocation();
+       } else if (!isGPSEnabled) {
+           showDialogForEnablingGPS();
+       } else {
+           //start location updates
+           LocationServices.FusedLocationApi.requestLocationUpdates(mLocationClient, locationRequest, this);
+       }
+
+    }
+
+    protected void startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(activityContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+            LocationServices.FusedLocationApi.requestLocationUpdates(
+                    mLocationClient,
+                    locationRequest,
+                    this
+            ).setResultCallback(new ResultCallback<Status>() {
+                @Override
+                public void onResult(Status status) {
+                    // mRequestingLocationUpdates = true;
+                    //setButtonsEnabledState();
+                }
+            });
         }
 
     }
+
 
 }

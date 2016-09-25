@@ -141,7 +141,10 @@ public class SearchResultsActivity extends MapCallbackActivity {
         if (requestCode == LocationUtility.REQUEST_LOCATION) {
             //length == 1 before
             //set isLocationPermitted boolean value, depending on whether the permission was granted or denied from the user via the dialog
-            boolean isPermissionGranted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+            boolean isPermissionGranted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults[2] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults[3] == PackageManager.PERMISSION_GRANTED;
             locationUtility.setLocationPermitted(isPermissionGranted);
             locationUtility.onReceivingLocationPermission(isPermissionGranted);
         }
