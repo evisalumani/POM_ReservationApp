@@ -47,6 +47,8 @@ public class LocationUtility implements ConnectionCallbacks,
     private boolean isLocationPermitted; //for the app
     private boolean isGPSEnabled; //for the device
     private Status gpsStatus; //TODO: need it or not?
+    private boolean isUserInputReceivedBeforeForLocationPermission;
+    private boolean isUserInputReceivedBeforeForGPSEnabling;
 
     private String[] locationServicesAPIPermissions = {
                 Manifest.permission.INTERNET,
@@ -114,7 +116,6 @@ public class LocationUtility implements ConnectionCallbacks,
         checkLocationSettings();
     }
 
-
     protected void checkLocationSettings() {
         PendingResult<LocationSettingsResult> result =
                 LocationServices.SettingsApi.checkLocationSettings(
@@ -140,38 +141,38 @@ public class LocationUtility implements ConnectionCallbacks,
     }
 
     public void onReceivingLocationPermission(boolean wasLocationPermitted) {
+        isUserInputReceivedBeforeForLocationPermission = true;
         if (!wasLocationPermitted) {
             Toast.makeText(activityContext, "Location was not permitted", Toast.LENGTH_SHORT).show();
         } else if (!isGPSEnabled) {
             //showDialogForEnablingGPS();
-            //checkIfGpsEnabled();
-//            checkLocationSettings();
         } else {
             //retrieve last location
-            retrieveLastLocation();
+            //retrieveLastLocation();
         }
     }
 
     public void onReceivingGpsPermission(boolean wasGpsEnabled) {
+        isUserInputReceivedBeforeForGPSEnabling = true;
         if (!wasGpsEnabled) {
             Toast.makeText(activityContext, "GPS was not enabled", Toast.LENGTH_SHORT).show();
         } else {
             //retrieve location
-            retrieveLastLocation();
+            //retrieveLastLocation();
         }
     }
 
-    public void retrieveLastLocation() {
-        if (isLocationPermitted && isGPSEnabled && ActivityCompat.checkSelfPermission(activityContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            latestLocation = LocationServices.FusedLocationApi.getLastLocation(mLocationClient);
-            if (latestLocation != null) {
-                Toast.makeText(activityContext, "Location EXISTS", Toast.LENGTH_SHORT).show();
-                handleNewLocation(latestLocation);
-            } else {
-                Toast.makeText(activityContext, "Null Location", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
+//    public void retrieveLastLocation() {
+//        if (isLocationPermitted && isGPSEnabled && ActivityCompat.checkSelfPermission(activityContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+//            latestLocation = LocationServices.FusedLocationApi.getLastLocation(mLocationClient);
+//            if (latestLocation != null) {
+//                Toast.makeText(activityContext, "Location EXISTS", Toast.LENGTH_SHORT).show();
+//                handleNewLocation(latestLocation);
+//            } else {
+//                Toast.makeText(activityContext, "Null Location", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
 
     public void handleNewLocation(Location location) {
         Toast.makeText(activityContext, "YAY", Toast.LENGTH_SHORT).show();
@@ -226,7 +227,10 @@ public class LocationUtility implements ConnectionCallbacks,
 
     @Override
     public void onLocationChanged(Location location) {
-        handleNewLocation(location);
+        if (location != null) {
+            handleNewLocation(location);
+            removeLocationUpdates(); //just receiving the 1st non-null location is enough
+        }
     }
 
     @Override
@@ -264,6 +268,4 @@ public class LocationUtility implements ConnectionCallbacks,
         }
 
     }
-
-
 }

@@ -50,9 +50,6 @@ public class SearchResultsActivity extends MapCallbackActivity {
     List<Restaurant> searchResults;
     LocationUtility locationUtility;
 
-    private GoogleApiClient googleApiClient;
-    private Location userLatestLocation;
-
     SearchView searchView;
     private String queryTerm = "";
 
@@ -106,23 +103,16 @@ public class SearchResultsActivity extends MapCallbackActivity {
 
     @Override
     protected void onStart() {
-
         super.onStart();
         locationUtility.connect();
-        //googleApiClient.connect();
     }
 
     @Override
     protected void onStop() {
-
-
         super.onStop();
         if (locationUtility.isConnected()) {
             locationUtility.disconnect();
         }
-//        if (googleApiClient.isConnected()) {
-//            googleApiClient.disconnect();
-//        }
     }
 
     @Override
@@ -183,8 +173,6 @@ public class SearchResultsActivity extends MapCallbackActivity {
         }
 
     }
-
-
 
     public void addMarkersForSearchResults() {
         if (searchResults != null) {
@@ -273,41 +261,11 @@ public class SearchResultsActivity extends MapCallbackActivity {
         }
     }
 
-//    protected synchronized void buildGoogleApiClient() {
-//        googleApiClient = new GoogleApiClient.Builder(this)
-//                .addConnectionCallbacks(this)
-//                .addOnConnectionFailedListener(this)
-//                .addApi(LocationServices.API)
-//                .build();
-//    }
-
 
     @Override
     protected void onNewIntent(Intent intent) {
         handleIntent(intent);
     }
-
-//    @Override
-//    public void onConnected(@Nullable Bundle bundle) {
-//        //GoogleAPIClient is connected
-//        userLatestLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-//        if (userLatestLocation != null) {
-//            Toast.makeText(this, "Location: " + userLatestLocation.getLatitude() + ", " + userLatestLocation.getLongitude(), Toast.LENGTH_SHORT).show();
-//        }
-//
-//    }
-//
-//    @Override
-//    public void onConnectionSuspended(int cause) {
-//        //connection suspended
-//        googleApiClient.connect(); //reconnect
-//    }
-//
-//    @Override
-//    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-//        //connectionResult.getErrorCode();
-//        //do something
-//    }
 
 
     @Override
