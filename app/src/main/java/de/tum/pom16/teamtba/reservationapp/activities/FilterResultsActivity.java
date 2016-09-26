@@ -2,6 +2,7 @@ package de.tum.pom16.teamtba.reservationapp.activities;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -9,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -31,14 +34,17 @@ import de.tum.pom16.teamtba.reservationapp.dataaccess.SearchFilterType;
 import de.tum.pom16.teamtba.reservationapp.models.Constants;
 import de.tum.pom16.teamtba.reservationapp.models.CuisineType;
 import de.tum.pom16.teamtba.reservationapp.models.HourTimeSlot;
+import de.tum.pom16.teamtba.reservationapp.utilities.Helpers;
 
 public class FilterResultsActivity extends AppActivity {
     private GlobalSearchFilters filters;
     private final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
+    private boolean isPlaceSetFromAutocomplete = false;
 
     //UI
     TextView cuisineTextView;
     TextView locationTextView;
+    CheckBox currentLocationCheckBox;
     TextView priceTextView;
     TextView ratingTextView;
     TextView dateTextView;
@@ -57,6 +63,7 @@ public class FilterResultsActivity extends AppActivity {
         //initialize UI elements
         cuisineTextView = (TextView) findViewById(R.id.filter_cuisine_textview);
         locationTextView = (TextView) findViewById(R.id.filter_location_textview);
+        currentLocationCheckBox = (CheckBox) findViewById(R.id.filter_current_location_checkbox);
         priceTextView = (TextView) findViewById(R.id.filter_price_textview);
         ratingTextView = (TextView) findViewById(R.id.filter_rating_textview);
         dateTextView = (TextView) findViewById(R.id.filter_date_textview);
@@ -71,6 +78,12 @@ public class FilterResultsActivity extends AppActivity {
         //date is set to today by default
         int nrOfSpecificCuisinesSelected = filters.getNrOfSpecificCuisinesSelected();
         cuisineTextView.setText("Cuisines: (" + (nrOfSpecificCuisinesSelected == 0 ? "All" : String.valueOf(nrOfSpecificCuisinesSelected)) + ")");
+
+        if (filters.getLocation() != null) {
+            isPlaceSetFromAutocomplete = false;
+            currentLocationCheckBox.setChecked(true);
+            locationTextView.setText("Current Location"); //TODO: descriptive content
+        }
 
         int priceCategory = filters.getMaxPriceCategory();
         priceTextView.setText("Price (max): " + Constants.getPriceCategoryStrings()[priceCategory]);
@@ -88,6 +101,7 @@ public class FilterResultsActivity extends AppActivity {
         cuisineTextView.setOnClickListener(getCuisineClickListener());
         //TODO: add location listener
         locationTextView.setOnClickListener(getLocationClickListener());
+        currentLocationCheckBox.setOnCheckedChangeListener(getCurrentLocationCheckedListener());
         priceTextView.setOnClickListener(getPriceClickListener());
         dateTextView.setOnClickListener(getDateClickListener());
         timeTextView.setOnClickListener(getTimeClickListener());
@@ -98,13 +112,31 @@ public class FilterResultsActivity extends AppActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY).build(FilterResultsActivity.this);
-                    startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-                } catch (GooglePlayServicesRepairableException e) {
-                    // TODO: Handle the error.
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    // TODO: Handle the error.
+                showAutocompleteWidget();
+            }
+        };
+    }
+
+    private void showAutocompleteWidget() {
+        try {
+            Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY).build(FilterResultsActivity.this);
+            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+        } catch (GooglePlayServicesRepairableException e) {
+            // TODO: Handle the error.
+        } catch (GooglePlayServicesNotAvailableException e) {
+            // TODO: Handle the error.
+        }
+    }
+
+
+    private CompoundButton.OnCheckedChangeListener getCurrentLocationCheckedListener() {
+        return new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    locationTextView.setText("Current Location");
+                } else {
+                    showAutocompleteWidget();
                 }
             }
         };
@@ -195,8 +227,14 @@ public class FilterResultsActivity extends AppActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
+                //user clicked on a suggestions
                 Place place = PlaceAutocomplete.getPlace(this, data);
-                //Log.i(TAG, "Place: " + place.getName());
+                isPlaceSetFromAutocomplete = true;
+                Location location = Helpers.getLocationFromPlace(place);
+                GlobalSearchFilters.getSharedInstance().setLocation(location);
+
+                locationTextView.setText(place.getName());
+                currentLocationCheckBox.setChecked(false);
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
                 // TODO: Handle the error.
@@ -204,6 +242,7 @@ public class FilterResultsActivity extends AppActivity {
 
             } else if (resultCode == RESULT_CANCELED) {
                 // The user canceled the operation.
+                // use current location by default, or the previous temp location
             }
         }
     }

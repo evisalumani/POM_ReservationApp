@@ -46,6 +46,19 @@
             android:layout_below="@id/filter_icon_cuisine"
             android:src="@drawable/ic_location_24dp"/>
 
+        <TextView
+            android:id="@+id/filter_location_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="Search Places"
+            android:layout_toRightOf="@id/filter_icon_location"
+            android:layout_below="@id/filter_cuisine_textview"
+            android:layout_alignBottom="@id/filter_icon_location" />
+
+        <!--android:layout_toRightOf="@id/filter_icon_location"-->
+        <!--android:layout_below="@id/filter_current_location_checkbox"-->
+
         <CheckBox
             android:id="@+id/filter_current_location_checkbox"
             android:layout_width="wrap_content"
@@ -53,17 +66,9 @@
             android:checked="true"
             android:text="Current Location"
             android:layout_toRightOf="@id/filter_icon_location"
-            android:layout_below="@id/filter_cuisine_textview"
-            android:layout_alignBottom="@id/filter_icon_location"/>
+            android:layout_below="@id/filter_location_textview" />
 
-        <TextView
-            android:id="@+id/filter_location_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="Autocomplete"
-            android:layout_toRightOf="@id/filter_icon_location"
-            android:layout_below="@id/filter_current_location_checkbox" />
+
 
         <ImageView
             android:id="@+id/filter_icon_price"
@@ -71,7 +76,7 @@
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:layout_alignParentLeft="true"
-            android:layout_below="@id/filter_location_textview"
+            android:layout_below="@id/filter_current_location_checkbox"
             android:src="@drawable/ic_euro_symbol_24px"/>
 
         <TextView
@@ -81,7 +86,7 @@
             android:padding="15dp"
             android:text="Price (max)"
             android:layout_toRightOf="@id/filter_icon_price"
-            android:layout_below="@id/filter_location_textview"
+            android:layout_below="@id/filter_current_location_checkbox"
             android:layout_alignBottom="@id/filter_icon_price"
             />
 
