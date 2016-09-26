@@ -26,6 +26,7 @@ import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 
 import de.tum.pom16.teamtba.reservationapp.activities.SearchResultsActivity;
+import de.tum.pom16.teamtba.reservationapp.dataaccess.GlobalSearchFilters;
 
 /**
  * Created by evisa on 7/14/16.
@@ -172,6 +173,7 @@ public class LocationUtility implements ConnectionCallbacks,
 //    }
 
     public void handleNewLocation(Location location) {
+        GlobalSearchFilters.getSharedInstance().setLocation(location);
         Toast.makeText(activityContext, "YAY", Toast.LENGTH_SHORT).show();
     }
 

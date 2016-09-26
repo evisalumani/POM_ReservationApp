@@ -1,5 +1,7 @@
 package de.tum.pom16.teamtba.reservationapp.dataaccess;
 
+import android.location.Location;
+
 import com.google.android.gms.wearable.DataApi;
 
 import java.util.Calendar;
@@ -16,7 +18,7 @@ import de.tum.pom16.teamtba.reservationapp.models.HourTimeSlot;
  */
 public class GlobalSearchFilters {
     private Map<CuisineType, Boolean> cuisines; //multi-select possible for cuisines
-    private String location;
+    private Location location;
     private int maxPriceCategory;
     private Calendar date;
     private HourTimeSlot timeSlot;
@@ -90,11 +92,11 @@ public class GlobalSearchFilters {
         return "--/--/----";
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
