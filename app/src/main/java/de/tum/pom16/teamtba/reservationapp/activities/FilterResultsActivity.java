@@ -12,7 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -39,7 +41,8 @@ import de.tum.pom16.teamtba.reservationapp.utilities.Helpers;
 public class FilterResultsActivity extends AppActivity {
     private GlobalSearchFilters filters;
     private final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
-    private boolean isPlaceSetFromAutocomplete = false;
+    private Location tempLocation;
+    private String tempLocationStr;
 
     //UI
     TextView cuisineTextView;
@@ -70,8 +73,8 @@ public class FilterResultsActivity extends AppActivity {
         timeTextView = (TextView) findViewById(R.id.filter_time_textview);
         sortByTextView = (TextView) findViewById(R.id.filter_sort_textview);
 
-        setupUIForSavedFilters();
         setupUIListeners();
+        setupUIForSavedFilters();
     }
 
     private void setupUIForSavedFilters() {
@@ -80,10 +83,12 @@ public class FilterResultsActivity extends AppActivity {
         cuisineTextView.setText("Cuisines: (" + (nrOfSpecificCuisinesSelected == 0 ? "All" : String.valueOf(nrOfSpecificCuisinesSelected)) + ")");
 
         if (filters.getLocation() != null) {
-            isPlaceSetFromAutocomplete = false;
+            tempLocation = filters.getLocation();
+            tempLocationStr = "Current Location"; //TODO: descriptive content
             currentLocationCheckBox.setChecked(true);
-            locationTextView.setText("Current Location"); //TODO: descriptive content
+            locationTextView.setText(tempLocationStr);
         }
+        //TODO: what if no location avaialable
 
         int priceCategory = filters.getMaxPriceCategory();
         priceTextView.setText("Price (max): " + Constants.getPriceCategoryStrings()[priceCategory]);
@@ -133,9 +138,13 @@ public class FilterResultsActivity extends AppActivity {
         return new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
+                if (isChecked && filters.getLocation() != null) {
+                    //current location is checked
+                    tempLocation = filters.getLocation();
                     locationTextView.setText("Current Location");
+                    locationTextView.setOnClickListener(null);
                 } else {
+                    //not checked, or no current location
                     showAutocompleteWidget();
                 }
             }
@@ -197,8 +206,12 @@ public class FilterResultsActivity extends AppActivity {
         //go back
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            startActivity(new Intent(this, SearchResultsActivity.class));
-            return true;
+            if (tempLocation != null) {
+                startActivity(new Intent(this, SearchResultsActivity.class));
+                return true;
+            } else {
+                Toast.makeText(this, "Select a location first", Toast.LENGTH_SHORT).show();
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -229,11 +242,10 @@ public class FilterResultsActivity extends AppActivity {
             if (resultCode == RESULT_OK) {
                 //user clicked on a suggestions
                 Place place = PlaceAutocomplete.getPlace(this, data);
-                isPlaceSetFromAutocomplete = true;
-                Location location = Helpers.getLocationFromPlace(place);
-                GlobalSearchFilters.getSharedInstance().setLocation(location);
+                tempLocation = Helpers.getLocationFromPlace(place);;
+                tempLocationStr = (String) place.getName();
 
-                locationTextView.setText(place.getName());
+                locationTextView.setText(tempLocationStr);
                 currentLocationCheckBox.setChecked(false);
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
@@ -243,6 +255,7 @@ public class FilterResultsActivity extends AppActivity {
             } else if (resultCode == RESULT_CANCELED) {
                 // The user canceled the operation.
                 // use current location by default, or the previous temp location
+                locationTextView.setText(tempLocation != null ? tempLocationStr : "Current Location");
             }
         }
     }
