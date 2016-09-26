@@ -18,9 +18,9 @@ public class PriceFilterCriteria extends FilterCriteria {
         int priceCategory = (int) criteria;
         if (priceCategory != Constants.PRICE_ALL) {
             //return
+            return restaurant.getPriceCategory() <= priceCategory;
         }
 
         return true;
-        //return restaurant.getAveragePrice() <= (double) criteria;
     }
 }

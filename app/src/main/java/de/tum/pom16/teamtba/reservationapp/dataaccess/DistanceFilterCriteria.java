@@ -8,9 +8,11 @@ import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
  */
 public class DistanceFilterCriteria extends FilterCriteria {
     private Location userLocation;
+    private float distanceInMeters = 15000; //15 km at least
     //search within a radius
     public DistanceFilterCriteria(Object criteria) {
-        super(criteria);
+        super(criteria); //criteria is the upper distance from user
+        userLocation = GlobalSearchFilters.getSharedInstance().getLocation();
     }
 
     public DistanceFilterCriteria(Object criteria, Location userLocation) {
@@ -20,8 +22,8 @@ public class DistanceFilterCriteria extends FilterCriteria {
 
     public boolean filter(Restaurant restaurant) {
         if (userLocation != null) {
-            return (userLocation.distanceTo(restaurant.getGpsLocation()) <= (float) this.criteria);
+            return (userLocation.distanceTo(restaurant.getGpsLocation()) <= (float) this.distanceInMeters);
         }
-        return true; //for simplicity
+        return false;
     }
 }

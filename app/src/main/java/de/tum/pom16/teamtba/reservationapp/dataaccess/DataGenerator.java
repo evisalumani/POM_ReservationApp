@@ -26,13 +26,13 @@ public class DataGenerator {
                 "\n" +
                 "Dein Burrito-Team";
 
-        Restaurant r1 = new Restaurant("Tantris", r1Description, "Johann-Fichte-Strasse 7, 80805 München ", 48.137107, 11.575373, CuisineType.INTERNATIONAL, 40.0, 9, 13, 10);
-        Restaurant r2 = new Restaurant("Rabiang", "This's a Thai Resturant", "Georgenschwaigstraße 25, 80807 München", 48.137551, 11.576650, CuisineType.THAI, 25.0, 12, 24, 15);
-        Restaurant r3 = new Restaurant("Trattoria Da Fausto", "This's an Italian Resturant", "Helmtrudenstraße 1, 80805 München", 48.138295, 11.575212, CuisineType.ITALIAN, 30.0, 8, 17, 20);
-        Restaurant r4 = new Restaurant("Burrito Company", r4Description, "Augustenstraße 74, 80333 München", 48.150776, 11.564844, CuisineType.MEXICAN, 8.0, 10, 20, 15);
-        Restaurant r5 = new Restaurant("Les Cuisiniers", "This's a French Resturant", "Reitmorstraße 21, 80538 München", 48.143742, 11.592979, CuisineType.FRENCH, 50.0, 10, 22, 10);
-        Restaurant r6 = new Restaurant("Kreta Grill", "This's a Greek Resturant", "Nordendstraße 60, 80801 München", 48.162333, 11.575434, CuisineType.GREEK, 20.0, 15, 23, 20);
-        Restaurant r7 = new Restaurant("China Restaurant Global Wok", "This's a Chiness Resturant", "Schleißheimer Str. 106, 85748 Garching bei München", 48.250347, 11.617039, CuisineType.CHINESE, 30.0, 7, 12, 20);
+        Restaurant r1 = new Restaurant("Tantris", r1Description, "Johann-Fichte-Strasse 7, 80805 München ", 48.137107, 11.575373, CuisineType.INTERNATIONAL, 40.0, 1, 9, 13, 10);
+        Restaurant r2 = new Restaurant("Rabiang", "This's a Thai Resturant", "Georgenschwaigstraße 25, 80807 München", 48.137551, 11.576650, CuisineType.THAI, 25.0, 2, 12, 24, 15);
+        Restaurant r3 = new Restaurant("Trattoria Da Fausto", "This's an Italian Resturant", "Helmtrudenstraße 1, 80805 München", 48.138295, 11.575212, CuisineType.ITALIAN, 30.0, 2, 8, 17, 20);
+        Restaurant r4 = new Restaurant("Burrito Company", r4Description, "Augustenstraße 74, 80333 München", 48.150776, 11.564844, CuisineType.MEXICAN, 8.0, 1, 10, 20, 15);
+        Restaurant r5 = new Restaurant("Les Cuisiniers", "This's a French Resturant", "Reitmorstraße 21, 80538 München", 48.143742, 11.592979, CuisineType.FRENCH, 50.0, 3, 10, 22, 10);
+        Restaurant r6 = new Restaurant("Kreta Grill", "This's a Greek Resturant", "Nordendstraße 60, 80801 München", 48.162333, 11.575434, CuisineType.GREEK, 20.0, 4, 15, 23, 20);
+        Restaurant r7 = new Restaurant("China Restaurant Global Wok", "This's a Chiness Resturant", "Schleißheimer Str. 106, 85748 Garching bei München", 48.250347, 11.617039, CuisineType.CHINESE, 30.0, 2, 7, 12, 20);
 
         allRestaurants.add(r1);
         allRestaurants.add(r2);

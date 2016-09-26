@@ -207,6 +207,7 @@ public class FilterResultsActivity extends AppActivity {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             if (tempLocation != null) {
+                //TODO: filtering
                 startActivity(new Intent(this, SearchResultsActivity.class));
                 return true;
             } else {

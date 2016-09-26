@@ -1,5 +1,11 @@
 package de.tum.pom16.teamtba.reservationapp.dataaccess;
 
+import com.annimon.stream.Collector;
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
+
+import java.util.Map;
+
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 import de.tum.pom16.teamtba.reservationapp.models.CuisineType;
 
@@ -13,6 +19,11 @@ public class TypeFilterCriteria extends FilterCriteria {
 
     @Override
     public boolean filter(Restaurant restaurant) {
-        return restaurant.getType() == (CuisineType)criteria;
+        //criteria is Map<CuisineType, Boolean>
+        Map<CuisineType, Boolean> criteriaMap = (Map<CuisineType, Boolean>)criteria;
+        //Stream.of(criteriaMap.keySet()).filter(x -> criteriaMap.get(x) == true).collect(Collectors.toList());
+        return criteriaMap.get(restaurant.getType()) ? true : false;
+        //used this, because get() might return null too, in which case "false" is returned
+        //return criteriaMap.get(restaurant.getType());
     }
 }

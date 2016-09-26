@@ -23,6 +23,7 @@ public class Restaurant implements Parcelable {
     private Location gpsLocation;
     private CuisineType type;
     private double averagePrice;
+    private int priceCategory;
     private float averageRating;
     private int openingHour;
     private int closingHour;
@@ -34,7 +35,7 @@ public class Restaurant implements Parcelable {
 
     private int tablesNumber;
 
-    public Restaurant(String name, String description, String address, double latitude, double longitude, CuisineType type, double averagePrice, int openingHour, int closingHour, int inTablesNumber) {
+    public Restaurant(String name, String description, String address, double latitude, double longitude, CuisineType type, double averagePrice, int priceCategory, int openingHour, int closingHour, int inTablesNumber) {
         this.name = name;
         this.description = description;
         this.address = address;
@@ -52,6 +53,14 @@ public class Restaurant implements Parcelable {
             int randomNum = 4 + (int)(Math.random() * 4); //4, 5, 6, 7, 8 possible capacity
             tables.add(new Table(i+1, randomNum, openingHour, closingHour));
         }
+    }
+
+    public void setPriceCategory(int category) {
+        this.priceCategory = category;
+    }
+
+    public int getPriceCategory() {
+        return this.priceCategory;
     }
 
     public String getName() {
@@ -122,7 +131,7 @@ public class Restaurant implements Parcelable {
         this.averagePrice = averagePrice;
     }
 
-    public String getPriceCategory() {
+    public String getPriceCategoryStr() {
         if (averagePrice < 10) {
             return "€";
         } else if (averagePrice < 50) {
@@ -179,7 +188,7 @@ public class Restaurant implements Parcelable {
         DecimalFormat df = new DecimalFormat("#.#");
         df.setRoundingMode(RoundingMode.CEILING);
 
-        return type.name() + ", " + getPriceCategory() + ", " + df.format(getDistanceFromUserLocation() / 1000) + " km away";
+        return type.name() + ", " + getPriceCategoryStr() + ", " + df.format(getDistanceFromUserLocation() / 1000) + " km away";
     }
 
     public String getLongDescription() {
