@@ -1,17 +1,18 @@
 package de.tum.pom16.teamtba.reservationapp.dataaccess;
 
 import android.location.Location;
-
-import com.google.android.gms.wearable.DataApi;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.tum.pom16.teamtba.reservationapp.models.Constants;
 import de.tum.pom16.teamtba.reservationapp.models.CuisineType;
 import de.tum.pom16.teamtba.reservationapp.models.HourTimeSlot;
+import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 
 /**
  * Created by evisa on 9/6/16.
@@ -76,7 +77,7 @@ public class GlobalSearchFilters {
         this.date = date;
 
         if (filterCriteria != null) {
-            filterCriteria.put(SearchFilterType.DATE, new DateFilterCriteria(date));
+            filterCriteria.put(SearchFilterType.DATE, new TimeFilterCriteria(date));
         }
     }
 
@@ -98,6 +99,10 @@ public class GlobalSearchFilters {
 
     public void setLocation(Location location) {
         this.location = location;
+        if (filterCriteria != null) {
+            //TODO: 15000 m -> create new variable
+            filterCriteria.put(SearchFilterType.LOCATION, new DistanceFilterCriteria(15000, location));
+        }
     }
 
     public int getMaxPriceCategory() {
@@ -155,7 +160,12 @@ public class GlobalSearchFilters {
         this.timeSlot = timeSlot;
 
         if (filterCriteria != null) {
-            filterCriteria.put(SearchFilterType.TIMESLOT, new TimeSlotFilterCriteria(timeSlot));
+            //TODO:
+            TimeFilterCriteria dateFilterCriteria = (TimeFilterCriteria) filterCriteria.get(SearchFilterType.DATE);
+            if (dateFilterCriteria != null) {
+                dateFilterCriteria.setTimeSlot(timeSlot);
+            }
+            //filterCriteria.put(SearchFilterType.TIMESLOT, new TimeSlotFilterCriteria(timeSlot));
         }
     }
 
@@ -175,5 +185,9 @@ public class GlobalSearchFilters {
         }
 
         return nrOfSpecificCuisinesSelected;
+    }
+
+    public List<Restaurant> applyFilters() {
+        return DataSearch.filter(DataGenerator.generateDummyData(), filterCriteria.values());
     }
 }

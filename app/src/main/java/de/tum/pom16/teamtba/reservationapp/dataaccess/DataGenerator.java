@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import de.tum.pom16.teamtba.reservationapp.models.OpeningTimes;
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 import de.tum.pom16.teamtba.reservationapp.models.RestaurantReview;
 import de.tum.pom16.teamtba.reservationapp.models.CuisineType;
+import de.tum.pom16.teamtba.reservationapp.models.Table;
 
 /**
  * Created by evisa on 5/25/16.
@@ -53,6 +55,18 @@ public class DataGenerator {
         r5.addReview(new RestaurantReview(5, "", new Date(), ""));
         r6.addReview(new RestaurantReview(1, "Michael F.", new Date(), "Das teuerste Gyros in der Geschichte Griechenlands. Wie diese Preise gerechtfertig werden, das weiss nur das Pommenbuden-Flair und die Neonlicht-Romantik, die man auf den Küchen-Holzstühlen geniessen darf."));
         r7.addReview(new RestaurantReview(2, "", new Date(), ""));
+
+        r1.setOpeningTimes(1, 10, 24);
+        r1.setOpeningTimes(2, 10, 24);
+        r1.setOpeningTimes(3, 10, 24);
+        r1.setOpeningTimes(4, 10, 24);
+        r1.setOpeningTimes(5, 10, 24);
+        r1.setOpeningTimes(6, 10, 24);
+        r1.setOpeningTimes(7, 10, 24);
+
+        Table table1 = new Table(1, 4, 10, 24);
+
+        r1.addTable(table1);
 
         return allRestaurants;
     }

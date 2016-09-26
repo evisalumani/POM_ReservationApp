@@ -5,6 +5,8 @@ import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 /**
  * Created by evisa on 7/12/16.
  */
+
+//TODO: delete this class maybe?
 public class ReservationTimeFilterCriteria extends FilterCriteria {
     public ReservationTimeFilterCriteria(Object criteria) {
         super(criteria);

@@ -51,7 +51,7 @@ public class Restaurant implements Parcelable {
 
         for (int i = 0; i < tablesNumber; ++i) {
             int randomNum = 4 + (int)(Math.random() * 4); //4, 5, 6, 7, 8 possible capacity
-            tables.add(new Table(i+1, randomNum, openingHour, closingHour));
+            //tables.add(new Table(i+1, randomNum, openingHour, closingHour));
         }
     }
 
@@ -198,6 +198,12 @@ public class Restaurant implements Parcelable {
     public void addReview(RestaurantReview review) {
         if (reviews != null) {
             reviews.add(review);
+        }
+    }
+
+    public void addTable(Table table) {
+        if (tables != null) {
+            tables.add(table);
         }
     }
 

@@ -1,18 +1,18 @@
 package de.tum.pom16.teamtba.reservationapp.models;
 
 
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  * Created by evisa on 9/6/16.
  */
 public class DateTimeSlot {
-    private Date date;
+    private Calendar date;
     private HourTimeSlot startTime;
     private HourTimeSlot endTime;
     private static int duration = 1; // in hours (1 by default); used for reservations
 
-    public DateTimeSlot(Date date, HourTimeSlot startTime) {
+    public DateTimeSlot(Calendar date, HourTimeSlot startTime) {
         this.date = date;
         this.startTime = startTime;
         setEndTime();

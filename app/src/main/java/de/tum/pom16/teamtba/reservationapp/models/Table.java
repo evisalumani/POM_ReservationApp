@@ -102,6 +102,18 @@ public class Table implements Parcelable {
         this.openingHoursDuration = openingHoursDuration;
     }
 
+    public void setTableId(int tableId) {
+        this.tableId = tableId;
+    }
+
+    public Hashtable<DateTimeSlot, Boolean> getTableReservationStatus() {
+        return tableReservationStatus;
+    }
+
+    public void setTableReservationStatus(Hashtable<DateTimeSlot, Boolean> tableReservationStatus) {
+        this.tableReservationStatus = tableReservationStatus;
+    }
+
     public void setOpeningTimes(Hashtable<Integer, OpeningTimes> openingTimes) {
         this.openingTimes = openingTimes;
         GregorianCalendar calendar = new GregorianCalendar();

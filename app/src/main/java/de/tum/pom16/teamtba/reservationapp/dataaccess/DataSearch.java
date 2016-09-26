@@ -5,6 +5,7 @@ import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
@@ -15,7 +16,7 @@ import de.tum.pom16.teamtba.reservationapp.models.Table;
  */
 public class DataSearch {
     //apply multiple filters
-    public static List<Restaurant> filter(List<Restaurant> data, List<FilterCriteria> criteria) {
+    public static List<Restaurant> filter(List<Restaurant> data, Collection<FilterCriteria> criteria) {
         List<Restaurant> filteredRestaurants = new ArrayList<Restaurant>();
 
         for (Restaurant restaurant : data) {

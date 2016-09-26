@@ -4,6 +4,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -22,7 +23,9 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 import de.tum.pom16.teamtba.reservationapp.R;
 import de.tum.pom16.teamtba.reservationapp.customviews.CuisineDialogFragment;
@@ -36,6 +39,7 @@ import de.tum.pom16.teamtba.reservationapp.dataaccess.SearchFilterType;
 import de.tum.pom16.teamtba.reservationapp.models.Constants;
 import de.tum.pom16.teamtba.reservationapp.models.CuisineType;
 import de.tum.pom16.teamtba.reservationapp.models.HourTimeSlot;
+import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 import de.tum.pom16.teamtba.reservationapp.utilities.Helpers;
 
 public class FilterResultsActivity extends AppActivity {
@@ -207,8 +211,11 @@ public class FilterResultsActivity extends AppActivity {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             if (tempLocation != null) {
-                //TODO: filtering
-                startActivity(new Intent(this, SearchResultsActivity.class));
+                //TODO: filtering; extract a method
+                List<Restaurant> filteredRestaurants = filters.applyFilters();
+                Intent intent = new Intent(this, SearchResultsActivity.class);
+                intent.putParcelableArrayListExtra(IntentType.INTENT_FILTER_TO_SEARCH_RESULTS.name(), (ArrayList<? extends Parcelable>) filteredRestaurants);
+                startActivity(intent);
                 return true;
             } else {
                 Toast.makeText(this, "Select a location first", Toast.LENGTH_SHORT).show();
