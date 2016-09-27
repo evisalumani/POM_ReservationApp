@@ -27,5 +27,9 @@ public class OpeningTimes {
     public void setClosingTimeslot(HourTimeSlot closingTimeslot) {
         this.closingTimeslot = closingTimeslot;
     }
+
+    public HourTimeSlot getLastAvailableReservationSlot() {
+        return HourTimeSlot.convertFromDecimalRepresentation(HourTimeSlot.convertToDecimalRepresentation(closingTimeslot) - HourTimeSlot.stepFraction);
+    }
 }
 

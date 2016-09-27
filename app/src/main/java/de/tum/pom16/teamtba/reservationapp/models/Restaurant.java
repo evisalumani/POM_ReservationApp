@@ -219,7 +219,7 @@ public class Restaurant implements Parcelable {
 
         //check if within opening times
         //if earlier than opening, and later than closing -> return false
-        if (timeSlot.compareTo(openingTimesForDayOfWeek.getOpeningTimeSlot()) < 0 || timeSlot.compareTo(openingTimesForDayOfWeek.getClosingTimeslot()) > 0) {
+        if (timeSlot.compareTo(openingTimesForDayOfWeek.getOpeningTimeSlot()) < 0 || timeSlot.compareTo(openingTimesForDayOfWeek.getLastAvailableReservationSlot()) > 0) {
             return false;
         }
 

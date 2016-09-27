@@ -21,7 +21,7 @@ public class TypeFilterCriteria extends FilterCriteria {
     public boolean filter(Restaurant restaurant) {
         //criteria is Map<CuisineType, Boolean>
         Map<CuisineType, Boolean> criteriaMap = (Map<CuisineType, Boolean>)criteria;
-        
+
         //if "All" is selected -> return true
         if (criteriaMap.get(CuisineType.ALL)) {
             return true;

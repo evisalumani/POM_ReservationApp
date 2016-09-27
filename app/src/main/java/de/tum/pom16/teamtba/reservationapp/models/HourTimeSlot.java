@@ -13,7 +13,7 @@ import java.util.List;
 public class HourTimeSlot implements Comparable {
     private int hour;
     private int minute;
-    private static float stepFraction = (float)0.5; //each step-wise division of an hour is by 0.5 (i.e. by 30 min)
+    public static float stepFraction = (float)0.5; //each step-wise division of an hour is by 0.5 (i.e. by 30 min)
     private final static int MIN_IN_HOUR = 60;
 
     public HourTimeSlot(int hour, int minute) {
