@@ -49,6 +49,7 @@ public class Restaurant implements Parcelable {
         this.tablesNumber = inTablesNumber;
         this.openingHour = openingHour;
         this.closingHour = closingHour;
+        this.priceCategory = priceCategory;
         //TODO: data validation
 
         for (int i = 0; i < tablesNumber; ++i) {
