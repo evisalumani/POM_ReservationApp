@@ -4,28 +4,28 @@ package de.tum.pom16.teamtba.reservationapp.models;
  * Created by evisa on 9/6/16.
  */
 public class OpeningTimes {
-    private int openingHour;
-    private int closingHour;
+    private HourTimeSlot openingTimeSlot;
+    private HourTimeSlot closingTimeslot;
 
-    public OpeningTimes(int openingHour, int closingHour) {
-        this.openingHour = openingHour;
-        this.closingHour = closingHour;
+    public OpeningTimes(HourTimeSlot openingHour, HourTimeSlot closingHour) {
+        this.openingTimeSlot = openingHour;
+        this.closingTimeslot = closingHour;
     }
 
-    public int getOpeningHour() {
-        return openingHour;
+    public HourTimeSlot getOpeningTimeSlot() {
+        return openingTimeSlot;
     }
 
-    public void setOpeningHour(int openingHour) {
-        this.openingHour = openingHour;
+    public void setOpeningTimeSlot(HourTimeSlot openingTimeSlot) {
+        this.openingTimeSlot = openingTimeSlot;
     }
 
-    public int getClosingHour() {
-        return closingHour;
+    public HourTimeSlot getClosingTimeslot() {
+        return closingTimeslot;
     }
 
-    public void setClosingHour(int closingHour) {
-        this.closingHour = closingHour;
+    public void setClosingTimeslot(HourTimeSlot closingTimeslot) {
+        this.closingTimeslot = closingTimeslot;
     }
 }
 

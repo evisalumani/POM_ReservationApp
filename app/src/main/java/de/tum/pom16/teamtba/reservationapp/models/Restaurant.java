@@ -9,6 +9,7 @@ import com.annimon.stream.Stream;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -141,7 +142,7 @@ public class Restaurant implements Parcelable {
         }
     }
 
-    public void setOpeningTimes(int dayOfWeek, int openingHour, int closingHour) {
+    public void setOpeningTimes(int dayOfWeek, HourTimeSlot openingHour, HourTimeSlot closingHour) {
         if (openingTimes != null) {
             openingTimes.put(dayOfWeek, new OpeningTimes(openingHour, closingHour));
         }
@@ -205,6 +206,27 @@ public class Restaurant implements Parcelable {
         if (tables != null) {
             tables.add(table);
         }
+    }
+
+    public boolean isOpenAtTimeSlot(Calendar date, HourTimeSlot timeSlot) {
+        //if the value for the key "dayOfWeek" is null -> restaurant doesn't have any opening times at that day
+        //Calendar.DAY_OF_WEEK starting from 1 to 7
+        OpeningTimes openingTimesForDayOfWeek = openingTimes.get(date.get(Calendar.DAY_OF_WEEK));
+        if (openingTimesForDayOfWeek == null) {
+            return false; //not even open on this day
+        }
+
+        //check if within opening times
+        //if earlier than opening, and later than closing -> return false
+        if (timeSlot.compareTo(openingTimesForDayOfWeek.getOpeningTimeSlot()) < 0 || timeSlot.compareTo(openingTimesForDayOfWeek.getClosingTimeslot()) > 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean isOpenAtDayOfWeek(Calendar date) {
+        return openingTimes.get(date.get(Calendar.DAY_OF_WEEK)) != null;
     }
 
     public List<RestaurantReview> getReviews() {

@@ -3,9 +3,11 @@ package de.tum.pom16.teamtba.reservationapp.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Hashtable;
+import java.util.List;
 
 /**
  * Created by hamed on 18/06/16.
@@ -22,7 +24,8 @@ public class Table implements Parcelable {
     boolean[] reservationStatus;
 
     Hashtable<Integer, OpeningTimes> openingTimes = new Hashtable<Integer, OpeningTimes>();
-    Hashtable<DateTimeSlot, Boolean> tableReservationStatus = new Hashtable<DateTimeSlot, Boolean>();
+    //Hashtable<DateTimeSlot, Boolean> tableReservationStatus = new Hashtable<DateTimeSlot, Boolean>();
+    List<Reservation> reservations = new ArrayList<Reservation>();
 
     public Table(int tableId, int capacity) {
         this.tableId = tableId;
@@ -106,13 +109,13 @@ public class Table implements Parcelable {
         this.tableId = tableId;
     }
 
-    public Hashtable<DateTimeSlot, Boolean> getTableReservationStatus() {
-        return tableReservationStatus;
-    }
-
-    public void setTableReservationStatus(Hashtable<DateTimeSlot, Boolean> tableReservationStatus) {
-        this.tableReservationStatus = tableReservationStatus;
-    }
+//    public Hashtable<DateTimeSlot, Boolean> getTableReservationStatus() {
+//        return tableReservationStatus;
+//    }
+//
+//    public void setTableReservationStatus(Hashtable<DateTimeSlot, Boolean> tableReservationStatus) {
+//        this.tableReservationStatus = tableReservationStatus;
+//    }
 
     public void setOpeningTimes(Hashtable<Integer, OpeningTimes> openingTimes) {
         this.openingTimes = openingTimes;
@@ -165,5 +168,12 @@ public class Table implements Parcelable {
 
     }
 
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
 }
 

@@ -19,27 +19,27 @@ import static org.junit.Assert.assertTrue;
  */
 public class UnitTests {
 
-    @Test
-    public void testVisitorsNumberFilter() {
-        //restaurant with 3 tables, having capacity 2, 3, 4
-        Restaurant restaurant = new Restaurant("Test restaurant", null, null, 48.137551, 11.57665, null, 0, 8, 24, 3);
-        int i = 2;
-        for (Table table : restaurant.getTables()) {
-            table.setTableCapacity(i);
-            i++;
-        }
-
-        //filter for 3 visitors
-        VisitorsNumberFilterCriteria filter = new VisitorsNumberFilterCriteria(3);
-        boolean isRestaurantValid = filter.filter(restaurant);
-        List<Table> filteredTables = filter.getTablesForVisitors(restaurant);
-
-        Assert.assertTrue(isRestaurantValid); //restaurant has tables for 3 people
-        Assert.assertNotNull(filteredTables);
-        Assert.assertEquals(2, filteredTables.size()); //exactly 2 tables
-        Assert.assertEquals(3, filteredTables.get(0).getCapacity());
-        Assert.assertEquals(4, filteredTables.get(1).getCapacity());
-    }
+//    @Test
+//    public void testVisitorsNumberFilter() {
+//        //restaurant with 3 tables, having capacity 2, 3, 4
+//        Restaurant restaurant = new Restaurant("Test restaurant", null, null, 48.137551, 11.57665, null, 0, 8, 24, 3);
+//        int i = 2;
+//        for (Table table : restaurant.getTables()) {
+//            table.setTableCapacity(i);
+//            i++;
+//        }
+//
+//        //filter for 3 visitors
+//        VisitorsNumberFilterCriteria filter = new VisitorsNumberFilterCriteria(3);
+//        boolean isRestaurantValid = filter.filter(restaurant);
+//        List<Table> filteredTables = filter.getTablesForVisitors(restaurant);
+//
+//        Assert.assertTrue(isRestaurantValid); //restaurant has tables for 3 people
+//        Assert.assertNotNull(filteredTables);
+//        Assert.assertEquals(2, filteredTables.size()); //exactly 2 tables
+//        Assert.assertEquals(3, filteredTables.get(0).getCapacity());
+//        Assert.assertEquals(4, filteredTables.get(1).getCapacity());
+//    }
 
     @Test
     public void testCalendarEventCreation() {
