@@ -20,7 +20,7 @@ public class HourTimeSlot implements Comparable {
         //data validation
         //valid ranges: 0-23 for hour; 0-59 for minute
         //valid minutes, depending on the hour division (e.g. by quarter, by half etc.)
-        if (hour >= 0 && hour <= 24 && minute >= 0 && minute <= 60 && containsValidMinutes(minute)) {
+        if (hour >= 0 && hour <= 24 && minute >= 0 && minute < 60 && containsValidMinutes(minute)) {
             this.hour = hour;
             this.minute = minute;
         }

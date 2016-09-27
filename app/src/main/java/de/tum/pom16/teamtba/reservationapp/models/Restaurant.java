@@ -33,6 +33,7 @@ public class Restaurant implements Parcelable {
     private List<Table> tables = new ArrayList<Table>();
     private List<RestaurantReview> reviews = new ArrayList<RestaurantReview>();
     private Hashtable<Integer, OpeningTimes> openingTimes = new Hashtable<>(); //Integer for day_of_week
+    //Calendar.SUNDAY is 1, Calendar.MONDAY is 2 and so on...
 
     private int tablesNumber;
 
@@ -226,6 +227,7 @@ public class Restaurant implements Parcelable {
     }
 
     public boolean isOpenAtDayOfWeek(Calendar date) {
+        //date.get(Calendar.DAY_OF_WEEK) returns 1 for Sunday, 2 for Monday and so on...
         return openingTimes.get(date.get(Calendar.DAY_OF_WEEK)) != null;
     }
 

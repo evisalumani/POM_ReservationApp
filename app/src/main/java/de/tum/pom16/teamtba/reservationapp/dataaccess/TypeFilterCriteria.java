@@ -21,9 +21,12 @@ public class TypeFilterCriteria extends FilterCriteria {
     public boolean filter(Restaurant restaurant) {
         //criteria is Map<CuisineType, Boolean>
         Map<CuisineType, Boolean> criteriaMap = (Map<CuisineType, Boolean>)criteria;
-        //Stream.of(criteriaMap.keySet()).filter(x -> criteriaMap.get(x) == true).collect(Collectors.toList());
+        
+        //if "All" is selected -> return true
+        if (criteriaMap.get(CuisineType.ALL)) {
+            return true;
+        }
         return criteriaMap.get(restaurant.getType()) ? true : false;
-        //used this, because get() might return null too, in which case "false" is returned
-        //return criteriaMap.get(restaurant.getType());
+        //used ? :, because get() might return null too, in which case "false" is returned
     }
 }

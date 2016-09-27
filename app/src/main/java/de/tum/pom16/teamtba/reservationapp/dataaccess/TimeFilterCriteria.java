@@ -15,7 +15,6 @@ import de.tum.pom16.teamtba.reservationapp.models.Table;
  * Created by evisa on 9/21/16.
  */
 public class TimeFilterCriteria extends FilterCriteria {
-    // TODO: implement
     private HourTimeSlot timeSlot;
     public TimeFilterCriteria(Object criteria) {
         super(criteria);
