@@ -253,6 +253,7 @@ public class FilterResultsActivity extends AppActivity {
                 tempLocation = Helpers.getLocationFromPlace(place);;
                 tempLocationStr = (String) place.getName();
 
+                filters.setLocation(tempLocation);
                 locationTextView.setText(tempLocationStr);
                 currentLocationCheckBox.setChecked(false);
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
