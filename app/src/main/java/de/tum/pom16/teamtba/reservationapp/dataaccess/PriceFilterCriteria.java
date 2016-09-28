@@ -16,7 +16,8 @@ public class PriceFilterCriteria extends FilterCriteria {
     public boolean filter(Restaurant restaurant) {
         //at most a certain price
         int priceCategory = (int) criteria;
-        if (priceCategory != Constants.PRICE_ALL) {
+        //if all prices are accepted, or the max expensive option is chosen -> return true
+        if (priceCategory != Constants.PRICE_ALL && priceCategory != Constants.PRICE_EXPENSIVE) {
             //return
             return restaurant.getPriceCategory() <= priceCategory;
         }
