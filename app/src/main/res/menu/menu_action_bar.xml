@@ -12,7 +12,7 @@
 
     <item
         android:id="@+id/menu_filter"
-        android:icon="@drawable/ic_filter_funnel"
+        android:icon="@drawable/ic_filter_list_24dp"
         android:title="Filter"
         app:showAsAction="always" />
 
