@@ -21,7 +21,9 @@ public class DateDialogFragment extends BaseDialogFragment implements DatePicker
 
     public Dialog onCreateDialog(Bundle savedInstance) {
         if (viewInCallingActivity != null && selectedDate != null) {
-            return new DatePickerDialog(getActivity(), this, selectedDate.get(Calendar.YEAR), selectedDate.get(Calendar.MONTH), selectedDate.get(Calendar.DAY_OF_MONTH));
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), this, selectedDate.get(Calendar.YEAR), selectedDate.get(Calendar.MONTH), selectedDate.get(Calendar.DAY_OF_MONTH));
+            datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000); //disable past dates
+            return datePickerDialog;
         }
 
         return null;
