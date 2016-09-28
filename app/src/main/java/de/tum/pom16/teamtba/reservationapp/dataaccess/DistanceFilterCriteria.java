@@ -12,7 +12,7 @@ public class DistanceFilterCriteria extends FilterCriteria {
     //search within a radius
     public DistanceFilterCriteria(Object criteria) {
         super(criteria); //criteria is the upper distance from user
-        userLocation = GlobalSearchFilters.getSharedInstance().getLocation();
+        userLocation = GlobalSearchFilters.getSharedInstance().getCurrentUserLocation();
     }
 
     public DistanceFilterCriteria(Object criteria, Location userLocation) {

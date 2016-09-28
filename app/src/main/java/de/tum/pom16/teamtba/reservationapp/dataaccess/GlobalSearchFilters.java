@@ -1,7 +1,6 @@
 package de.tum.pom16.teamtba.reservationapp.dataaccess;
 
 import android.location.Location;
-import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Hashtable;
@@ -19,7 +18,9 @@ import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
  */
 public class GlobalSearchFilters {
     private Map<CuisineType, Boolean> cuisines; //multi-select possible for cuisines
-    private Location location;
+    private boolean isCurrentLocationChecked;
+    private Location currentUserLocation;
+    private Location locationToFilter; //could be current location or any other location
     private int maxPriceCategory;
     private Calendar date;
     private HourTimeSlot timeSlot;
@@ -38,7 +39,8 @@ public class GlobalSearchFilters {
         //setup cuisines
         setupCuisines(); //"All" by default -> no filter on cuisines
 
-        //TODO: setup location
+        //TODO: setup currentUserLocation
+        isCurrentLocationChecked = true; //by default, search for restaurant near user's location
 
         //price -> 0 by default -> no filter on price
 
@@ -93,16 +95,12 @@ public class GlobalSearchFilters {
         return "--/--/----";
     }
 
-    public Location getLocation() {
-        return location;
+    public Location getCurrentUserLocation() {
+        return currentUserLocation;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
-        if (filterCriteria != null) {
-            //TODO: 15000 m -> create new variable
-            filterCriteria.put(SearchFilterType.LOCATION, new DistanceFilterCriteria(15000, location));
-        }
+    public void setCurrentUserLocation(Location currentUserLocation) {
+        this.currentUserLocation = currentUserLocation;
     }
 
     public int getMaxPriceCategory() {
@@ -141,7 +139,7 @@ public class GlobalSearchFilters {
         this.propertyToSortBy = propertyToSortBy;
 
         if (propertyToSortBy == Constants.SORT_BY_DISTANCE) {
-            //TODO: add user location to constructor
+            //TODO: add user currentUserLocation to constructor
             dataSort = new SortByDistance(true, null);
         } else if (propertyToSortBy == Constants.SORT_BY_PRICE) {
             dataSort = new SortByPrice(true);
@@ -187,7 +185,27 @@ public class GlobalSearchFilters {
         return nrOfSpecificCuisinesSelected;
     }
 
+    public Location getLocationToFilter() {
+        return locationToFilter;
+    }
+
+    public void setLocationToFilter(Location locationToFilter) {
+        this.locationToFilter = locationToFilter;
+        if (filterCriteria != null) {
+            //TODO: 15000 m -> create new variable
+            filterCriteria.put(SearchFilterType.LOCATION, new DistanceFilterCriteria(15000, locationToFilter));
+        }
+    }
+
     public List<Restaurant> applyFilters() {
         return DataSearch.filter(DataGenerator.generateDummyData(), filterCriteria.values());
+    }
+
+    public boolean isCurrentLocationChecked() {
+        return isCurrentLocationChecked;
+    }
+
+    public void setCurrentLocationChecked(boolean currentLocationChecked) {
+        isCurrentLocationChecked = currentLocationChecked;
     }
 }

@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -22,9 +20,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -35,6 +30,7 @@ import de.tum.pom16.teamtba.reservationapp.R;
 import de.tum.pom16.teamtba.reservationapp.customviews.SearchResultsAdapter;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.DataGenerator;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.DataSearch;
+import de.tum.pom16.teamtba.reservationapp.dataaccess.GlobalSearchFilters;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.SortByDistance;
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 import de.tum.pom16.teamtba.reservationapp.utilities.*;
@@ -102,7 +98,8 @@ public class SearchResultsActivity extends MapCallbackActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        locationUtility.connect();
+        if (GlobalSearchFilters.getSharedInstance().getCurrentUserLocation() == null)
+            locationUtility.connect();
     }
 
     @Override
@@ -268,6 +265,7 @@ public class SearchResultsActivity extends MapCallbackActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        locationUtility.connect();
+        if (GlobalSearchFilters.getSharedInstance().getCurrentUserLocation() == null)
+            locationUtility.connect();
     }
 }

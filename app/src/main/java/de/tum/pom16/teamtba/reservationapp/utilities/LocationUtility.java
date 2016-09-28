@@ -22,7 +22,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 
 import de.tum.pom16.teamtba.reservationapp.activities.SearchResultsActivity;
@@ -173,7 +172,12 @@ public class LocationUtility implements ConnectionCallbacks,
 //    }
 
     public void handleNewLocation(Location location) {
-        GlobalSearchFilters.getSharedInstance().setLocation(location);
+        GlobalSearchFilters.getSharedInstance().setCurrentUserLocation(location);
+        if (GlobalSearchFilters.getSharedInstance().isCurrentLocationChecked()) {
+            //if we need to filter by current location, set locationToFilter to current location
+            GlobalSearchFilters.getSharedInstance().setLocationToFilter(location);
+        }
+
         Toast.makeText(activityContext, "YAY", Toast.LENGTH_SHORT).show();
     }
 
