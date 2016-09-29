@@ -39,8 +39,6 @@ import de.tum.pom16.teamtba.reservationapp.utilities.Helpers;
 public class FilterResultsActivity extends AppActivity {
     private GlobalSearchFilters filters;
     private final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
-    private Location tempLocation;
-    private String tempLocationStr;
 
     //UI
     TextView cuisineTextView;
@@ -80,21 +78,7 @@ public class FilterResultsActivity extends AppActivity {
         int nrOfSpecificCuisinesSelected = filters.getNrOfSpecificCuisinesSelected();
         cuisineTextView.setText("Cuisines: (" + (nrOfSpecificCuisinesSelected == 0 ? "All" : String.valueOf(nrOfSpecificCuisinesSelected)) + ")");
 
-//        if (filters.isCurrentLocationChecked()) {
-//            //filters.setCurrentLocationChecked(true);
-//            tempLocation = filters.getCurrentUserLocation();
-//            tempLocationStr = "Current Location"; //TODO: descriptive content
-//            currentLocationCheckBox.setChecked(true);
-//            locationTextView.setText(tempLocationStr);
-//            locationTextView.setOnClickListener(null);
-//        } else if (filters.getCurrentUserLocation() != null) {
-//            tempLocation = filters.getCurrentUserLocation();
-//            tempLocationStr = "Some";
-//            currentLocationCheckBox.setChecked(false);
-//            locationTextView.setText(tempLocationStr);
-//            locationTextView.setOnClickListener(getLocationClickListener());
-//        }
-        //TODO: what if no location avaialable
+        //TODO: what if no location available
         updateUIForState(filters.getLocationToFilter(), filters.getCurrentUserLocation(), filters.isCurrentLocationChecked());
 
         int priceCategory = filters.getMaxPriceCategory();
@@ -114,7 +98,7 @@ public class FilterResultsActivity extends AppActivity {
         //TODO: add location listener
         locationTextView.setOnClickListener(getLocationClickListener());
         //if current location is not available, disable checkbox
-        currentLocationCheckBox.setOnCheckedChangeListener(GlobalSearchFilters.getSharedInstance().getCurrentUserLocation() != null
+        currentLocationCheckBox.setOnCheckedChangeListener(filters.getCurrentUserLocation() != null
                 ? getCurrentLocationCheckedListener() : null);
         priceTextView.setOnClickListener(getPriceClickListener());
         dateTextView.setOnClickListener(getDateClickListener());
@@ -147,19 +131,15 @@ public class FilterResultsActivity extends AppActivity {
         return new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) { //&&tempLocation != null
-                    //current location is checked
-//                    tempLocation = filters.getCurrentUserLocation();
-//                    locationTextView.setText("Current Location");
-//                    locationTextView.setOnClickListener(null);
-
-                    //filter by current location
-                    filters.setCurrentLocationChecked(true);
-                    filters.setLocationToFilter(filters.getCurrentUserLocation());
-                    updateUIForState(filters.getLocationToFilter(), filters.getCurrentUserLocation(), filters.isCurrentLocationChecked());
-                } else {
-                    //not checked, or no current location
-                    showAutocompleteWidget();
+                if (buttonView.isShown()) {
+                    if (isChecked) { //&&tempLocation != null
+                        //current location is checked -> filter by current location
+                        filters.setCurrentLocationChecked(true);
+                        filters.setLocationToFilter(filters.getCurrentUserLocation());
+                        updateUIForState(filters.getLocationToFilter(), filters.getCurrentUserLocation(), filters.isCurrentLocationChecked());
+                    } else {
+                        showAutocompleteWidget();
+                    }
                 }
             }
         };
@@ -220,7 +200,7 @@ public class FilterResultsActivity extends AppActivity {
         //go back
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            if (GlobalSearchFilters.getSharedInstance().getLocationToFilter() != null) {
+            if (filters.getLocationToFilter() != null) {
                 //TODO: filtering; extract a method
                 List<Restaurant> filteredRestaurants = filters.applyFilters();
                 Intent intent = new Intent(this, SearchResultsActivity.class);
@@ -260,51 +240,30 @@ public class FilterResultsActivity extends AppActivity {
             if (resultCode == RESULT_OK) {
                 //user clicked on a suggestions
                 Place place = PlaceAutocomplete.getPlace(this, data);
-                tempLocation = Helpers.getLocationFromPlace(place);;
-                tempLocationStr = (String) place.getName();
 
                 filters.setCurrentLocationChecked(false);
-                filters.setLocationToFilter(tempLocation);
+                filters.setLocationToFilter(Helpers.getLocationFromPlace(place));
                 updateUIForState(filters.getLocationToFilter(), filters.getCurrentUserLocation(), filters.isCurrentLocationChecked());
 
-//                filters.setCurrentUserLocation(tempLocation);
-//                locationTextView.setText(tempLocationStr);
-//                currentLocationCheckBox.setChecked(false);
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
                 // TODO: Handle the error.
-                //Log.i(TAG, status.getStatusMessage());
 
             } else if (resultCode == RESULT_CANCELED) {
-                // The user canceled the operation.
-                // use current location by default, or the previous temp location
-                //locationTextView.setText(tempLocation != null ? tempLocationStr : "Current Location");
-
                 //previous value chosen should be kept
-                //updateUIForState(filters.getLocationToFilter(), filters.getCurrentUserLocation(), filters.isCurrentLocationChecked());
+                updateUIForState(filters.getLocationToFilter(), filters.getCurrentUserLocation(), filters.isCurrentLocationChecked());
             }
         }
     }
 
     private void updateUIForState(Location locationToFilter, Location currentLocation, boolean isCurrentLocationChecked) {
-//        currentLocationCheckBox.setChecked(isCurrentLocationChecked && currentLocation != null);
-//        locationTextView.setText(currentLocation == null ? "Enter a search location" :
-//                locationToFilter == null ? "Enter a search Location" :
-//                        locationToFilter.toString());
-//        //locaitonToFilter could be the current location, or any other selected locations
-//
-//        locationTextView.setOnClickListener(currentLocation == null ? getLocationClickListener() :
-//                currentLocation != null && isCurrentLocationChecked ?
-//                null : getLocationClickListener());
-
-        //in any case, need to provide a description on the textview
       if (locationToFilter == null) {
           currentLocationCheckBox.setChecked(false);
           locationTextView.setText("Enter a location here");
           locationTextView.setOnClickListener(getLocationClickListener());
       } else if (isCurrentLocationChecked) {
           currentLocationCheckBox.setChecked(true);
-          locationTextView.setText(locationToFilter.toString()); //"Current Location"
+          locationTextView.setText(locationToFilter.toString()); //TODO: more descriptive content
           locationTextView.setOnClickListener(null);
       } else {
           currentLocationCheckBox.setChecked(false);
