@@ -19,11 +19,6 @@
         android:theme="@style/AppTheme">
 
         <!-- HockeyApp integration -->
-
-
-         
-
-
         <meta-data
             android:name="net.hockeyapp.android.appIdentifier"
             android:value="${HOCKEYAPP_APP_ID}" />
@@ -47,7 +42,6 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity android:name=".activities.RestaurantDetailsActivity" />
-        <activity android:name=".activities.FilterActivity" />
         <activity android:name=".activities.ReservationActivity" />
 
         <!-- HockeyApp -->

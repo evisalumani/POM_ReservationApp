@@ -116,11 +116,6 @@ public class SearchResultsActivity extends MapCallbackActivity {
         locationUtility.removeLocationUpdates();
     }
 
-    public void filterSearchResults(View view) {
-        Intent intent = new Intent(this, FilterActivity.class);
-        startActivity(intent);
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == LocationUtility.REQUEST_LOCATION) {
