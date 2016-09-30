@@ -24,8 +24,16 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.tum.pom16.teamtba.reservationapp.activities.SearchResultsActivity;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.GlobalSearchFilters;
+import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by evisa on 7/14/16.
@@ -172,22 +180,23 @@ public class LocationUtility implements ConnectionCallbacks,
 //    }
 
     public void handleNewLocation(Location location) {
-        GlobalSearchFilters.getSharedInstance().setCurrentUserLocation(location);
-        if (GlobalSearchFilters.getSharedInstance().isCurrentLocationChecked()) {
+        GlobalSearchFilters filters = GlobalSearchFilters.getSharedInstance();
+        filters.setCurrentUserLocation(location);
+        if (filters.isCurrentLocationChecked()) {
             //if we need to filter by current location, set locationToFilter to current location
-            GlobalSearchFilters.getSharedInstance().setLocationToFilter(location);
+            filters.setLocationToFilter(location);
+
+            ArrayList<Restaurant> filteredRestaurants = (ArrayList) filters.applyFilters(); //there is at least the filter of date (dd.mm.yyy) and location
+
+            //rx java
+            Observable.just(filteredRestaurants)
+                    //concurrency: observe what happens on main thread; react to it on a separate thread
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(((SearchResultsActivity)activityContext).getOberserverOnRestaurants());
         }
 
         Toast.makeText(activityContext, "YAY", Toast.LENGTH_SHORT).show();
-    }
-
-    public void setLatestLocation() {
-        if (ActivityCompat.checkSelfPermission(activityContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            latestLocation =  LocationServices.FusedLocationApi.getLastLocation(mLocationClient);
-            if (latestLocation != null) {
-                ((SearchResultsActivity) activityContext).setupNearMeRestaurants(latestLocation);
-            }
-        }
     }
 
     public void removeLocationUpdates() {

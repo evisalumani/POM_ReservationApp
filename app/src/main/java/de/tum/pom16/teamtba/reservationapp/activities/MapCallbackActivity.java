@@ -38,6 +38,7 @@ public class MapCallbackActivity extends AppActivity implements OnMapReadyCallba
         googleMap.getUiSettings().setZoomGesturesEnabled(true);
 
         //draw markers
+        //TODO: do we need this?
         drawMarkers();
     }
 
@@ -90,18 +91,4 @@ public class MapCallbackActivity extends AppActivity implements OnMapReadyCallba
             googleMap.setMyLocationEnabled(enabled);
         }
     }
-
-    public class X implements OnMapReadyCallback {
-
-        @Override
-        public void onMapReady(GoogleMap googleMap) {
-
-        }
-    }
-
-    public class Y extends X {
-
-    }
-
 }
-

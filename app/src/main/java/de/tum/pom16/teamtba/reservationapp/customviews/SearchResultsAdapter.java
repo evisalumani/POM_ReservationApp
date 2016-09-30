@@ -22,6 +22,7 @@ public class SearchResultsAdapter extends ArrayAdapter<Restaurant> {
     List<Restaurant> restaurants;
 
     public SearchResultsAdapter(Context context, List<Restaurant> restaurants) {
+        //note: restaurants has to be non null
         super(context, R.layout.search_result, restaurants);
         this.restaurants = restaurants;
     }

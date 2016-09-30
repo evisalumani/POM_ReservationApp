@@ -1,6 +1,5 @@
 package de.tum.pom16.teamtba.reservationapp.activities;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
@@ -34,6 +33,11 @@ import de.tum.pom16.teamtba.reservationapp.dataaccess.GlobalSearchFilters;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.SortByDistance;
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 import de.tum.pom16.teamtba.reservationapp.utilities.*;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 public class SearchResultsActivity extends MapCallbackActivity {
     //view
@@ -43,8 +47,10 @@ public class SearchResultsActivity extends MapCallbackActivity {
     private static final int ZOOM_LEVEL = 15;
 
     //model
-    List<Restaurant> searchResults;
+    GlobalSearchFilters filters;
+    ArrayList<Restaurant> searchResults;
     LocationUtility locationUtility;
+    private Observer<ArrayList<Restaurant>> oberserverOnRestaurants;
 
     SearchView searchView;
     private String queryTerm = "";
@@ -53,32 +59,71 @@ public class SearchResultsActivity extends MapCallbackActivity {
     @Override
     protected void initializeModel() {
         super.initializeModel();
+        filters = GlobalSearchFilters.getSharedInstance();
 
-        Intent intent = getIntent();
-        List<Restaurant> filteredRestaurants = intent.getParcelableArrayListExtra(IntentType.INTENT_FILTER_TO_SEARCH_RESULTS.name());
+        oberserverOnRestaurants = new Observer<ArrayList<Restaurant>>() {
+            @Override
+            public void onCompleted() {
+            }
 
-        //TODO: logic for displaying a message "no results matching filters"
-        if (filteredRestaurants != null) {
-            //display filtered restaurants
-            searchResults = filteredRestaurants;
-        } else {
-            //display all restaurants
-            searchResults = DataGenerator.generateDummyData();
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onNext(ArrayList<Restaurant> restaurants) {
+                searchResults = restaurants;
+                if (restaurants == null || restaurants.size() == 0) {
+                    Toast.makeText(SearchResultsActivity.this, "No Results", Toast.LENGTH_SHORT).show();
+                } else {
+                    addMarkersForSearchResults(); //TODO: can also pass restaurants here
+
+                    //TODO: sort by location
+//                    SortByDistance sortByDistance = new SortByDistance(true, latestLocation);
+//                    sortByDistance.setRestaurants(searchResults);
+                    //show user location
+                    //setUserLocationEnabled(true);
+                    //TODO: move camera to user location (get user location from filters)
+                    //moveCameraToPosition(new LatLng(latestLocation.getLatitude(), latestLocation.getLongitude()), ZOOM_LEVEL, true);
+
+                    setupListview();
+                }
+            }
+        };
+
+        if (filters.getFilterCriteria().size() >= 2) { //i.e. at least a date and a location filter
+            searchResults = (ArrayList) filters.applyFilters(); //there is at least the filter of date (dd.mm.yyy) and location
+
+            //rx java
+            Observable.just(searchResults)
+                    //concurrency: observe what happens on main thread; react to it on a separate thread
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(getOberserverOnRestaurants());
         }
     }
 
     @Override
     protected void initializeView() {
+        super.initializeView();
         setContentView(R.layout.activity_search_results);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
 
-        addMarkersForSearchResults();
+    public Observer<ArrayList<Restaurant>> getOberserverOnRestaurants() {
+        return oberserverOnRestaurants;
+    }
 
-        searchResultsAdapter = new SearchResultsAdapter(this, searchResults); //TODO: null check?
+    public void setOberserverOnRestaurants(Observer<ArrayList<Restaurant>> oberserverOnRestaurants) {
+        this.oberserverOnRestaurants = oberserverOnRestaurants;
+    }
+
+    private void setupListview() {
+        searchResultsAdapter = new SearchResultsAdapter(SearchResultsActivity.this, searchResults);
         searchResultsListView = (ListView) findViewById(R.id.searchResults_listview);
         searchResultsListView.setAdapter(searchResultsAdapter);
 
@@ -91,14 +136,12 @@ public class SearchResultsActivity extends MapCallbackActivity {
                 goToRestaurantDetails(restaurant);
             }
         });
-
-        super.initializeView();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (GlobalSearchFilters.getSharedInstance().getCurrentUserLocation() == null)
+        if (filters.getCurrentUserLocation() == null)
             locationUtility.connect();
     }
 
@@ -141,27 +184,6 @@ public class SearchResultsActivity extends MapCallbackActivity {
                 locationUtility.onReceivingGpsPermission(isGpsEnabled);
                 break;
         }
-    }
-
-    public void setupNearMeRestaurants(Location latestLocation) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && latestLocation != null) {
-            //sort by distance to user
-            //searchResults = DataSort.sortRestaurantsByDistanceFromUser(searchResults, latestLocation);
-
-            //TODO: refactoring
-            SortByDistance sortByDistance = new SortByDistance(true, latestLocation);
-            sortByDistance.setRestaurants(searchResults);
-            searchResults = sortByDistance.sort();
-
-            //notify changes to the listview
-            ((SearchResultsAdapter) searchResultsAdapter).refreshRestaurants(searchResults);
-
-            //show user location
-            setUserLocationEnabled(true);
-            //move camera to user location
-            moveCameraToPosition(new LatLng(latestLocation.getLatitude(), latestLocation.getLongitude()), ZOOM_LEVEL, true);
-        }
-
     }
 
     public void addMarkersForSearchResults() {
@@ -260,7 +282,7 @@ public class SearchResultsActivity extends MapCallbackActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (GlobalSearchFilters.getSharedInstance().getCurrentUserLocation() == null)
+        if (filters.getCurrentUserLocation() == null)
             locationUtility.connect();
     }
 }

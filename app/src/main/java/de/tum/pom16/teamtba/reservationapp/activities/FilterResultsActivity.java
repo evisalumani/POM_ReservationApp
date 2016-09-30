@@ -201,10 +201,8 @@ public class FilterResultsActivity extends AppActivity {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             if (filters.getLocationToFilter() != null) {
-                //TODO: filtering; extract a method
-                List<Restaurant> filteredRestaurants = filters.applyFilters();
-
-                returnToSearchResults(filteredRestaurants);
+                //TODO: filtering here or onStart of SearchResultsActivity?
+                returnToSearchResults();
                 return true;
             } else {
                 Toast.makeText(this, "Select a location first", Toast.LENGTH_SHORT).show();
@@ -271,9 +269,8 @@ public class FilterResultsActivity extends AppActivity {
       }
     }
 
-    private void returnToSearchResults(List<Restaurant> restaurants) {
+    private void returnToSearchResults() {
         Intent intent = new Intent(this, SearchResultsActivity.class);
-        intent.putParcelableArrayListExtra(IntentType.INTENT_FILTER_TO_SEARCH_RESULTS.name(), (ArrayList<? extends Parcelable>) restaurants);
         startActivity(intent);
     }
 }
