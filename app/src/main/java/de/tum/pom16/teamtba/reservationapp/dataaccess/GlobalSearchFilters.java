@@ -138,6 +138,7 @@ public class GlobalSearchFilters {
     public void setPropertyToSortBy(int propertyToSortBy) {
         this.propertyToSortBy = propertyToSortBy;
 
+        //TODO: MEH
         if (propertyToSortBy == Constants.SORT_BY_DISTANCE) {
             //TODO: add user currentUserLocation to constructor
             dataSort = new SortByDistance(true, null);
@@ -207,5 +208,13 @@ public class GlobalSearchFilters {
 
     public void setCurrentLocationChecked(boolean currentLocationChecked) {
         isCurrentLocationChecked = currentLocationChecked;
+    }
+
+    public DataSort getDataSort() {
+        return dataSort;
+    }
+
+    public void setDataSort(DataSort dataSort) {
+        this.dataSort = dataSort;
     }
 }

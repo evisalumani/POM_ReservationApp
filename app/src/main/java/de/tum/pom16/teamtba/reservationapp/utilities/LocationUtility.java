@@ -29,6 +29,7 @@ import java.util.List;
 
 import de.tum.pom16.teamtba.reservationapp.activities.SearchResultsActivity;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.GlobalSearchFilters;
+import de.tum.pom16.teamtba.reservationapp.dataaccess.SortByDistance;
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 import rx.Observable;
 import rx.Observer;
@@ -186,14 +187,17 @@ public class LocationUtility implements ConnectionCallbacks,
             //if we need to filter by current location, set locationToFilter to current location
             filters.setLocationToFilter(location);
 
-            ArrayList<Restaurant> filteredRestaurants = (ArrayList) filters.applyFilters(); //there is at least the filter of date (dd.mm.yyy) and location
+            List<Restaurant> filteredRestaurants = (ArrayList) filters.applyFilters(); //there is at least the filter of date (dd.mm.yyy) and location
+            //TODO: fix sort
+            filters.setDataSort(new SortByDistance(true, location));
+            //filteredRestaurants = filters.getDataSort().sort();
 
             //rx java
             Observable.just(filteredRestaurants)
                     //concurrency: observe what happens on main thread; react to it on a separate thread
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(((SearchResultsActivity)activityContext).getOberserverOnRestaurants());
+                    .subscribe(SearchResultsActivity.getOberserverOnRestaurants());
         }
 
         Toast.makeText(activityContext, "YAY", Toast.LENGTH_SHORT).show();

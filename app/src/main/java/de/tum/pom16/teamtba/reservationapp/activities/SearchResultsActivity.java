@@ -48,9 +48,9 @@ public class SearchResultsActivity extends MapCallbackActivity {
 
     //model
     GlobalSearchFilters filters;
-    ArrayList<Restaurant> searchResults;
+    List<Restaurant> searchResults;
     LocationUtility locationUtility;
-    private Observer<ArrayList<Restaurant>> oberserverOnRestaurants;
+    private static Observer<List<Restaurant>> oberserverOnRestaurants;
 
     SearchView searchView;
     private String queryTerm = "";
@@ -61,7 +61,7 @@ public class SearchResultsActivity extends MapCallbackActivity {
         super.initializeModel();
         filters = GlobalSearchFilters.getSharedInstance();
 
-        oberserverOnRestaurants = new Observer<ArrayList<Restaurant>>() {
+        oberserverOnRestaurants = new Observer<List<Restaurant>>() {
             @Override
             public void onCompleted() {
             }
@@ -71,7 +71,7 @@ public class SearchResultsActivity extends MapCallbackActivity {
             }
 
             @Override
-            public void onNext(ArrayList<Restaurant> restaurants) {
+            public void onNext(List<Restaurant> restaurants) {
                 searchResults = restaurants;
                 if (restaurants == null || restaurants.size() == 0) {
                     Toast.makeText(SearchResultsActivity.this, "No Results", Toast.LENGTH_SHORT).show();
@@ -99,7 +99,7 @@ public class SearchResultsActivity extends MapCallbackActivity {
                     //concurrency: observe what happens on main thread; react to it on a separate thread
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(getOberserverOnRestaurants());
+                    .subscribe(oberserverOnRestaurants);
         }
     }
 
@@ -114,13 +114,13 @@ public class SearchResultsActivity extends MapCallbackActivity {
         mapFragment.getMapAsync(this);
     }
 
-    public Observer<ArrayList<Restaurant>> getOberserverOnRestaurants() {
+    public static Observer<List<Restaurant>> getOberserverOnRestaurants() {
         return oberserverOnRestaurants;
     }
 
-    public void setOberserverOnRestaurants(Observer<ArrayList<Restaurant>> oberserverOnRestaurants) {
-        this.oberserverOnRestaurants = oberserverOnRestaurants;
-    }
+//    public static void setOberserverOnRestaurants(Observer<List<Restaurant>> oberserverOnRestaurants) {
+//        oberserverOnRestaurants = oberserverOnRestaurants;
+//    }
 
     private void setupListview() {
         searchResultsAdapter = new SearchResultsAdapter(SearchResultsActivity.this, searchResults);

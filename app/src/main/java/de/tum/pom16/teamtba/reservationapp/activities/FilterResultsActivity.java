@@ -35,6 +35,9 @@ import de.tum.pom16.teamtba.reservationapp.models.Constants;
 import de.tum.pom16.teamtba.reservationapp.models.HourTimeSlot;
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 import de.tum.pom16.teamtba.reservationapp.utilities.Helpers;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class FilterResultsActivity extends AppActivity {
     private GlobalSearchFilters filters;
@@ -200,7 +203,7 @@ public class FilterResultsActivity extends AppActivity {
         //go back
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            if (filters.getLocationToFilter() != null) {
+            if (filters.getLocationToFilter() != null) { //at least filtering by location
                 //TODO: filtering here or onStart of SearchResultsActivity?
                 returnToSearchResults();
                 return true;

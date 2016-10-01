@@ -30,7 +30,7 @@ public class DataSort {
         this.restaurants = restaurants;
     }
 
-    protected List<Restaurant> sort() {
+    public List<Restaurant> sort() {
         return restaurants; //return restaurants unsorted
     }
 }

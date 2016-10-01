@@ -27,7 +27,9 @@ public class SortByDistance extends DataSort {
         Stream.of(restaurants).forEach(restaurant -> restaurant.setDistanceFromUserLocation(userLocation));
 
         //sort by distance
-        restaurants = Stream.of(restaurants).sorted((r1, r2) -> Float.compare(r1.getDistanceFromUserLocation(), r2.getDistanceFromUserLocation())).collect(Collectors.toList());
+        restaurants = Stream.of(restaurants)
+                .sorted((r1, r2) -> Float.compare(r1.getDistanceFromUserLocation(), r2.getDistanceFromUserLocation()))
+                .collect(Collectors.toList());
         return restaurants;
     }
 }
