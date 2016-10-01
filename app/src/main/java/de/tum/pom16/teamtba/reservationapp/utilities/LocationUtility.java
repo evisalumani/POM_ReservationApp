@@ -189,8 +189,8 @@ public class LocationUtility implements ConnectionCallbacks,
 
             List<Restaurant> filteredRestaurants = (ArrayList) filters.applyFilters(); //there is at least the filter of date (dd.mm.yyy) and location
             //TODO: fix sort
-            filters.setDataSort(new SortByDistance(true, location));
-            //filteredRestaurants = filters.getDataSort().sort();
+            filters.setDataSort(new SortByDistance(true, filteredRestaurants, location));
+            filteredRestaurants = filters.getDataSort().sort();
 
             //rx java
             Observable.just(filteredRestaurants)

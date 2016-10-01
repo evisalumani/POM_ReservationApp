@@ -15,14 +15,15 @@ import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 public class SortByDistance extends DataSort {
     private Location userLocation;
 
-    public SortByDistance(boolean isAscending, Location location) {
-        super(isAscending);
+    public SortByDistance(boolean isAscending, List<Restaurant> restaurants, Location location) {
+        super(isAscending, restaurants);
         this.userLocation = location;
     }
 
     @Override
     public List<Restaurant> sort() {
         //TODO: make use of isAscending
+        //TODO: set distance from user as soon as location is set?
         //set distance from user to each restaurant
         Stream.of(restaurants).forEach(restaurant -> restaurant.setDistanceFromUserLocation(userLocation));
 

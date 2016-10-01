@@ -17,8 +17,8 @@ public class DataSort {
     protected List<Restaurant> restaurants; //model to sort
     protected boolean isAscending;
 
-    public DataSort(boolean isAscending) {
-        restaurants = new ArrayList<Restaurant>();
+    public DataSort(boolean isAscending, List<Restaurant> restaurants) {
+        this.restaurants = restaurants;
         this.isAscending = isAscending;
     }
 

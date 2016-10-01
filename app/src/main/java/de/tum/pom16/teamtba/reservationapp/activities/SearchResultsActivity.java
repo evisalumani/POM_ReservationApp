@@ -91,8 +91,10 @@ public class SearchResultsActivity extends MapCallbackActivity {
             }
         };
 
-        if (filters.getFilterCriteria().size() >= 2) { //i.e. at least a date and a location filter
+        if (filters.getFilterCriteria().size() >= 2 && filters.getDataSort() != null) { //i.e. at least a date and a location filter
             searchResults = (ArrayList) filters.applyFilters(); //there is at least the filter of date (dd.mm.yyy) and location
+            filters.getDataSort().setRestaurants(searchResults);
+            searchResults = filters.getDataSort().sort();
 
             //rx java
             Observable.just(searchResults)

@@ -138,14 +138,13 @@ public class GlobalSearchFilters {
     public void setPropertyToSortBy(int propertyToSortBy) {
         this.propertyToSortBy = propertyToSortBy;
 
-        //TODO: MEH
+        //Note: restaurants need to be set separately as needed
         if (propertyToSortBy == Constants.SORT_BY_DISTANCE) {
-            //TODO: add user currentUserLocation to constructor
-            dataSort = new SortByDistance(true, null);
+            dataSort = new SortByDistance(true, null, locationToFilter);
         } else if (propertyToSortBy == Constants.SORT_BY_PRICE) {
-            dataSort = new SortByPrice(true);
+            dataSort = new SortByPrice(true, null);
         } else if (propertyToSortBy == Constants.SORT_BY_RATING) {
-            dataSort = new SortByRating(false);
+            dataSort = new SortByRating(false, null);
         } else {
             dataSort = null;
         }

@@ -135,12 +135,12 @@ public class Restaurant implements Parcelable {
     }
 
     public String getPriceCategoryStr() {
-        if (averagePrice < 10) {
-            return "€";
-        } else if (averagePrice < 50) {
-            return "€€";
-        } else {
-            return "€€€";
+        switch (priceCategory) {
+            case 1: return "€";
+            case 2: return "€€";
+            case 3: return "€€€";
+            case 4: return "€€€€";
+            default: return "";
         }
     }
 
