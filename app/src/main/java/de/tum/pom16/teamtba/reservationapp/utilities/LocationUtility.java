@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
+import com.annimon.stream.Stream;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.*;
@@ -188,8 +189,9 @@ public class LocationUtility implements ConnectionCallbacks,
             filters.setLocationToFilter(location);
 
             List<Restaurant> filteredRestaurants = (ArrayList) filters.applyFilters(); //there is at least the filter of date (dd.mm.yyy) and location
-            //TODO: fix sort
-            filters.setDataSort(new SortByDistance(true, filteredRestaurants, location));
+
+            //sort
+            filters.setDataSort(new SortByDistance(true, filteredRestaurants));
             filteredRestaurants = filters.getDataSort().sort();
 
             //rx java

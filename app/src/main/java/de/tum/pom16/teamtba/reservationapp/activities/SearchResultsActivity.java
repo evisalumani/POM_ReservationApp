@@ -77,20 +77,12 @@ public class SearchResultsActivity extends MapCallbackActivity {
                     Toast.makeText(SearchResultsActivity.this, "No Results", Toast.LENGTH_SHORT).show();
                 } else {
                     addMarkersForSearchResults(); //TODO: can also pass restaurants here
-
-                    //TODO: sort by location
-//                    SortByDistance sortByDistance = new SortByDistance(true, latestLocation);
-//                    sortByDistance.setRestaurants(searchResults);
-                    //show user location
-                    //setUserLocationEnabled(true);
-                    //TODO: move camera to user location (get user location from filters)
-                    //moveCameraToPosition(new LatLng(latestLocation.getLatitude(), latestLocation.getLongitude()), ZOOM_LEVEL, true);
-
                     setupListview();
                 }
             }
         };
 
+        //filtering to be performed on activity start, e.g. when coming back from Filter activity
         if (filters.getFilterCriteria().size() >= 2 && filters.getDataSort() != null) { //i.e. at least a date and a location filter
             searchResults = (ArrayList) filters.applyFilters(); //there is at least the filter of date (dd.mm.yyy) and location
             filters.getDataSort().setRestaurants(searchResults);
@@ -119,10 +111,6 @@ public class SearchResultsActivity extends MapCallbackActivity {
     public static Observer<List<Restaurant>> getOberserverOnRestaurants() {
         return oberserverOnRestaurants;
     }
-
-//    public static void setOberserverOnRestaurants(Observer<List<Restaurant>> oberserverOnRestaurants) {
-//        oberserverOnRestaurants = oberserverOnRestaurants;
-//    }
 
     private void setupListview() {
         searchResultsAdapter = new SearchResultsAdapter(SearchResultsActivity.this, searchResults);
@@ -273,7 +261,6 @@ public class SearchResultsActivity extends MapCallbackActivity {
             //doSearch(query)
         }
     }
-
 
     @Override
     protected void onNewIntent(Intent intent) {

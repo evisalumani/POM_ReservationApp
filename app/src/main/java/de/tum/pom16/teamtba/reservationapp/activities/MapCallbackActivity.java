@@ -15,6 +15,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.tum.pom16.teamtba.reservationapp.dataaccess.GlobalSearchFilters;
+
 /**
  * Created by evisa on 7/15/16.
  */
@@ -38,8 +40,14 @@ public class MapCallbackActivity extends AppActivity implements OnMapReadyCallba
         googleMap.getUiSettings().setZoomGesturesEnabled(true);
 
         //draw markers
-        //TODO: do we need this?
         drawMarkers();
+
+        //show user location
+        setUserLocationEnabled(true);
+        //move camera to the location by which we're filtering
+        if (GlobalSearchFilters.getSharedInstance().getLocationToFilter() != null)
+            moveCameraToPosition(new LatLng(GlobalSearchFilters.getSharedInstance().getLocationToFilter().getLatitude(), GlobalSearchFilters.getSharedInstance().getLocationToFilter().getLongitude()), ZOOM_LEVEL, true);
+
     }
 
     public GoogleMap getGoogleMap() {
@@ -55,8 +63,6 @@ public class MapCallbackActivity extends AppActivity implements OnMapReadyCallba
             for (MarkerOptions marker : markers) {
                 googleMap.addMarker(marker);
             }
-
-            moveCameraToPosition(markers.get(0).getPosition(), ZOOM_LEVEL, false); //move camera to 1st element
         }
     }
 

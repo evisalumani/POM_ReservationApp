@@ -1,6 +1,9 @@
 package de.tum.pom16.teamtba.reservationapp.dataaccess;
 
 import android.location.Location;
+import android.provider.ContactsContract;
+
+import com.annimon.stream.Stream;
 
 import java.util.Calendar;
 import java.util.Hashtable;
@@ -140,7 +143,7 @@ public class GlobalSearchFilters {
 
         //Note: restaurants need to be set separately as needed
         if (propertyToSortBy == Constants.SORT_BY_DISTANCE) {
-            dataSort = new SortByDistance(true, null, locationToFilter);
+            dataSort = new SortByDistance(true, null);
         } else if (propertyToSortBy == Constants.SORT_BY_PRICE) {
             dataSort = new SortByPrice(true, null);
         } else if (propertyToSortBy == Constants.SORT_BY_RATING) {
@@ -198,7 +201,13 @@ public class GlobalSearchFilters {
     }
 
     public List<Restaurant> applyFilters() {
-        return DataSearch.filter(DataGenerator.generateDummyData(), filterCriteria.values());
+        //set distance from user
+        //TODO: find another way of setting distance from user
+        List<Restaurant> allRestaurants = DataGenerator.generateDummyData();
+        Stream.of(allRestaurants).forEach(restaurant -> restaurant.setDistanceFromUserLocation(locationToFilter));
+
+        //apply filtering
+        return DataSearch.filter(allRestaurants, filterCriteria.values());
     }
 
     public boolean isCurrentLocationChecked() {
