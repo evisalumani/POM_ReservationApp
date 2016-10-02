@@ -2,6 +2,7 @@ package de.tum.pom16.teamtba.reservationapp.activities;
 
 import android.app.Activity;
 import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -190,56 +191,63 @@ public class SearchResultsActivity extends MapCallbackActivity {
         inflater.inflate(R.menu.menu_action_bar, menu);
 
         //configure search
+        //TODO: newClass(searchMenuItem: MenuItem)
+        //initialize stuff
+
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchMenuItem = menu.findItem(R.id.menu_search);
-        searchView = (SearchView) searchMenuItem.getActionView(); //MenuItemCompat.getActionView(searchMenuItem)
 
-        if (searchView != null) {
-            //if results are displayed on a different activity, e.g.
-            //ComponentName componentName = new ComponentName(getApplication(), RestaurantDetailsActivity.class);
-            //searchable activity is the current activity
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        }
+        //
+        SearchUtility searchUtility = new SearchUtility(SearchResultsActivity.this, searchManager, searchMenuItem, getComponentName());
 
-        searchView.setIconifiedByDefault(true);
-
-        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    //set the last query term, by which results are filtered
-                   // && queryTerm.length() > 0
-                    if (queryTerm != null) {
-                        searchView.setQuery(queryTerm, false);
-                    }
-                }
-            }
-        });
-
-        //callbacks
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                //collapse search view?
-                //searchMenuItem.collapseActionView();
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                //text has changed => apply filtering on the search results
-                newText = newText.trim();
-                List<Restaurant> tempSearchResults = new ArrayList<Restaurant>();
-                if (newText != null) {
-                    //queryTerm = newText.length() == 0 ? queryTerm : newText;
-                    queryTerm = newText;
-                    tempSearchResults = DataSearch.filterRestaurantContainingString(DataGenerator.generateDummyData(), newText);
-                    ((SearchResultsAdapter) searchResultsAdapter).refreshRestaurants(tempSearchResults);
-                }
-
-                return true;
-            }
-        });
+//        searchView = (SearchView) searchMenuItem.getActionView(); //MenuItemCompat.getActionView(searchMenuItem)
+//
+//        if (searchView != null) {
+//            //if results are displayed on a different activity, e.g.
+//            //ComponentName componentName = new ComponentName(getApplication(), RestaurantDetailsActivity.class);
+//            //searchable activity is the current activity
+//            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//        }
+//
+//        searchView.setIconifiedByDefault(true);
+//
+//        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus) {
+//                    //set the last query term, by which results are filtered
+//                    //&& queryTerm.length() > 0
+//                    if (queryTerm != null) {
+//                        searchView.setQuery(queryTerm, false);
+//                    }
+//                }
+//            }
+//        });
+//
+//        //callbacks
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                //collapse search view?
+//                //searchMenuItem.collapseActionView();
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                //text has changed => apply filtering on the search results
+//                newText = newText.trim();
+//                List<Restaurant> tempSearchResults = new ArrayList<Restaurant>();
+//                if (newText != null) {
+//                    //queryTerm = newText.length() == 0 ? queryTerm : newText;
+//                    queryTerm = newText;
+//                    tempSearchResults = DataSearch.filterRestaurantContainingString(searchResults, newText);
+//                    ((SearchResultsAdapter) searchResultsAdapter).refreshRestaurants(tempSearchResults);
+//                }
+//
+//                return true;
+//            }
+//        });
 
         return true;
     }
@@ -257,7 +265,7 @@ public class SearchResultsActivity extends MapCallbackActivity {
         if(Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             //use the query to search
-            Toast.makeText(this, "Query" + query, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Query: " + query, Toast.LENGTH_SHORT).show();
             //doSearch(query)
         }
     }
@@ -273,5 +281,10 @@ public class SearchResultsActivity extends MapCallbackActivity {
         super.onResume();
         if (filters.getCurrentUserLocation() == null)
             locationUtility.connect();
+    }
+
+    public void onNewQueryTerm(String newText) {
+        List<Restaurant> tempSearchResults = DataSearch.filterRestaurantContainingString(searchResults, newText);
+        ((SearchResultsAdapter) searchResultsAdapter).refreshRestaurants(tempSearchResults);
     }
 }
