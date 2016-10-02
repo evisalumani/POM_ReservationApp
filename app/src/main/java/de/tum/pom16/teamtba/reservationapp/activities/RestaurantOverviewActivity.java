@@ -50,6 +50,7 @@ public class RestaurantOverviewActivity extends AppActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("My title" + "\r\n" + "Hi"); //TODO: set to restaurant's name
 
         //get restaurant
         Intent mIntent = getIntent();

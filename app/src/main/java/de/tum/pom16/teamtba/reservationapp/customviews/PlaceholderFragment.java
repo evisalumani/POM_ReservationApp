@@ -38,7 +38,7 @@ public class PlaceholderFragment extends Fragment {
         PlaceholderFragment fragment = null;
         switch(sectionNumber) {
             case 1:
-                fragment = new RestaurantDetailsFragment(R.layout.content_scrolling);
+                fragment = new RestaurantDetailsFragment(R.layout.fragment_restaurant_details);
                 break;
             case 2:
                 fragment = new RestaurantReviewsFragment(R.layout.fragment_restuarant_reviews);
