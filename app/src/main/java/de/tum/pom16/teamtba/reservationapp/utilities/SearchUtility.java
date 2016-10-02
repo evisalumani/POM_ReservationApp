@@ -3,6 +3,7 @@ package de.tum.pom16.teamtba.reservationapp.utilities;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.support.v7.widget.SearchView;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,22 +27,28 @@ public class SearchUtility {
     SearchView searchView;
     String queryTerm = "";
 
-    public SearchUtility(Activity activityContext, SearchManager searchManager, MenuItem searchMenuItem, ComponentName componentName) {
+    public SearchUtility(Activity activityContext, MenuItem searchMenuItem) {
         this.activityContext = activityContext;
-        this.searchManager = searchManager;
         this.searchMenuItem = searchMenuItem;
-        this.componentName = componentName;
+        this.searchManager = (SearchManager) activityContext.getSystemService(Context.SEARCH_SERVICE);
+        this.componentName = activityContext.getComponentName();
         searchView = (SearchView) searchMenuItem.getActionView();
+
         if (searchView != null) {
             //if results are displayed on a different activity, e.g.
             //ComponentName componentName = new ComponentName(getApplication(), RestaurantDetailsActivity.class);
             //searchable activity is the current activity
             searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName));
+
+            searchView.setIconifiedByDefault(true);
+            //callbacks
+            searchView.setOnQueryTextFocusChangeListener(getOnQueryTextFocusChangeListener());
+            searchView.setOnQueryTextListener(getOnQueryTextListener());
         }
+    }
 
-        searchView.setIconifiedByDefault(true);
-
-        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+    private View.OnFocusChangeListener getOnQueryTextFocusChangeListener() {
+        return new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -52,10 +59,11 @@ public class SearchUtility {
                     }
                 }
             }
-        });
+        };
+    }
 
-        //callbacks
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+    private SearchView.OnQueryTextListener getOnQueryTextListener() {
+        return new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //collapse search view?
@@ -78,8 +86,6 @@ public class SearchUtility {
 
                 return true;
             }
-        });
+        };
     }
-
-
 }

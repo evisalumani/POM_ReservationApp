@@ -46,7 +46,6 @@ public class DataSearch {
     }
 
     public static List<Restaurant> filterRestaurantContainingString(List<Restaurant> restaurants, String queryString) {
-
         return Stream.of(restaurants).filter(restaurant -> restaurant.getName().toLowerCase().contains(queryString.toLowerCase())).collect(Collectors.toList());
     }
 }

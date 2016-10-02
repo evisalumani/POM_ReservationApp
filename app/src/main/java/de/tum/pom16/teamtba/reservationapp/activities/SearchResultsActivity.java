@@ -20,6 +20,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.annimon.stream.Collector;
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -45,17 +48,11 @@ public class SearchResultsActivity extends MapCallbackActivity {
     ListView searchResultsListView;
     ListAdapter searchResultsAdapter;
 
-    private static final int ZOOM_LEVEL = 15;
-
     //model
     GlobalSearchFilters filters;
     List<Restaurant> searchResults;
     LocationUtility locationUtility;
     private static Observer<List<Restaurant>> oberserverOnRestaurants;
-
-    SearchView searchView;
-    private String queryTerm = "";
-
 
     @Override
     protected void initializeModel() {
@@ -114,7 +111,10 @@ public class SearchResultsActivity extends MapCallbackActivity {
     }
 
     private void setupListview() {
-        searchResultsAdapter = new SearchResultsAdapter(SearchResultsActivity.this, searchResults);
+        //use helper method so that: searchResults and the data bound to the array adapter point to different memory locations
+        //needed for the search functionality (search icon on action bar), so that we keep track of the initial searchResults,
+        //independent of the queries issued on the action bar
+        searchResultsAdapter = new SearchResultsAdapter(SearchResultsActivity.this, Helpers.deepCopyRestaurants(searchResults));
         searchResultsListView = (ListView) findViewById(R.id.searchResults_listview);
         searchResultsListView.setAdapter(searchResultsAdapter);
 
@@ -189,65 +189,10 @@ public class SearchResultsActivity extends MapCallbackActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_action_bar, menu);
-
-        //configure search
-        //TODO: newClass(searchMenuItem: MenuItem)
-        //initialize stuff
-
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchMenuItem = menu.findItem(R.id.menu_search);
 
-        //
-        SearchUtility searchUtility = new SearchUtility(SearchResultsActivity.this, searchManager, searchMenuItem, getComponentName());
-
-//        searchView = (SearchView) searchMenuItem.getActionView(); //MenuItemCompat.getActionView(searchMenuItem)
-//
-//        if (searchView != null) {
-//            //if results are displayed on a different activity, e.g.
-//            //ComponentName componentName = new ComponentName(getApplication(), RestaurantDetailsActivity.class);
-//            //searchable activity is the current activity
-//            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-//        }
-//
-//        searchView.setIconifiedByDefault(true);
-//
-//        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (hasFocus) {
-//                    //set the last query term, by which results are filtered
-//                    //&& queryTerm.length() > 0
-//                    if (queryTerm != null) {
-//                        searchView.setQuery(queryTerm, false);
-//                    }
-//                }
-//            }
-//        });
-//
-//        //callbacks
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                //collapse search view?
-//                //searchMenuItem.collapseActionView();
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                //text has changed => apply filtering on the search results
-//                newText = newText.trim();
-//                List<Restaurant> tempSearchResults = new ArrayList<Restaurant>();
-//                if (newText != null) {
-//                    //queryTerm = newText.length() == 0 ? queryTerm : newText;
-//                    queryTerm = newText;
-//                    tempSearchResults = DataSearch.filterRestaurantContainingString(searchResults, newText);
-//                    ((SearchResultsAdapter) searchResultsAdapter).refreshRestaurants(tempSearchResults);
-//                }
-//
-//                return true;
-//            }
-//        });
+        //configure search
+        SearchUtility searchUtility = new SearchUtility(SearchResultsActivity.this, searchMenuItem);
 
         return true;
     }
