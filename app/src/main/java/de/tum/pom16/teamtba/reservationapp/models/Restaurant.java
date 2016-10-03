@@ -10,6 +10,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -23,19 +24,20 @@ public class Restaurant implements Parcelable {
     private String address;
     private Location gpsLocation;
     private CuisineType type;
-    private double averagePrice;
+//    private double averagePrice;
     private int priceCategory;
     private float averageRating;
-    private int openingHour;
-    private int closingHour;
+//    private int openingHour;
+//    private int closingHour;
     private float distanceFromUserLocation;
 
     private List<Table> tables = new ArrayList<Table>();
     private List<RestaurantReview> reviews = new ArrayList<RestaurantReview>();
-    private Hashtable<Integer, OpeningTimes> openingTimes = new Hashtable<>(); //Integer for day_of_week
+    private HashMap<Integer, OpeningTimes> openingTimes = new HashMap<>(); //Integer for day_of_week
+    private HashMap<Integer, String> x = new HashMap<>();
     //Calendar.SUNDAY is 1, Calendar.MONDAY is 2 and so on...
 
-    private int tablesNumber;
+    //private int tablesNumber;
 
     public Restaurant(String name, String description, String address, double latitude, double longitude, CuisineType type, double averagePrice, int priceCategory, int openingHour, int closingHour, int inTablesNumber) {
         this.name = name;
@@ -45,17 +47,17 @@ public class Restaurant implements Parcelable {
         this.gpsLocation.setLatitude(latitude);
         this.gpsLocation.setLongitude(longitude);
         this.type = type;
-        this.averagePrice = averagePrice;
-        this.tablesNumber = inTablesNumber;
-        this.openingHour = openingHour;
-        this.closingHour = closingHour;
+        //this.averagePrice = averagePrice;
+        //this.tablesNumber = inTablesNumber;
+        //this.openingHour = openingHour;
+        //this.closingHour = closingHour;
         this.priceCategory = priceCategory;
         //TODO: data validation
 
-        for (int i = 0; i < tablesNumber; ++i) {
-            int randomNum = 4 + (int)(Math.random() * 4); //4, 5, 6, 7, 8 possible capacity
-            //tables.add(new Table(i+1, randomNum, openingHour, closingHour));
-        }
+//        for (int i = 0; i < tablesNumber; ++i) {
+//            int randomNum = 4 + (int)(Math.random() * 4); //4, 5, 6, 7, 8 possible capacity
+//            //tables.add(new Table(i+1, randomNum, openingHour, closingHour));
+//        }
     }
 
     public void setPriceCategory(int category) {
@@ -90,22 +92,6 @@ public class Restaurant implements Parcelable {
         this.address = address;
     }
 
-    public int getOpeningHour() {
-        return openingHour;
-    }
-
-    public void setOpeningHour(int openingHour) {
-        this.openingHour = openingHour;
-    }
-
-    public int getClosingHour() {
-        return closingHour;
-    }
-
-    public void setClosingHour(int closingHour) {
-        this.closingHour = closingHour;
-    }
-
     public Location getGpsLocation() {
         return gpsLocation;
     }
@@ -126,14 +112,6 @@ public class Restaurant implements Parcelable {
         this.type = type;
     }
 
-    public double getAveragePrice() {
-        return averagePrice;
-    }
-
-    public void setAveragePrice(double averagePrice) {
-        this.averagePrice = averagePrice;
-    }
-
     public String getPriceCategoryStr() {
         switch (priceCategory) {
             case 1: return "€";
@@ -150,7 +128,7 @@ public class Restaurant implements Parcelable {
         }
     }
 
-    public Hashtable<Integer, OpeningTimes> getOpeningTimes() {
+    public HashMap<Integer, OpeningTimes> getOpeningTimes() {
         return openingTimes;
     }
 
@@ -195,7 +173,7 @@ public class Restaurant implements Parcelable {
     }
 
     public String getLongDescription() {
-        return "Type: " + this.type + ", Rating: " + getAverageRating() + "\nOpening Hours: " + String.valueOf(openingHour) +  " - " + String.valueOf(closingHour);
+        return "Type: " + this.type + ", Rating: " + getAverageRating() + "\nOpening Hours: ";
     }
 
     public void addReview(RestaurantReview review) {
@@ -241,14 +219,14 @@ public class Restaurant implements Parcelable {
     }
 
     //TODO: fix to include both starting and ending hour
-    public Integer[] getTimeSlots() {
-        Integer[] timeSlots = new Integer[closingHour-openingHour];
-        for (int i=0; i<timeSlots.length; i++) {
-            timeSlots[i] = openingHour + i;
-        }
-
-        return timeSlots;
-    }
+//    public Integer[] getTimeSlots() {
+//        Integer[] timeSlots = new Integer[closingHour-openingHour];
+//        for (int i=0; i<timeSlots.length; i++) {
+//            timeSlots[i] = openingHour + i;
+//        }
+//
+//        return timeSlots;
+//    }
 
     @Override
     public int describeContents() {
@@ -262,14 +240,22 @@ public class Restaurant implements Parcelable {
         dest.writeString(address);
         gpsLocation.writeToParcel(dest, flags);
         dest.writeString(type.name());
-        dest.writeDouble(averagePrice);
+        //dest.writeDouble(averagePrice);
+        dest.writeInt(priceCategory);
         dest.writeFloat(getAverageRating());
+        dest.writeFloat(distanceFromUserLocation);
         dest.writeTypedList(tables);
         //reviews
         dest.writeTypedList(reviews);
-        dest.writeInt(tablesNumber);
-        dest.writeInt(openingHour);
-        dest.writeInt(closingHour);
+        //dest.writeMap(x); //Hashtable implements Serializable
+        dest.writeInt(openingTimes.size());
+        for (HashMap.Entry<Integer, OpeningTimes> entry : openingTimes.entrySet()) {
+            dest.writeInt(entry.getKey());
+            dest.writeParcelable(entry.getValue(), flags);
+        }
+//        dest.writeInt(tablesNumber);
+//        dest.writeInt(openingHour);
+//        dest.writeInt(closingHour);
     }
 
     // Creator
@@ -290,14 +276,26 @@ public class Restaurant implements Parcelable {
             address = in.readString();
             gpsLocation = Location.CREATOR.createFromParcel(in);
             type = CuisineType.valueOf(in.readString());
-            averagePrice = in.readDouble();
+            //averagePrice = in.readDouble();
+            priceCategory = in.readInt();
             averageRating = in.readFloat();
+            distanceFromUserLocation = in.readFloat();
             in.readTypedList(tables,Table.CREATOR);
             //try adding reviews as tables
             in.readTypedList(reviews,RestaurantReview.CREATOR);
-            tablesNumber = in.readInt();
-            openingHour = in.readInt();
-            closingHour = in.readInt();
+            //x = (HashMap<Integer, String>) in.readHashMap(HashMap.class.getClassLoader());
+            //openingTimes = (HashMap<Integer, OpeningTimes>) in.readValue(HashMap.class.getClassLoader());
+            int size = in.readInt();
+            openingTimes = new HashMap<Integer, OpeningTimes>();
+            for (int i = 0; i < size; i++) {
+                Integer key = in.readInt();
+                OpeningTimes value = in.readParcelable(OpeningTimes.class.getClassLoader());
+                openingTimes.put(key, value);
+            }
+
+//            tablesNumber = in.readInt();
+//            openingHour = in.readInt();
+//            closingHour = in.readInt();
         }
 }
 

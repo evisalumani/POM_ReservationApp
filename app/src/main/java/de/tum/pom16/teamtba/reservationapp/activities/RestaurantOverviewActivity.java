@@ -53,11 +53,11 @@ public class RestaurantOverviewActivity extends AppActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("My title" + "\r\n" + "Hi"); //TODO: set to restaurant's name
 
         //get restaurant
         Intent mIntent = getIntent();
         restaurant = (Restaurant) mIntent.getParcelableExtra(IntentType.INTENT_TO_RESTAURANT_DETAILS.name());
+        getSupportActionBar().setTitle(restaurant.getName());
 
 
         // Create the adapter that will return a fragment for each of the three

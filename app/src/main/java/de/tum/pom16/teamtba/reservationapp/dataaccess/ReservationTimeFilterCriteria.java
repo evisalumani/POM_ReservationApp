@@ -7,14 +7,14 @@ import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
  */
 
 //TODO: delete this class maybe?
-public class ReservationTimeFilterCriteria extends FilterCriteria {
-    public ReservationTimeFilterCriteria(Object criteria) {
-        super(criteria);
-    }
-
-    @Override
-    public boolean filter(Restaurant restaurant) {
-        int timeHour = (int) criteria;
-        return timeHour >= restaurant.getOpeningHour() && timeHour <= restaurant.getClosingHour();
-    }
-}
+//public class ReservationTimeFilterCriteria extends FilterCriteria {
+//    public ReservationTimeFilterCriteria(Object criteria) {
+//        super(criteria);
+//    }
+//
+//    @Override
+//    public boolean filter(Restaurant restaurant) {
+//        int timeHour = (int) criteria;
+//        return timeHour >= restaurant.getOpeningHour() && timeHour <= restaurant.getClosingHour();
+//    }
+//}

@@ -1,5 +1,8 @@
 package de.tum.pom16.teamtba.reservationapp.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
@@ -10,7 +13,7 @@ import java.util.List;
 /**
  * Created by evisa on 9/7/16.
  */
-public class HourTimeSlot implements Comparable {
+public class HourTimeSlot implements Comparable, Parcelable {
     private int hour;
     private int minute;
     public static float stepFraction = (float)0.5; //each step-wise division of an hour is by 0.5 (i.e. by 30 min)
@@ -172,5 +175,34 @@ public class HourTimeSlot implements Comparable {
     public HourTimeSlot addHour(int durationInHours) {
         //duration in hours; 1 hour by default
         return new HourTimeSlot(hour + durationInHours, minute);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(hour);
+        dest.writeInt(minute);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<HourTimeSlot> CREATOR = new Parcelable.Creator<HourTimeSlot>() {
+        @Override
+        public HourTimeSlot createFromParcel(Parcel in) {
+            return new HourTimeSlot(in);
+        }
+
+        @Override
+        public HourTimeSlot[] newArray(int size) {
+            return new HourTimeSlot[size];
+        }
+    };
+
+    protected HourTimeSlot(Parcel in) {
+        hour = in.readInt();
+        minute = in.readInt();
     }
 }
