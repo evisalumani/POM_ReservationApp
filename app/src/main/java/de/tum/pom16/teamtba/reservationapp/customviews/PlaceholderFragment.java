@@ -25,7 +25,10 @@ public class PlaceholderFragment extends Fragment {
     //model
     protected Restaurant restaurant;
 
-    protected PlaceholderFragment() { super(); }
+    protected PlaceholderFragment() {
+        super();
+        setRetainInstance(true); //fragment instance is retained across Activity re-creation, e.g. data are not lost on rotation
+    }
 
     /**
      * Returns a new instance of this fragment for the given section

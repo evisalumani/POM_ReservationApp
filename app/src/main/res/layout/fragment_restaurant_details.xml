@@ -120,9 +120,7 @@
                 android:text="Description"
                 android:layout_toRightOf="@id/restaurant_details_icon_description"
                 android:layout_below="@id/restaurant_details_price_textview"
-                android:layout_alignBottom="@id/restaurant_details_icon_description"
                 />
-
 
         </RelativeLayout>
 
