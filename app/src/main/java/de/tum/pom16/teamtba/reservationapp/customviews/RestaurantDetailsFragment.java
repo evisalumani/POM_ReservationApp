@@ -5,11 +5,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.annimon.stream.Stream;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -18,17 +15,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multiset;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 import de.tum.pom16.teamtba.reservationapp.R;
 import de.tum.pom16.teamtba.reservationapp.models.OpeningTimes;
-import de.tum.pom16.teamtba.reservationapp.utilities.Helpers;
 
 /**
  * Created by evisa on 9/22/16.
@@ -43,7 +32,8 @@ public class RestaurantDetailsFragment extends PlaceholderFragment implements On
     private TextView addressLine2TextView;
     private TextView distance1TextView;
     private TextView distance2TextView;
-    private LinearLayout openingTimesLayout;
+    private RelativeLayout openingTimesLayout;
+    private TextView[] openingTimesTextViews;
 
     public RestaurantDetailsFragment() {
         super();
@@ -67,7 +57,8 @@ public class RestaurantDetailsFragment extends PlaceholderFragment implements On
         addressLine2TextView = (TextView)v.findViewById(R.id.restaurant_details_address_secondLine);
         distance1TextView = (TextView)v.findViewById(R.id.restaurant_details_distance_firstLine);
         distance2TextView = (TextView)v.findViewById(R.id.restaurant_details_distance_secondLine);
-        openingTimesLayout = (LinearLayout) v.findViewById(R.id.restaurant_details_opening_times_layout);
+        openingTimesLayout = (RelativeLayout) v.findViewById(R.id.restaurant_details_opening_times_layout);
+        initializeOpeningTimesLayout();
 
         mMapView = (MapView) v.findViewById(R.id.mapview);
         mMapView.onCreate(savedInstanceState);
@@ -83,6 +74,17 @@ public class RestaurantDetailsFragment extends PlaceholderFragment implements On
 
         // Perform any camera updates here
         return v;
+    }
+
+    private void initializeOpeningTimesLayout() {
+        openingTimesTextViews = new TextView[7]; //7 text boxes, for 7 days of week
+        openingTimesTextViews[0] = (TextView) openingTimesLayout.findViewById(R.id.opening_times_monday);
+        openingTimesTextViews[1] = (TextView) openingTimesLayout.findViewById(R.id.opening_times_tuesday);
+        openingTimesTextViews[2] = (TextView) openingTimesLayout.findViewById(R.id.opening_times_wednesday);
+        openingTimesTextViews[3] = (TextView) openingTimesLayout.findViewById(R.id.opening_times_thursday);
+        openingTimesTextViews[4] = (TextView) openingTimesLayout.findViewById(R.id.opening_times_friday);
+        openingTimesTextViews[5] = (TextView) openingTimesLayout.findViewById(R.id.opening_times_saturday);
+        openingTimesTextViews[6] = (TextView) openingTimesLayout.findViewById(R.id.opening_times_sunday);
     }
 
     @Override
@@ -110,17 +112,22 @@ public class RestaurantDetailsFragment extends PlaceholderFragment implements On
     }
 
     private void setupOpeningTimesLayout() {
-        //Stream.of(restaurant.getOpeningTimes().entrySet()).sorted((entry1, entry2) -> Integer.compare(entry1.getKey(), entry2.getKey()));
-        for (int i=1; i<8; i++) {
-            if (restaurant.getOpeningTimes().get(i) != null) {
-                TextView txtView = new TextView(getActivity());
-                txtView.setText(Helpers.getDayOfWeekString()[i] + ", " + restaurant.getOpeningTimes().get(i).toString());
-                txtView.setLayoutParams(new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        RelativeLayout.RIGHT_OF));
-                openingTimesLayout.addView(txtView);
-            }
+//        for (int i=1; i<8; i++) {
+//            if (restaurant.getOpeningTimes().get(i) != null) {
+//                TextView txtView = new TextView(getActivity());
+//                txtView.setText(Helpers.getDayOfWeekString()[i] + ", " + restaurant.getOpeningTimes().get(i).toString());
+//                txtView.setLayoutParams(new LinearLayout.LayoutParams(
+//                        LinearLayout.LayoutParams.WRAP_CONTENT,
+//                        LinearLayout.LayoutParams.WRAP_CONTENT,
+//                        RelativeLayout.RIGHT_OF));
+//                openingTimesLayout.addView(txtView);
+//            }
+//        }
+
+        for (int i=0; i<openingTimesTextViews.length; i++) {
+            //Monday is 0th in this array, but corresponds to int value 2 on the Calendar API (Calendar.MONDAY)
+            OpeningTimes openingTimes = restaurant.getOpeningTimes().get((i+2)%7);
+            openingTimesTextViews[i].setText(openingTimes == null ? "Closed" : openingTimes.toString());
         }
     }
 

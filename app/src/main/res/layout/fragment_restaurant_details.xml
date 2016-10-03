@@ -113,21 +113,149 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:src="@drawable/ic_time_24dp"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/restaurant_details_opening_times_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_toRightOf="@id/restaurant_details_icon_times"
                 android:layout_below="@id/restaurant_details_price_textview">
 
+                <!-- Monday -->
                 <TextView
+                    android:id="@+id/restaurant_details_monday_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Opening Times"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="Monday"
                     />
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/opening_times_monday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:text="07:00 - 10:00"
+                    />
+
+                <!-- Tuesday -->
+                <TextView
+                    android:id="@+id/restaurant_details_tuesday_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/restaurant_details_monday_textView"
+                    android:text="Tuesday"
+                    />
+
+                <TextView
+                    android:id="@+id/opening_times_tuesday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/opening_times_monday"
+                    android:text="07:00 - 10:00"
+                    />
+
+
+                <!-- Wednesday -->
+                <TextView
+                    android:id="@+id/restaurant_details_wednesday_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/restaurant_details_tuesday_textView"
+                    android:text="Wednesday"
+                    />
+
+                <TextView
+                    android:id="@+id/opening_times_wednesday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/opening_times_tuesday"
+                    android:text="07:00 - 10:00"
+                    />
+
+
+                <!-- Thursday -->
+                <TextView
+                    android:id="@+id/restaurant_details_thursday_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/restaurant_details_wednesday_textView"
+                    android:text="Thursday"
+                    />
+
+                <TextView
+                    android:id="@+id/opening_times_thursday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/opening_times_wednesday"
+                    android:text="07:00 - 10:00"
+                    />
+
+                <!-- Friday -->
+                <TextView
+                    android:id="@+id/restaurant_details_friday_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/restaurant_details_thursday_textView"
+                    android:text="Friday"
+                    />
+
+                <TextView
+                    android:id="@+id/opening_times_friday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/opening_times_thursday"
+                    android:text="07:00 - 10:00"
+                    />
+
+                <!-- Saturday -->
+                <TextView
+                    android:id="@+id/restaurant_details_saturday_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/restaurant_details_friday_textView"
+                    android:text="Saturday"
+                    />
+
+                <TextView
+                    android:id="@+id/opening_times_saturday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/opening_times_friday"
+                    android:text="07:00 - 10:00"
+                    />
+
+                <!-- Sunday -->
+                <TextView
+                    android:id="@+id/restaurant_details_sunday_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/restaurant_details_saturday_textView"
+                    android:text="Sunday"
+                    />
+
+                <TextView
+                    android:id="@+id/opening_times_sunday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/opening_times_saturday"
+                    android:text="07:00 - 10:00"
+                    />
+
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/restaurant_details_icon_description"
