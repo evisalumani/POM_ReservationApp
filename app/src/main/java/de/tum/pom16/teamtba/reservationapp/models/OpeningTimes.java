@@ -62,9 +62,19 @@ public class OpeningTimes implements Parcelable {
     protected OpeningTimes(Parcel in) {
         openingTimeSlot = in.readParcelable(HourTimeSlot.class.getClassLoader());
         closingTimeslot = in.readParcelable(HourTimeSlot.class.getClassLoader());
-//        openingTimeSlot = (HourTimeSlot) in.readValue(HourTimeSlot.class.getClassLoader());
-//        closingTimeslot = (HourTimeSlot) in.readValue(HourTimeSlot.class.getClassLoader());
     }
 
-}
+    @Override
+    public boolean equals(Object another) {
+        OpeningTimes otherOpeningTimes = (OpeningTimes) another;
+        //two opening times are equal if their opening and closing timeslots are respectively equal
+        //return openingTimeSlot.equals(otherOpeningTimes.getOpeningTimeSlot()) && closingTimeslot.equals(otherOpeningTimes.getClosingTimeslot());
+        return this.openingTimeSlot.compareTo(otherOpeningTimes.getOpeningTimeSlot()) == 0
+                && this.closingTimeslot.compareTo(otherOpeningTimes.getClosingTimeslot()) == 0;
+    }
 
+    @Override
+    public String toString() {
+        return openingTimeSlot.toString() + " - " + closingTimeslot.toString();
+    }
+}

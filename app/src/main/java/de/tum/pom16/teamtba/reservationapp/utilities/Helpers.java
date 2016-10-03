@@ -27,4 +27,8 @@ public abstract class Helpers {
     public static List<Restaurant> deepCopyRestaurants(List<Restaurant> restaurants) {
         return Stream.of(restaurants).collect(Collectors.toList());
     }
+
+    public static String[] getDayOfWeekString() {
+        return new String[] { "", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+    }
 }

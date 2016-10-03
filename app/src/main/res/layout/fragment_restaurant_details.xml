@@ -105,11 +105,36 @@
             <!-- opening hours -->
 
             <ImageView
-                android:id="@+id/restaurant_details_icon_description"
+                android:id="@+id/restaurant_details_icon_times"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/restaurant_details_icon_price"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:src="@drawable/ic_time_24dp"/>
+
+            <LinearLayout
+                android:id="@+id/restaurant_details_opening_times_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_toRightOf="@id/restaurant_details_icon_times"
+                android:layout_below="@id/restaurant_details_price_textview">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Opening Times"
+                    />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/restaurant_details_icon_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/restaurant_details_opening_times_layout"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:src="@drawable/ic_description_24dp"/>
 
@@ -119,7 +144,7 @@
                 android:layout_height="wrap_content"
                 android:text="Description"
                 android:layout_toRightOf="@id/restaurant_details_icon_description"
-                android:layout_below="@id/restaurant_details_price_textview"
+                android:layout_below="@id/restaurant_details_opening_times_layout"
                 />
 
         </RelativeLayout>

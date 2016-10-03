@@ -4,7 +4,11 @@ import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.annimon.stream.Collector;
+import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimaps;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -13,6 +17,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by evisa on 5/24/16.
@@ -208,6 +214,30 @@ public class Restaurant implements Parcelable {
     public boolean isOpenAtDayOfWeek(Calendar date) {
         //date.get(Calendar.DAY_OF_WEEK) returns 1 for Sunday, 2 for Monday and so on...
         return openingTimes.get(date.get(Calendar.DAY_OF_WEEK)) != null;
+    }
+
+    //TODO: how to group days having the same opening times
+    public HashMap<OpeningTimes, ArrayList<Integer>>aggregateOpeningTimes() {
+        //HashMap<ArrayList<Integer>, OpeningTimes> result = new HashMap<ArrayList<Integer>, OpeningTimes>();
+        HashMap<OpeningTimes, ArrayList<Integer>> result = new HashMap<OpeningTimes, ArrayList<Integer>>();
+
+        for (Map.Entry<Integer, OpeningTimes> entry :openingTimes.entrySet()) {
+            if (result.get(entry.getValue()) != null) {
+                //OpeningTime is already contained
+                ArrayList<Integer> existingList = result.get(entry.getValue());
+                existingList.add(entry.getKey());
+            } else {
+                //OpeningTimes not contained
+                ArrayList<Integer> newList = new ArrayList<Integer>();
+                newList.add(entry.getKey());
+                result.put(entry.getValue(), newList);
+            }
+        }
+
+        return result;
+        //returns the same structure as using Guava
+        //use Google Guava library
+        //HashMultimap<OpeningTimes, Integer> multiMap = Multimaps.invertFrom(Multimaps.forMap(openingTimes), HashMultimap.<OpeningTimes, Integer> create());
     }
 
     public List<RestaurantReview> getReviews() {

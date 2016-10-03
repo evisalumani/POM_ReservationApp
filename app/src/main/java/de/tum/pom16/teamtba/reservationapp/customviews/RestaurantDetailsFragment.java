@@ -1,29 +1,34 @@
 package de.tum.pom16.teamtba.reservationapp.customviews;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.annimon.stream.Stream;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.vision.text.Text;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multiset;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import de.tum.pom16.teamtba.reservationapp.R;
-import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
+import de.tum.pom16.teamtba.reservationapp.models.OpeningTimes;
+import de.tum.pom16.teamtba.reservationapp.utilities.Helpers;
 
 /**
  * Created by evisa on 9/22/16.
@@ -34,6 +39,11 @@ public class RestaurantDetailsFragment extends PlaceholderFragment implements On
     private TextView cuisineTextView;
     private TextView priceTextView;
     private TextView descriptionTextView;
+    private TextView addressLine1TextView;
+    private TextView addressLine2TextView;
+    private TextView distance1TextView;
+    private TextView distance2TextView;
+    private LinearLayout openingTimesLayout;
 
     public RestaurantDetailsFragment() {
         super();
@@ -53,10 +63,14 @@ public class RestaurantDetailsFragment extends PlaceholderFragment implements On
         cuisineTextView = (TextView)v.findViewById(R.id.restaurant_details_cuisine_textview);
         priceTextView = (TextView)v.findViewById(R.id.restaurant_details_price_textview);
         descriptionTextView = (TextView)v.findViewById(R.id.restaurant_details_description_textview);
+        addressLine1TextView = (TextView)v.findViewById(R.id.restaurant_details_address_firstLine);
+        addressLine2TextView = (TextView)v.findViewById(R.id.restaurant_details_address_secondLine);
+        distance1TextView = (TextView)v.findViewById(R.id.restaurant_details_distance_firstLine);
+        distance2TextView = (TextView)v.findViewById(R.id.restaurant_details_distance_secondLine);
+        openingTimesLayout = (LinearLayout) v.findViewById(R.id.restaurant_details_opening_times_layout);
+
         mMapView = (MapView) v.findViewById(R.id.mapview);
-
         mMapView.onCreate(savedInstanceState);
-
         mMapView.onResume();// needed to get the map to display immediately
 
         try {
@@ -95,6 +109,21 @@ public class RestaurantDetailsFragment extends PlaceholderFragment implements On
         mMapView.onLowMemory();
     }
 
+    private void setupOpeningTimesLayout() {
+        //Stream.of(restaurant.getOpeningTimes().entrySet()).sorted((entry1, entry2) -> Integer.compare(entry1.getKey(), entry2.getKey()));
+        for (int i=1; i<8; i++) {
+            if (restaurant.getOpeningTimes().get(i) != null) {
+                TextView txtView = new TextView(getActivity());
+                txtView.setText(Helpers.getDayOfWeekString()[i] + ", " + restaurant.getOpeningTimes().get(i).toString());
+                txtView.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.RIGHT_OF));
+                openingTimesLayout.addView(txtView);
+            }
+        }
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
@@ -112,9 +141,15 @@ public class RestaurantDetailsFragment extends PlaceholderFragment implements On
             CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(restaurant.getLatitude(), restaurant.getLongitude())).zoom(12).build();
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-            cuisineTextView.setText(restaurant.getType().name().toLowerCase());
-            priceTextView.setText("Price " + restaurant.getPriceCategoryStr());
+            addressLine1TextView.setText(restaurant.getAddress());
+            double distanceRounded = Math.round((restaurant.getDistanceFromUserLocation()/1000.0) * 100.0) / 100.0;
+            distance1TextView.setText(String.valueOf(distanceRounded));
+            distance2TextView.setText("km away");
+            cuisineTextView.setText("Cuisine: " + restaurant.getType().name().toLowerCase());
+            priceTextView.setText("Price: " + restaurant.getPriceCategoryStr());
             descriptionTextView.setText(restaurant.getDescription());
+
+            setupOpeningTimesLayout();
         }
     }
 }
