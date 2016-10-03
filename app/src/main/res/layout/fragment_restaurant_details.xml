@@ -3,16 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin">
-    <!--tools:context=".customviews.RestaurantDetailsFragment"-->
-
-    <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--xmlns:map="http://schemas.android.com/apk/res-auto"-->
-        <!--android:id="@+id/restaurant_details_map_1"-->
-        <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="150dp" />-->
-
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapview"
@@ -63,8 +53,77 @@
             android:layout_alignTop="@id/restaurant_details_address_secondLine"
             android:layout_alignParentRight="true"/>
 
+        <!-- end of map and address section -->
+
+        <ImageView
+            android:id="@+id/restaurant_details_icon_cuisine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_restaurant_menu_24dp"
+            android:layout_below="@id/restaurant_details_address_secondLine"
+            />
+
+        <TextView
+            android:id="@+id/restaurant_details_cuisine_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cuisine"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:layout_toRightOf="@id/restaurant_details_icon_cuisine"
+            android:layout_alignBottom="@id/restaurant_details_icon_cuisine"/>
+
+        <ImageView
+            android:id="@+id/restaurant_details_icon_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:layout_below="@id/restaurant_details_icon_cuisine"
+            android:src="@drawable/ic_euro_symbol_24px"/>
+
+        <TextView
+            android:id="@+id/restaurant_details_price_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price"
+            android:layout_toRightOf="@id/restaurant_details_icon_price"
+            android:layout_below="@id/restaurant_details_cuisine_textview"
+            android:layout_alignBottom="@id/restaurant_details_icon_price"
+            />
+
+        <!-- phone, website - add later when modifying the model -->
+        <!-- opening hours -->
+
+        <ImageView
+            android:id="@+id/restaurant_details_icon_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/restaurant_details_icon_price"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_description_24dp"/>
+
+        <TextView
+            android:id="@+id/restaurant_details_description_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:layout_toRightOf="@id/restaurant_details_icon_description"
+            android:layout_below="@id/restaurant_details_price_textview"
+            android:layout_alignBottom="@id/restaurant_details_icon_description"
+            />
+
 
     </RelativeLayout>
+
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="2dp"-->
+        <!--android:background="?android:attr/listDivider"/>-->
+
 
 
     <!--<TextView-->

@@ -20,12 +20,15 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+
 import de.tum.pom16.teamtba.reservationapp.R;
 import de.tum.pom16.teamtba.reservationapp.customviews.SectionsPagerAdapter;
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 
 public class RestaurantOverviewActivity extends AppActivity {
-
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -92,9 +95,6 @@ public class RestaurantOverviewActivity extends AppActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

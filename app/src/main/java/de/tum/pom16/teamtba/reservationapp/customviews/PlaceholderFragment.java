@@ -23,12 +23,9 @@ public class PlaceholderFragment extends Fragment {
      * fragment.
      */
     //model
-    private int fragmentResource;
-    private Restaurant restaurant;
+    protected Restaurant restaurant;
 
-    protected PlaceholderFragment(int fragmentResource) {
-        this.fragmentResource = fragmentResource;
-    }
+    protected PlaceholderFragment() { super(); }
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -38,13 +35,13 @@ public class PlaceholderFragment extends Fragment {
         PlaceholderFragment fragment = null;
         switch(sectionNumber) {
             case 1:
-                fragment = new RestaurantDetailsFragment(R.layout.fragment_restaurant_details);
+                fragment = new RestaurantDetailsFragment();
                 break;
             case 2:
-                fragment = new RestaurantReviewsFragment(R.layout.fragment_restuarant_reviews);
+                fragment = new RestaurantReviewsFragment();
                 break;
             case 3:
-                fragment = new RestaurantReservationFragment(R.layout.fragment_restaurant_reservations);
+                fragment = new RestaurantReservationFragment();
                 break;
         }
 
@@ -58,11 +55,5 @@ public class PlaceholderFragment extends Fragment {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(fragmentResource, container, false);
     }
 }
