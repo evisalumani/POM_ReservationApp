@@ -17,13 +17,11 @@
         <!--android:text="REVIEWS"/>-->
 
     <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:progressDrawable="@drawable/custom_progess_bar_horizontal"
-        android:layout_margin="10dp"
-        android:max="100"
-        android:progress="40" />
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_marginRight="5dp" />
+
+
 
 </RelativeLayout>
