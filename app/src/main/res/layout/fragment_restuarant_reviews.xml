@@ -10,18 +10,140 @@
 
     <!--tools:context=".customviews.RestaurantReviewsFragment"-->
 
-    <!--<TextView-->
-        <!--android:id="@+id/section_label"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="REVIEWS"/>-->
-
-    <ProgressBar
+    <!-- FIVE -->
+    <TextView
+        android:id="@+id/reviews_five_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_marginRight="5dp" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:paddingRight="10dp"
+        android:text="5"/>
 
+    <!-- match parent for progress bar works as well -->
+    <!-- android:scaleY="2.5" is used to increase the height of the bar -->
+    <ProgressBar
+        android:id="@+id/reviews_five_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/LinearProgress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_marginRight="5dp"
+        android:indeterminate="false"
+        android:progress="50"
+        android:max="100"
+        android:scaleY="2.5"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/reviews_five_textview" />
+
+    <!-- FOUR -->
+
+    <TextView
+        android:id="@+id/reviews_four_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/reviews_five_textview"
+        android:paddingRight="10dp"
+        android:text="4"/>
+
+    <ProgressBar
+        android:id="@+id/reviews_four_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/LinearProgress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_marginRight="5dp"
+        android:indeterminate="false"
+        android:progress="30"
+        android:max="100"
+        android:scaleY="2.5"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/reviews_four_textview"
+        android:layout_below="@id/reviews_five_progressbar"
+        android:layout_toRightOf="@id/reviews_four_textview"/>
+
+    <!-- THREE -->
+
+    <TextView
+        android:id="@+id/reviews_three_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/reviews_four_textview"
+        android:paddingRight="10dp"
+        android:text="3"/>
+
+    <ProgressBar
+        android:id="@+id/reviews_three_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/LinearProgress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_marginRight="5dp"
+        android:indeterminate="false"
+        android:progress="35"
+        android:max="100"
+        android:scaleY="2.5"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/reviews_three_textview"
+        android:layout_below="@id/reviews_four_progressbar"
+        android:layout_toRightOf="@id/reviews_three_textview"/>
+
+    <!-- TWO -->
+
+    <TextView
+        android:id="@+id/reviews_two_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/reviews_three_textview"
+        android:paddingRight="10dp"
+        android:text="2"/>
+
+    <ProgressBar
+        android:id="@+id/reviews_two_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/LinearProgress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_marginRight="5dp"
+        android:indeterminate="false"
+        android:progress="90"
+        android:max="100"
+        android:scaleY="2.5"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/reviews_two_textview"
+        android:layout_below="@id/reviews_three_progressbar"
+        android:layout_toRightOf="@id/reviews_two_textview"/>
+
+    <!-- ONE -->
+
+    <TextView
+        android:id="@+id/reviews_one_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/reviews_two_textview"
+        android:paddingRight="10dp"
+        android:text="1"/>
+
+    <ProgressBar
+        android:id="@+id/reviews_one_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/LinearProgress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_marginRight="5dp"
+        android:indeterminate="false"
+        android:progress="100"
+        android:max="100"
+        android:scaleY="2.5"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/reviews_one_textview"
+        android:layout_below="@id/reviews_two_progressbar"
+        android:layout_toRightOf="@id/reviews_one_textview"/>
 
 
 </RelativeLayout>

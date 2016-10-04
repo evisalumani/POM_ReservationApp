@@ -16,4 +16,10 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- style for custom progress bar -->
+    <style name="LinearProgress" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/orange</item>
+        <item name="android:progressBackgroundTint">@android:color/transparent</item>
+    </style>
 </resources>

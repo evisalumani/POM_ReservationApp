@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "de.tum.pom16.teamtba.reservationapp"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 23
         versionCode 2
         versionName "2.4"
