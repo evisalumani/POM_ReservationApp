@@ -1,6 +1,5 @@
 package de.tum.pom16.teamtba.reservationapp.customviews;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.FragmentTransaction;
@@ -65,7 +64,7 @@ public class RestaurantReservationFragment extends PlaceholderFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimeSlotDialogFragment timeDialog = new TimeSlotDialogFragment(timeTextView, "Pick time slot");
+                FilterTimeSlotDialogFragment timeDialog = new FilterTimeSlotDialogFragment(timeTextView, "Pick time slot");
                 FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
                 timeDialog.show(fragmentTransaction, "TimeSlotPicker");
             }
@@ -76,7 +75,7 @@ public class RestaurantReservationFragment extends PlaceholderFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DateDialogFragment dateDialog = new DateDialogFragment(view, date);
+                FilterDateDialogFragment dateDialog = new FilterDateDialogFragment(view, date);
                 FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
                 dateDialog.show(fragmentTransaction, "DateDialog");
             }

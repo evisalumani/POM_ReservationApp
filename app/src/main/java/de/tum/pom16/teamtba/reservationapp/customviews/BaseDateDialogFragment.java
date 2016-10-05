@@ -11,12 +11,12 @@ import java.util.Calendar;
 import de.tum.pom16.teamtba.reservationapp.utilities.Helpers;
 
 /**
- * Created by evisa on 9/7/16.
+ * Created by evisa on 10/6/16.
  */
-public class DateDialogFragment extends BaseDialogFragment implements DatePickerDialog.OnDateSetListener {
-    private Calendar selectedDate;
+public class BaseDateDialogFragment extends BaseDialogFragment implements DatePickerDialog.OnDateSetListener {
+    protected Calendar selectedDate;
 
-    public DateDialogFragment(View view, Calendar date) {
+    protected BaseDateDialogFragment(View view, Calendar date) {
         super(view, null);
         selectedDate = date;
     }
@@ -34,8 +34,7 @@ public class DateDialogFragment extends BaseDialogFragment implements DatePicker
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         selectedDate.set(year, monthOfYear, dayOfMonth);
-        filters.setDate(selectedDate);
-
         updateTextInCallingActivity(Helpers.getDateString(selectedDate));
+        //TODO: override to set filters
     }
 }

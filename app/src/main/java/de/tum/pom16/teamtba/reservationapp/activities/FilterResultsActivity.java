@@ -4,7 +4,6 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,23 +20,16 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.tum.pom16.teamtba.reservationapp.R;
 import de.tum.pom16.teamtba.reservationapp.customviews.CuisineDialogFragment;
-import de.tum.pom16.teamtba.reservationapp.customviews.DateDialogFragment;
+import de.tum.pom16.teamtba.reservationapp.customviews.FilterDateDialogFragment;
 import de.tum.pom16.teamtba.reservationapp.customviews.PriceDialogFragment;
 import de.tum.pom16.teamtba.reservationapp.customviews.SortByDialogFragment;
-import de.tum.pom16.teamtba.reservationapp.customviews.TimeSlotDialogFragment;
+import de.tum.pom16.teamtba.reservationapp.customviews.FilterTimeSlotDialogFragment;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.GlobalSearchFilters;
 import de.tum.pom16.teamtba.reservationapp.models.Constants;
 import de.tum.pom16.teamtba.reservationapp.models.HourTimeSlot;
-import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 import de.tum.pom16.teamtba.reservationapp.utilities.Helpers;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class FilterResultsActivity extends AppActivity {
     private GlobalSearchFilters filters;
@@ -174,7 +166,7 @@ public class FilterResultsActivity extends AppActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DateDialogFragment dateDialog = new DateDialogFragment(view, filters.getDate());
+                FilterDateDialogFragment dateDialog = new FilterDateDialogFragment(view, filters.getDate());
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 dateDialog.show(fragmentTransaction, "DatePicker");
             }
@@ -227,7 +219,7 @@ public class FilterResultsActivity extends AppActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimeSlotDialogFragment timeDialog = new TimeSlotDialogFragment(timeTextView, "Pick time slot");
+                FilterTimeSlotDialogFragment timeDialog = new FilterTimeSlotDialogFragment(timeTextView, "Pick time slot");
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 timeDialog.show(fragmentTransaction, "TimeSlotPicker");
             }
