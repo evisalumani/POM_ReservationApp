@@ -8,6 +8,8 @@ import android.widget.DatePicker;
 
 import java.util.Calendar;
 
+import de.tum.pom16.teamtba.reservationapp.utilities.Helpers;
+
 /**
  * Created by evisa on 9/7/16.
  */
@@ -34,6 +36,6 @@ public class DateDialogFragment extends BaseDialogFragment implements DatePicker
         selectedDate.set(year, monthOfYear, dayOfMonth);
         filters.setDate(selectedDate);
 
-        updateTextInCallingActivity(filters.getDateString());
+        updateTextInCallingActivity(Helpers.getDateString(selectedDate));
     }
 }

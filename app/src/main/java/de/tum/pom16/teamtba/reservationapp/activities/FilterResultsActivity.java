@@ -87,7 +87,7 @@ public class FilterResultsActivity extends AppActivity {
         int priceCategory = filters.getMaxPriceCategory();
         priceTextView.setText("Price (max): " + Constants.getPriceCategoryStrings()[priceCategory]);
 
-        dateTextView.setText(filters.getDateString());
+        dateTextView.setText(Helpers.getDateString(filters.getDate()));
 
         HourTimeSlot timeSlot = filters.getTimeSlot();
         timeTextView.setText(timeSlot == null ? "Any Time" : timeSlot.toString());

@@ -6,6 +6,7 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.google.android.gms.location.places.Place;
 
+import java.util.Calendar;
 import java.util.List;
 
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
@@ -30,5 +31,13 @@ public abstract class Helpers {
 
     public static String[] getDayOfWeekString() {
         return new String[] { "", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+    }
+
+    public static String getDateString(Calendar date) {
+        if (date != null) {
+            return date.get(Calendar.DAY_OF_MONTH) + "/" + ( date.get(Calendar.MONTH) + 1) + "/" + date.get(Calendar.YEAR);
+        }
+
+        return "--/--/----";
     }
 }
