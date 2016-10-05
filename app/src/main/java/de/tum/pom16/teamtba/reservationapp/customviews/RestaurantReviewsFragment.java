@@ -59,6 +59,13 @@ public class RestaurantReviewsFragment extends PlaceholderFragment {
         progressBars[3] = (ProgressBar)fragmentView.findViewById(R.id.reviews_four_progressbar);
         progressBars[4] = (ProgressBar)fragmentView.findViewById(R.id.reviews_five_progressbar);
 
+        int[] reviewsDistribution = restaurant.getReviewsDistribution();
+        if (reviewsDistribution != null) {
+            for (int i=0; i<5; i++) {
+                progressBars[i].setProgress((reviewsDistribution[i]*100)/restaurant.getReviewsNr());
+            }
+        }
+
         restaurantReviewsAdapter = new RestaurantReviewAdapter(getActivity(), restaurant.getReviews());
         reviewsListView = (ListView)fragmentView.findViewById(R.id.reviews_listview);
         reviewsListView.setAdapter(restaurantReviewsAdapter);

@@ -40,7 +40,6 @@ public class Restaurant implements Parcelable {
     private List<Table> tables = new ArrayList<Table>();
     private List<RestaurantReview> reviews = new ArrayList<RestaurantReview>();
     private HashMap<Integer, OpeningTimes> openingTimes = new HashMap<>(); //Integer for day_of_week
-    private HashMap<Integer, String> x = new HashMap<>();
     //Calendar.SUNDAY is 1, Calendar.MONDAY is 2 and so on...
 
     //private int tablesNumber;
@@ -126,6 +125,22 @@ public class Restaurant implements Parcelable {
             case 4: return "€€€€";
             default: return "";
         }
+    }
+
+    public int[] getReviewsDistribution() {
+        if (reviews != null && reviews.size() > 0) {
+            int[] reviewsDistribution = new int[5]; //for 5 stars
+            for (int i = 0; i < 5; i++) {
+                final float j = i + 1;
+                reviewsDistribution[i] = (int) Stream.of(reviews)
+                        .filter(review -> review.getRating() == j)
+                        .count();
+            }
+
+            return reviewsDistribution;
+        }
+
+        return null;
     }
 
     public void setOpeningTimes(int dayOfWeek, HourTimeSlot openingHour, HourTimeSlot closingHour) {

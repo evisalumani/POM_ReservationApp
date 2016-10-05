@@ -56,6 +56,8 @@ public class DataGenerator {
         r3.addReview(new RestaurantReview(4, "", new Date(), ""));
         r5.addReview(new RestaurantReview(5, "", new Date(), ""));
         r6.addReview(new RestaurantReview(1, "Michael F.", new Date(), "Das teuerste Gyros in der Geschichte Griechenlands. Wie diese Preise gerechtfertig werden, das weiss nur das Pommenbuden-Flair und die Neonlicht-Romantik, die man auf den Küchen-Holzstühlen geniessen darf."));
+        r6.addReview(new RestaurantReview(1, "Michael Nyman", new Date(), "Meh"));
+        r6.addReview(new RestaurantReview(2, "Michael L.", new Date(), "Average"));
         r7.addReview(new RestaurantReview(2, "", new Date(), ""));
 
         r1.setOpeningTimes(Calendar.MONDAY, new HourTimeSlot(10, 0), new HourTimeSlot(24, 0));
