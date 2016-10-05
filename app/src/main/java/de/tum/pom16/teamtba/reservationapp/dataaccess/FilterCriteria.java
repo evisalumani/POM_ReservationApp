@@ -12,4 +12,8 @@ public abstract class FilterCriteria {
     public FilterCriteria(Object criteria) {
         this.criteria = criteria;
     }
+
+    public Object getCriteria() {
+        return criteria;
+    }
 }

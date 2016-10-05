@@ -101,9 +101,14 @@ public class DataGenerator {
         Table table5 = new Table(5, 4, 10, 24);
         Table table6 = new Table(6, 4, 10, 24);
         Table table7 = new Table(7, 4, 10, 24);
+        Table table8 = new Table(8, 4, 10, 24);
+
 
         r1.addTable(table1);
         r2.addTable(table2);
+        r2.addTable(table8);
+        r2.addTable(table1); //test
+        r2.addTable(table3);//test
         r3.addTable(table3);
         r4.addTable(table4);
         r5.addTable(table5);
