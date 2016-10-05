@@ -162,10 +162,10 @@ public class Restaurant implements Parcelable {
         float avg = (float) 0.0;
         if (reviews != null && getReviewsNr() > 0) {
             float sum = Stream.of(reviews).map(review -> review.getRating()).reduce((float) 0.0, (a, b) -> a + b);
-            avg = sum / getReviewsNr();
+            avg = sum/getReviewsNr();
         }
 
-        return avg;
+        return (float) (Math.round(avg * 10d)/10d); //round to 1 decimal place
     }
 
     public int getReviewsNr() {

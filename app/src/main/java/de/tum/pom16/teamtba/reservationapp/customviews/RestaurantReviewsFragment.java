@@ -62,7 +62,11 @@ public class RestaurantReviewsFragment extends PlaceholderFragment {
         int[] reviewsDistribution = restaurant.getReviewsDistribution();
         if (reviewsDistribution != null) {
             for (int i=0; i<5; i++) {
-                progressBars[i].setProgress((reviewsDistribution[i]*100)/restaurant.getReviewsNr());
+                if (reviewsDistribution[i] == 0) {
+                    progressBars[i].setProgress(1); //at least show a "thin" bar in case of no reviews of a given rating
+                } else {
+                    progressBars[i].setProgress((reviewsDistribution[i] * 100) / restaurant.getReviewsNr());
+                }
             }
         }
 
