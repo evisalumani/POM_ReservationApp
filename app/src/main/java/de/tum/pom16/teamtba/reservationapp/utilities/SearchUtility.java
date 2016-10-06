@@ -32,6 +32,12 @@ public class SearchUtility {
         this.searchMenuItem = searchMenuItem;
         this.searchManager = (SearchManager) activityContext.getSystemService(Context.SEARCH_SERVICE);
         this.componentName = activityContext.getComponentName();
+
+        //TODO: WHY?
+        if(searchMenuItem == null) {
+            return;
+        }
+
         searchView = (SearchView) searchMenuItem.getActionView();
 
         if (searchView != null) {

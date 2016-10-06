@@ -99,7 +99,8 @@ public class RestaurantReservationFragment extends PlaceholderFragment {
 
     @Override
     public void onResume() {
+        //TODO: this is not called when closing the timepicker dialog
         super.onResume();
-        Toast.makeText(getActivity(), timeSlotToReserve.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), (timeSlotToReserve == null ? "NULL" : timeSlotToReserve.toString()), Toast.LENGTH_SHORT).show();
     }
 }
