@@ -24,6 +24,6 @@ public class FilterTimeSlotDialogFragment extends BaseTimeSlotDialogFragment {
     public void performClick(int which) {
         super.performClick(which);
         //update global filters
-        filters.setTimeSlot(HourTimeSlot.fromString((String) items[which]));
+        filters.setTimeSlot(timeSlot);
     }
 }

@@ -18,6 +18,7 @@ import de.tum.pom16.teamtba.reservationapp.models.HourTimeSlot;
  */
 public class BaseTimeSlotDialogFragment extends BaseDialogFragment {
     private final static String ANY_TIME_SLOT = "Any time";
+    protected HourTimeSlot timeSlot;
 
     protected BaseTimeSlotDialogFragment(View view, String title) {
         super(view, title);
@@ -47,6 +48,8 @@ public class BaseTimeSlotDialogFragment extends BaseDialogFragment {
     }
 
     protected void performClick(int which) {
+        //update selected timeslot
+        timeSlot = HourTimeSlot.fromString((String) items[which]);
         //update ui
         updateTextInCallingActivity(String.valueOf(items[which]));
         //TODO: override to update filters
