@@ -1,5 +1,6 @@
 package de.tum.pom16.teamtba.reservationapp.dataaccess;
 
+import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import java.util.Calendar;
@@ -40,12 +41,12 @@ public class TimeFilterCriteria extends FilterCriteria {
             // which contains an available reservation for the given date and time slot
             //TODO: get() or contains()
             //TODO: remove x, just return directly
-            boolean x= Stream.of(restaurant.getTables()).anyMatch(table ->
+            return Stream.of(restaurant.getTables()).anyMatch(table ->
                             //either there are no reservations for the table, or there are no reservations at the given time slot
-                            table.getReservations() == null || table.getReservations().size() == 0 || Stream.of(table.getReservations()).noneMatch(reservation -> reservation.getDateTimeSlot() == dateTimeSlot)
+                            table.getReservations() == null || table.getReservations().size() == 0 || Stream.of(table.getReservations())
+                                    .noneMatch(reservation -> reservation.getDateTimeSlot() == dateTimeSlot)
                     //return table.getTableReservationStatus() != null && table.getTableReservationStatus().size() > 0 && table.getTableReservationStatus().get(dateTimeSlot) == true;
-            );
-            return x;
+                            );
         } else {
             return false;
         }

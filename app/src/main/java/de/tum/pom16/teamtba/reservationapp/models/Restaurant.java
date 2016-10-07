@@ -342,5 +342,24 @@ public class Restaurant implements Parcelable {
 //            openingHour = in.readInt();
 //            closingHour = in.readInt();
         }
+
+
+    public List<Table> getAvailableTables(Calendar date, HourTimeSlot timeSlot) {
+        if (date == null || timeSlot == null) {
+            return null;
+        }
+
+        if (!isOpenAtTimeSlot(date, timeSlot)) {
+            return null;
+        }
+
+        DateTimeSlot dateTimeSlot = new DateTimeSlot(date, timeSlot);
+        return Stream.of(tables).filter(table ->
+                //either there are no reservations for the table, or there are no reservations at the given time slot
+                table.getReservations() == null
+                        || table.getReservations().size() == 0
+                        || Stream.of(table.getReservations()).noneMatch(reservation -> reservation.getDateTimeSlot() == dateTimeSlot))
+                .collect(Collectors.toList());
+    }
 }
 

@@ -10,7 +10,12 @@ import de.tum.pom16.teamtba.reservationapp.models.HourTimeSlot;
  */
 public class ReservationTimeSlotDialogFragment extends BaseTimeSlotDialogFragment {
     private Fragment callingFragment;
-    public ReservationTimeSlotDialogFragment(View view, HourTimeSlot timeSlot, String title, Fragment callingFragment) {
+    //TODO: display only available timeslots for the given date
+//    private HourTimeSlot openingTimeSlot;
+//    private HourTimeSlot closingTimeSlot;
+
+    public ReservationTimeSlotDialogFragment(
+            View view, HourTimeSlot timeSlot, String title, Fragment callingFragment) {
         super(view, title);
         this.timeSlot = timeSlot;
         this.callingFragment = callingFragment;

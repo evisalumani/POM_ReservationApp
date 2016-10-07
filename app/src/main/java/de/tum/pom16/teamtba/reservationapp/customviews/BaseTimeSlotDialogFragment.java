@@ -52,6 +52,5 @@ public class BaseTimeSlotDialogFragment extends BaseDialogFragment {
         timeSlot = HourTimeSlot.fromString((String) items[which]);
         //update ui
         updateTextInCallingActivity(String.valueOf(items[which]));
-        //TODO: override to update filters
     }
 }
