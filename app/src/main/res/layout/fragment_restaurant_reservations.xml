@@ -85,9 +85,6 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:layout_below="@id/reservation_find_table_button">
-
-
-
     </RelativeLayout>
 
     <!--<GridView-->
@@ -99,15 +96,12 @@
         <!--android:paddingRight="@dimen/activity_horizontal_margin"-->
         <!--android:paddingTop="@dimen/activity_vertical_margin"-->
         <!--android:layout_below="@id/reservation_find_table_button"-->
-
-
         <!--android:columnWidth="100dp"-->
         <!--android:numColumns="auto_fit"-->
         <!--android:verticalSpacing="10dp"-->
         <!--android:horizontalSpacing="10dp"-->
         <!--android:choiceMode="singleChoice"-->
         <!--android:stretchMode="spacingWidthUniform">-->
-
     <!--</GridView>-->
 
 </RelativeLayout>

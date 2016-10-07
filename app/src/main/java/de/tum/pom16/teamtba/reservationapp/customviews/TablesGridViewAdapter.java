@@ -33,7 +33,7 @@ public class TablesGridViewAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return tables.get(position);
     }
 
     @Override
