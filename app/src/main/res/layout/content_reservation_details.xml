@@ -19,8 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:background="@color/red"
-        android:gravity="center">
+        android:background="@color/red">
 
         <TextView
             android:id="@+id/reservation_month_textview"
@@ -39,7 +38,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@id/reservation_month_textview"
             android:text="8"
-            android:textSize="24dp" />
+            android:textSize="30dp" />
 
         <TextView
             android:id="@+id/reservation_dayOfWeek_textview"
@@ -58,7 +57,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@id/reservation_date_details_layout"
-        android:layout_alignParentRight="true">
+        android:layout_alignParentRight="true"
+        android:background="@color/orange"
+        android:layout_alignBottom="@id/reservation_date_details_layout">
 
         <TextView
             android:id="@+id/reservation_restaurantName_textview"
@@ -88,10 +89,5 @@
             android:textSize="16dp"/>
 
     </RelativeLayout>
-
-
-
-
-
 
 </RelativeLayout>
