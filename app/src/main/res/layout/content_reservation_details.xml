@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="de.tum.pom16.teamtba.reservationapp.activities.ReservationDetailsActivity"
+    tools:showIn="@layout/activity_reservation_details">
+
+    <RelativeLayout
+        android:id="@+id/reservation_date_details_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:background="@color/red"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/reservation_month_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:text="OCT"
+            android:textSize="16dp"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:id="@+id/reservation_date_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/reservation_month_textview"
+            android:text="8"
+            android:textSize="24dp" />
+
+        <TextView
+            android:id="@+id/reservation_dayOfWeek_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/reservation_date_textview"
+            android:text="Saturday"
+            android:textSize="16dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/reservation_table_details_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/reservation_date_details_layout"
+        android:layout_alignParentRight="true">
+
+        <TextView
+            android:id="@+id/reservation_restaurantName_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:text="Rabiang Restaurant"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:id="@+id/reservation_nrOfPeople_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/reservation_restaurantName_textview"
+            android:text="Table for 4 people"
+            android:textSize="16dp"/>
+
+        <TextView
+            android:id="@+id/reservation_time_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/reservation_nrOfPeople_textview"
+            android:text="18:00"
+            android:textSize="16dp"/>
+
+    </RelativeLayout>
+
+
+
+
+
+
+</RelativeLayout>

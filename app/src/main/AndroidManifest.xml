@@ -30,12 +30,11 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
             <meta-data
                 android:name="android.app.searchable"
@@ -50,8 +49,7 @@
         <!-- com.google.android.geo.API_KEY is sufficient for both Maps and Places API -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAxTQVETXcCLVb8Rc16GbGS6q8QooJQfQ0"/>
-
+            android:value="AIzaSyAxTQVETXcCLVb8Rc16GbGS6q8QooJQfQ0" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -64,20 +62,23 @@
         <activity
             android:name=".activities.ScrollingActivity"
             android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme">
-
-
-        </activity>
+            android:theme="@style/AppTheme"></activity>
         <activity
             android:name=".activities.RestaurantOverviewActivity"
             android:label="@string/title_activity_restaurant_overview"
             android:theme="@style/AppTheme">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
+        <activity
+            android:name=".activities.ReservationDetailsActivity"
+            android:label="@string/title_activity_reservation_details"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

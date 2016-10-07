@@ -1,6 +1,7 @@
 package de.tum.pom16.teamtba.reservationapp.customviews;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.FragmentTransaction;
@@ -20,6 +21,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import de.tum.pom16.teamtba.reservationapp.R;
+import de.tum.pom16.teamtba.reservationapp.activities.ReservationDetailsActivity;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.GlobalSearchFilters;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.SearchFilterType;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.TimeFilterCriteria;
@@ -124,10 +126,15 @@ public class RestaurantReservationFragment extends PlaceholderFragment {
                 Table selectedTable = (Table) tablesGridView.getItemAtPosition(position);
                 if (selectedTable != null) {
                     //TODO: proceed to next screen
+                    goToReservationDetails();
                 }
             }
         };
+    }
 
+    private void goToReservationDetails() {
+        Intent intent = new Intent(getActivity(), ReservationDetailsActivity.class);
+        startActivity(intent);
     }
 
     private View.OnClickListener getTimeOnClickListener() {
