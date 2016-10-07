@@ -49,11 +49,13 @@ public class RestaurantReservationFragment extends PlaceholderFragment {
         dateTextView = (TextView)v.findViewById(R.id.reservation_calendar_textview);
         timeTextView = (TextView)v.findViewById(R.id.reservation_time_textview);
         findTableButton = (Button)v.findViewById(R.id.reservation_find_table_button);
+        setFindTableButtonEnabled();
 
         setupTimeForSavedFilters();
 
         dateTextView.setOnClickListener(getDateOnClickListener());
         timeTextView.setOnClickListener(getTimeOnClickListener());
+        findTableButton.setOnClickListener(getFindTableClickListener());
         gridView = (GridView) v.findViewById(R.id.reservation_tables_gridview);
 
 //        adapter = new TablesGridViewAdapter(getActivity(), restaurant.getTables());
@@ -61,11 +63,24 @@ public class RestaurantReservationFragment extends PlaceholderFragment {
         return v;
     }
 
+    private View.OnClickListener getFindTableClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dateToReserve != null && timeSlotToReserve != null) {
+                    //TODO: perform search
+                } else {
+                    Toast.makeText(getActivity(), "Select both date and time", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+    }
+
     private View.OnClickListener getTimeOnClickListener() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ReservationTimeSlotDialogFragment timeDialog = new ReservationTimeSlotDialogFragment(timeTextView, timeSlotToReserve, "Pick time slot");
+                ReservationTimeSlotDialogFragment timeDialog = new ReservationTimeSlotDialogFragment(timeTextView, timeSlotToReserve, "Pick time slot", RestaurantReservationFragment.this);
                 FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
                 timeDialog.show(fragmentTransaction, "TimeSlotPicker");
             }
@@ -76,7 +91,7 @@ public class RestaurantReservationFragment extends PlaceholderFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ReservationDateDialogFragment dateDialog = new ReservationDateDialogFragment(view, dateToReserve);
+                ReservationDateDialogFragment dateDialog = new ReservationDateDialogFragment(view, dateToReserve, RestaurantReservationFragment.this);
                 FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
                 dateDialog.show(fragmentTransaction, "DateDialog");
             }
@@ -93,14 +108,22 @@ public class RestaurantReservationFragment extends PlaceholderFragment {
         }
 
         if (dateToReserve == null || timeSlotToReserve == null) {
-            Toast.makeText(getActivity(), "Both dateToReserve and time must be selected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Select both date and time", Toast.LENGTH_SHORT).show();
         }
     }
 
-    @Override
-    public void onResume() {
-        //TODO: this is not called when closing the timepicker dialog
-        super.onResume();
-        Toast.makeText(getActivity(), (timeSlotToReserve == null ? "NULL" : timeSlotToReserve.toString()), Toast.LENGTH_SHORT).show();
+    public void setTimeSlotToReserve(HourTimeSlot timeSlotToReserve) {
+        this.timeSlotToReserve = timeSlotToReserve;
+        setFindTableButtonEnabled();
+
+    }
+
+    public void setDateToReserve(Calendar dateToReserve) {
+        this.dateToReserve = dateToReserve;
+        setFindTableButtonEnabled();
+    }
+
+    private void setFindTableButtonEnabled() {
+        findTableButton.setEnabled(dateToReserve != null && timeSlotToReserve != null);
     }
 }
