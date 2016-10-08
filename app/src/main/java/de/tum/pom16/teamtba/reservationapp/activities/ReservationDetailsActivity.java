@@ -3,7 +3,10 @@ package de.tum.pom16.teamtba.reservationapp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,9 +39,15 @@ public class ReservationDetailsActivity extends AppActivity {
     private EditText emailEditText;
     private EditText phoneEditText;
     private EditText specialRequestsEditText;
+    private Button reserveButton;
 
     //model
     private Reservation reservation;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+    private String specialRequests;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +56,6 @@ public class ReservationDetailsActivity extends AppActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupActionBar();
-
 
         Intent mIntent = getIntent();
         reservation = (Reservation) mIntent.getParcelableExtra(Constants.RESERVATION_DETAILS);
@@ -84,13 +92,38 @@ public class ReservationDetailsActivity extends AppActivity {
         emailEditText = (EditText)findViewById(R.id.reservation_details_email);
         phoneEditText = (EditText)findViewById(R.id.reservation_details_phone);
         specialRequestsEditText = (EditText)findViewById(R.id.reservation_details_specialRequests);
+        reserveButton = (Button)findViewById(R.id.reservation_details_reserve_button);
 
         //add textwatchers for validation
-        firstNameEditText.addTextChangedListener(new PersonNameValidator(firstNameEditText, true));
-        lastNameEditText.addTextChangedListener(new PersonNameValidator(lastNameEditText, true));
-        emailEditText.addTextChangedListener(new EmailValidator(emailEditText, true));
-        phoneEditText.addTextChangedListener(new PhoneValidator(phoneEditText, true));
-        specialRequestsEditText.addTextChangedListener(new AlphaNumericTextValidator(specialRequestsEditText, false));
+        firstNameEditText.addTextChangedListener(new PersonNameValidator(this, firstNameEditText, true));
+        lastNameEditText.addTextChangedListener(new PersonNameValidator(this, lastNameEditText, true));
+        emailEditText.addTextChangedListener(new EmailValidator(this, emailEditText, true));
+        phoneEditText.addTextChangedListener(new PhoneValidator(this, phoneEditText, true));
+        specialRequestsEditText.addTextChangedListener(new AlphaNumericTextValidator(this, specialRequestsEditText, false));
+
+        //add button click listener
+        reserveButton.setOnClickListener(getReserveButtonClickListener());
+    }
+
+    private View.OnClickListener getReserveButtonClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), TextUtils.join(", ", new String[] {firstName, lastName, email, phone, specialRequests}), Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setSpecialRequests(String specialRequests) {
+        this.specialRequests = specialRequests;
     }
 
     @Override
@@ -103,5 +136,10 @@ public class ReservationDetailsActivity extends AppActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setName(EditText editText, String input) {
+        if (editText == firstNameEditText) firstName = input;
+        if (editText == lastNameEditText) lastName = input; //edit text could be for first or last name
     }
 }
