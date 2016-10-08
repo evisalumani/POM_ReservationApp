@@ -4,9 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="de.tum.pom16.teamtba.reservationapp.activities.ReservationDetailsActivity"
@@ -14,187 +11,169 @@
     android:background="@color/white">
 
     <RelativeLayout
-        android:id="@+id/reservation_date_details_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:background="@color/red">
-
-        <!-- add linear layout, in order to be able to center the text -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/reservation_month_textview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="OCT"
-                android:textSize="16dp"
-                android:gravity="center" />
-
-            <TextView
-                android:id="@+id/reservation_date_textview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="8"
-                android:textSize="30dp"
-                android:gravity="center"/>
-
-            <TextView
-                android:id="@+id/reservation_dayOfWeek_textview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Saturday"
-                android:textSize="16dp"
-                android:gravity="center" />
-
-        </LinearLayout>
-
-        <!--<TextView-->
-            <!--android:id="@+id/reservation_month_textview"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:text="OCT"-->
-            <!--android:textSize="16dp"-->
-            <!--android:layout_centerInParent="true"/>-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/reservation_date_textview"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_below="@id/reservation_month_textview"-->
-            <!--android:text="8"-->
-            <!--android:textSize="30dp" />-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/reservation_dayOfWeek_textview"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_below="@id/reservation_date_textview"-->
-            <!--android:text="Saturday"-->
-            <!--android:textSize="16dp" />-->
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/reservation_table_details_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@id/reservation_date_details_layout"
-        android:layout_alignParentRight="true"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:background="@color/orange"
-        android:layout_alignBottom="@id/reservation_date_details_layout">
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
-        <TextView
-            android:id="@+id/reservation_restaurantName_textview"
+        <RelativeLayout
+            android:id="@+id/reservation_date_details_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:text="Rabiang Restaurant"
-            android:textSize="20dp"/>
+            android:layout_alignParentLeft="true">
 
+            <!-- add linear layout, in order to be able to center the text -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/reservation_icon_nrOfPeople"
+                <TextView
+                    android:id="@+id/reservation_month_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="OCT"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:background="@color/red"/>
+
+                <TextView
+                    android:id="@+id/reservation_date_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="8"
+                    android:textSize="30dp"
+                    android:gravity="center"
+                    android:background="@color/light_gray"/>
+
+                <TextView
+                    android:id="@+id/reservation_dayOfWeek_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Saturday"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:background="@color/light_gray"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/reservation_table_details_layout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/reservation_restaurantName_textview"
-            android:src="@drawable/ic_person_outline_24dp"/>
-
-        <TextView
-            android:id="@+id/reservation_nrOfPeople_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/reservation_icon_nrOfPeople"
-            android:layout_below="@id/reservation_restaurantName_textview"
-            android:layout_alignBottom="@id/reservation_icon_nrOfPeople"
-            android:text="Table for 4 people"
-            android:textSize="16dp"/>
-
-        <ImageView
-            android:id="@+id/reservation_icon_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/reservation_icon_nrOfPeople"
-            android:src="@drawable/ic_time_24dp"/>
-
-        <TextView
-            android:id="@+id/reservation_time_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/reservation_icon_time"
-            android:layout_below="@id/reservation_nrOfPeople_textview"
-            android:layout_alignBottom="@id/reservation_icon_time"
-            android:text="18:00"
-            android:textSize="16dp"
-            android:layout_alignParentBottom="true"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/reservation_details_form_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/reservation_date_details_layout"
-        android:paddingTop="@dimen/activity_vertical_margin">
-
-        <EditText
-            android:id="@+id/reservation_details_firstName"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:hint="First Name"
-            android:inputType="textPersonName" />
+            android:layout_toRightOf="@id/reservation_date_details_layout"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:background="@color/lighter_gray"
+            android:layout_alignBottom="@id/reservation_date_details_layout">
 
-        <EditText
-            android:id="@+id/reservation_details_lastName"
+            <TextView
+                android:id="@+id/reservation_restaurantName_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:text="Rabiang Restaurant"
+                android:textSize="20dp"/>
+
+            <ImageView
+                android:id="@+id/reservation_icon_nrOfPeople"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/reservation_restaurantName_textview"
+                android:src="@drawable/ic_person_outline_24dp"/>
+
+            <TextView
+                android:id="@+id/reservation_nrOfPeople_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/reservation_icon_nrOfPeople"
+                android:layout_below="@id/reservation_restaurantName_textview"
+                android:layout_alignBottom="@id/reservation_icon_nrOfPeople"
+                android:text="Table for 4 people"
+                android:textSize="16dp"/>
+
+            <ImageView
+                android:id="@+id/reservation_icon_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/reservation_icon_nrOfPeople"
+                android:src="@drawable/ic_time_gray_24dp"/>
+
+            <TextView
+                android:id="@+id/reservation_time_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/reservation_icon_time"
+                android:layout_below="@id/reservation_nrOfPeople_textview"
+                android:layout_alignBottom="@id/reservation_icon_time"
+                android:text="18:00"
+                android:textSize="16dp"
+                android:layout_alignParentBottom="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/reservation_details_form_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/reservation_details_firstName"
-            android:hint="Last Name"
-            android:inputType="textPersonName" />
+            android:layout_below="@id/reservation_date_details_layout"
+            android:paddingTop="@dimen/activity_vertical_margin">
 
-        <EditText
-            android:id="@+id/reservation_details_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/reservation_details_lastName"
-            android:hint="Email"
-            android:inputType="textEmailAddress" />
+            <EditText
+                android:id="@+id/reservation_details_firstName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:hint="First Name"
+                android:inputType="textPersonName" />
 
-        <EditText
-            android:id="@+id/reservation_details_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/reservation_details_email"
-            android:hint="Phone"
-            android:inputType="phone" />
+            <EditText
+                android:id="@+id/reservation_details_lastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/reservation_details_firstName"
+                android:hint="Last Name"
+                android:inputType="textPersonName" />
 
-        <EditText
-            android:id="@+id/reservation_details_specialRequests"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/reservation_details_phone"
-            android:hint="Special Requests (optional)"
-            android:inputType="textMultiLine" />
+            <EditText
+                android:id="@+id/reservation_details_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/reservation_details_lastName"
+                android:hint="Email"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/reservation_details_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/reservation_details_email"
+                android:hint="Phone"
+                android:inputType="phone" />
+
+            <EditText
+                android:id="@+id/reservation_details_specialRequests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/reservation_details_phone"
+                android:hint="Special Requests (optional)"
+                android:inputType="textMultiLine" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
@@ -203,9 +182,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/reservation_details_form_layout"
         android:text="Reserve"
         android:textAlignment="center"
-        android:background="@color/red" />
+        android:background="@color/red"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

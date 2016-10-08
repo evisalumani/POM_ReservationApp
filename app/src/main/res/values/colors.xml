@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="orange">#E59400</color>
     <color name="light_gray">#F2F3F4</color>
+    <color name="lighter_gray">#fbfbfb</color>
     <color name="red_dark">#C0392B</color>
     <color name="red">#CD6155</color>
     <color name="light_gray_Accent">#D5DBDB</color>
