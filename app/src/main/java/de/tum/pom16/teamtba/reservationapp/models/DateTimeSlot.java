@@ -51,6 +51,18 @@ public class DateTimeSlot implements Parcelable {
         return true;
     }
 
+    public Calendar getDate() {
+        return date;
+    }
+
+    public HourTimeSlot getStartTime() {
+        return startTime;
+    }
+
+    public HourTimeSlot getEndTime() {
+        return endTime;
+    }
+
     @Override
     public int describeContents() {
         return 0;

@@ -6,6 +6,7 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.google.android.gms.location.places.Place;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public abstract class Helpers {
         return Stream.of(restaurants).collect(Collectors.toList());
     }
 
-    public static String[] getDayOfWeekString() {
+    public static String[] getDaysOfWeekString() {
         return new String[] { "", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
     }
 
@@ -39,5 +40,17 @@ public abstract class Helpers {
         }
 
         return "--/--/----";
+    }
+
+    public static String getMonthString(Calendar calendar) {
+        return calendar == null? null :new SimpleDateFormat("MMM").format(calendar.getTime()); //short description (e.g. OCT)
+    }
+
+    public static int getDate(Calendar calendar) {
+        return calendar == null ? 0 : calendar.get(Calendar.DATE);
+    }
+
+    public static String getDayOfWeekString(Calendar calendar) {
+        return calendar == null ? null : getDaysOfWeekString()[calendar.get(Calendar.DAY_OF_WEEK)];
     }
 }

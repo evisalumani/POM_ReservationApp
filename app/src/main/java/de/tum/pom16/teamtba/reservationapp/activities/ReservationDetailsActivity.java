@@ -2,30 +2,43 @@ package de.tum.pom16.teamtba.reservationapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 import de.tum.pom16.teamtba.reservationapp.R;
+import de.tum.pom16.teamtba.reservationapp.models.Constants;
+import de.tum.pom16.teamtba.reservationapp.models.DateTimeSlot;
 import de.tum.pom16.teamtba.reservationapp.models.Reservation;
-import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
+import de.tum.pom16.teamtba.reservationapp.models.Table;
 import de.tum.pom16.teamtba.reservationapp.utilities.AlphaNumericTextValidator;
 import de.tum.pom16.teamtba.reservationapp.utilities.EmailValidator;
+import de.tum.pom16.teamtba.reservationapp.utilities.Helpers;
 import de.tum.pom16.teamtba.reservationapp.utilities.PersonNameValidator;
 import de.tum.pom16.teamtba.reservationapp.utilities.PhoneValidator;
 
 public class ReservationDetailsActivity extends AppActivity {
+    //reservation details
+    private TextView monthTextView;
+    private TextView dateTextView;
+    private TextView dayOfWeekTextView;
+    private TextView restaurantNameTextView;
+    private TextView tableInfoTextView;
+    private TextView timeTextView;
+
+    //reservation form
     private EditText firstNameEditText;
     private EditText lastNameEditText;
     private EditText emailEditText;
     private EditText phoneEditText;
     private EditText specialRequestsEditText;
+
+    //model
+    private Reservation reservation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,19 +46,35 @@ public class ReservationDetailsActivity extends AppActivity {
         setContentView(R.layout.activity_reservation_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         setupActionBar();
-        setupReservationDetails();
-        setupReservationForm();
+
 
         Intent mIntent = getIntent();
-        Reservation reservation = (Reservation) mIntent.getParcelableExtra("RESERVATION_DETAILS");
+        reservation = (Reservation) mIntent.getParcelableExtra(Constants.RESERVATION_DETAILS);
 
-        Reservation x = reservation;
+        setupReservationDetails();
+        setupReservationForm();
     }
 
     private void setupReservationDetails() {
+        if (reservation == null) return;
 
+        monthTextView = (TextView)findViewById(R.id.reservation_month_textview);
+        dateTextView = (TextView)findViewById(R.id.reservation_date_textview);
+        dayOfWeekTextView = (TextView)findViewById(R.id.reservation_dayOfWeek_textview);
+        restaurantNameTextView = (TextView)findViewById(R.id.reservation_restaurantName_textview);
+        tableInfoTextView = (TextView)findViewById(R.id.reservation_nrOfPeople_textview);
+        timeTextView = (TextView)findViewById(R.id.reservation_time_textview);
+
+        DateTimeSlot dateTimeSlot = reservation.getDateTimeSlot();
+        Table table = reservation.getTable();
+        if (dateTimeSlot == null || table == null) return;
+
+        monthTextView.setText(Helpers.getMonthString(dateTimeSlot.getDate()).toUpperCase());
+        dateTextView.setText(String.valueOf(Helpers.getDate(dateTimeSlot.getDate())));
+        dayOfWeekTextView.setText(Helpers.getDayOfWeekString(dateTimeSlot.getDate()));
+        tableInfoTextView.setText("Table for " + table.getCapacity() + " person" + (table.getCapacity() == 1 ? "" : "s"));
+        timeTextView.setText(reservation.getDateTimeSlot().getStartTime().toString());
     }
 
     private void setupReservationForm() {

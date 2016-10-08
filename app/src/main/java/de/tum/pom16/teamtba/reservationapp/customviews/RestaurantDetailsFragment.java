@@ -115,7 +115,7 @@ public class RestaurantDetailsFragment extends PlaceholderFragment implements On
 //        for (int i=1; i<8; i++) {
 //            if (restaurant.getOpeningTimes().get(i) != null) {
 //                TextView txtView = new TextView(getActivity());
-//                txtView.setText(Helpers.getDayOfWeekString()[i] + ", " + restaurant.getOpeningTimes().get(i).toString());
+//                txtView.setText(Helpers.getDaysOfWeekString()[i] + ", " + restaurant.getOpeningTimes().get(i).toString());
 //                txtView.setLayoutParams(new LinearLayout.LayoutParams(
 //                        LinearLayout.LayoutParams.WRAP_CONTENT,
 //                        LinearLayout.LayoutParams.WRAP_CONTENT,

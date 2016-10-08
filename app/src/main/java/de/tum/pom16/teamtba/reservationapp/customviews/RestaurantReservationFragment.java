@@ -25,6 +25,7 @@ import de.tum.pom16.teamtba.reservationapp.activities.ReservationDetailsActivity
 import de.tum.pom16.teamtba.reservationapp.dataaccess.GlobalSearchFilters;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.SearchFilterType;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.TimeFilterCriteria;
+import de.tum.pom16.teamtba.reservationapp.models.Constants;
 import de.tum.pom16.teamtba.reservationapp.models.DateTimeSlot;
 import de.tum.pom16.teamtba.reservationapp.models.HourTimeSlot;
 import de.tum.pom16.teamtba.reservationapp.models.Reservation;
@@ -138,7 +139,7 @@ public class RestaurantReservationFragment extends PlaceholderFragment {
 
     private void goToReservationDetails(Reservation reservation) {
         Intent intent = new Intent(getActivity(), ReservationDetailsActivity.class);
-        intent.putExtra("RESERVATION_DETAILS", reservation);
+        intent.putExtra(Constants.RESERVATION_DETAILS, reservation);
         startActivity(intent);
     }
 

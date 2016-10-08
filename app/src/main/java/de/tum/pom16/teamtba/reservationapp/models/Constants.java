@@ -18,6 +18,9 @@ public abstract class Constants {
     public static final int SORT_BY_PRICE = 1;
     public static final int SORT_BY_RATING = 2;
 
+    //intents
+    public static final String RESERVATION_DETAILS = "RESERVATION_DETAILS";
+
     public static String[] getSortByStrings() {
         return  new String[] { "Nearest Distance", "Lowest Price", "Highest Rating" };
     }
