@@ -39,7 +39,7 @@ public class Restaurant implements Parcelable {
     private HashMap<Integer, OpeningTimes> openingTimes = new HashMap<>(); //Integer for day_of_week
     //Calendar.SUNDAY is 1, Calendar.MONDAY is 2 and so on...
 
-    public Restaurant(String name, String description, String address, double latitude, double longitude, CuisineType type, double averagePrice, int priceCategory, int openingHour, int closingHour, int inTablesNumber) {
+    public Restaurant(String name, String description, String address, double latitude, double longitude, CuisineType type, int priceCategory) {
         this.name = name;
         this.description = description;
         this.address = address;
