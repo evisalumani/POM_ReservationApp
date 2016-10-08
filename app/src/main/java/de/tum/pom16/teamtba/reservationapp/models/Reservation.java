@@ -1,7 +1,12 @@
 package de.tum.pom16.teamtba.reservationapp.models;
 
+import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.CalendarContract;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by evisa on 9/27/16.
@@ -72,5 +77,25 @@ public class Reservation implements Parcelable {
     protected Reservation(Parcel in) {
         table = in.readParcelable(Table.class.getClassLoader());
         dateTimeSlot = in.readParcelable(DateTimeSlot.class.getClassLoader());
+    }
+
+    //needed in case a calendar event is added to the device's calendar
+    //the intent to be started in an activity: startActivity(intent)
+    public Intent createCalendarEventIntent() {
+        Calendar startTime = DateTimeSlot.getCalendarFromDateTimeSlot(dateTimeSlot, true);
+        Calendar endTime = DateTimeSlot.getCalendarFromDateTimeSlot(dateTimeSlot, false);
+
+        Intent calEventIntent = new Intent(Intent.ACTION_INSERT);
+        calEventIntent.setType("vnd.android.cursor.item/event");
+        calEventIntent.putExtra(CalendarContract.Events.TITLE, "Reservation at " + table.getRestaurantName());
+        calEventIntent.putExtra(CalendarContract.Events.DESCRIPTION, "Table for " + table.getCapacity());
+        calEventIntent.putExtra(CalendarContract.Events.EVENT_LOCATION, table.getRestaurantAddress());
+        //start time, end time
+        calEventIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                startTime.getTimeInMillis());
+        calEventIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis());
+        //or startTime.getTimeInMillis()+60*60*1000; to add one hour (in ms)
+
+        return calEventIntent;
     }
 }

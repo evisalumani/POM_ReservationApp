@@ -28,6 +28,14 @@ public class DateTimeSlot implements Parcelable {
         }
     }
 
+    public static Calendar getCalendarFromDateTimeSlot(DateTimeSlot dateTimeSlot, boolean isStartTime) {
+        Calendar cal = dateTimeSlot.getDate();
+        HourTimeSlot timeSlot = isStartTime ? dateTimeSlot.getStartTime() : dateTimeSlot.getEndTime();
+        cal.set(Calendar.HOUR_OF_DAY, timeSlot.getHour());
+        cal.set(Calendar.MINUTE, timeSlot.getMinute());
+        return cal;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
