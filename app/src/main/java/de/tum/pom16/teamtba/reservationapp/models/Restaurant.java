@@ -30,19 +30,14 @@ public class Restaurant implements Parcelable {
     private String address;
     private Location gpsLocation;
     private CuisineType type;
-//    private double averagePrice;
     private int priceCategory;
     private float averageRating;
-//    private int openingHour;
-//    private int closingHour;
     private float distanceFromUserLocation;
 
     private List<Table> tables = new ArrayList<Table>();
     private List<RestaurantReview> reviews = new ArrayList<RestaurantReview>();
     private HashMap<Integer, OpeningTimes> openingTimes = new HashMap<>(); //Integer for day_of_week
     //Calendar.SUNDAY is 1, Calendar.MONDAY is 2 and so on...
-
-    //private int tablesNumber;
 
     public Restaurant(String name, String description, String address, double latitude, double longitude, CuisineType type, double averagePrice, int priceCategory, int openingHour, int closingHour, int inTablesNumber) {
         this.name = name;
@@ -52,17 +47,8 @@ public class Restaurant implements Parcelable {
         this.gpsLocation.setLatitude(latitude);
         this.gpsLocation.setLongitude(longitude);
         this.type = type;
-        //this.averagePrice = averagePrice;
-        //this.tablesNumber = inTablesNumber;
-        //this.openingHour = openingHour;
-        //this.closingHour = closingHour;
         this.priceCategory = priceCategory;
         //TODO: data validation
-
-//        for (int i = 0; i < tablesNumber; ++i) {
-//            int randomNum = 4 + (int)(Math.random() * 4); //4, 5, 6, 7, 8 possible capacity
-//            //tables.add(new Table(i+1, randomNum, openingHour, closingHour));
-//        }
     }
 
     public void setPriceCategory(int category) {
@@ -185,16 +171,13 @@ public class Restaurant implements Parcelable {
 
     public void setAverageRating(float averageRating) { this.averageRating = averageRating; }
 
+    //TODO: remove this, instead redesign the adapter for the search-results
     public String getShortDescription() {
         //format distance (in km) to 1 decimal place
         DecimalFormat df = new DecimalFormat("#.#");
         df.setRoundingMode(RoundingMode.CEILING);
 
         return type.name() + ", " + getPriceCategoryStr() + ", " + df.format(getDistanceFromUserLocation() / 1000) + " km away";
-    }
-
-    public String getLongDescription() {
-        return "Type: " + this.type + ", Rating: " + getAverageRating() + "\nOpening Hours: ";
     }
 
     public void addReview(RestaurantReview review) {
@@ -233,7 +216,6 @@ public class Restaurant implements Parcelable {
 
     //TODO: how to group days having the same opening times
     public HashMap<OpeningTimes, ArrayList<Integer>>aggregateOpeningTimes() {
-        //HashMap<ArrayList<Integer>, OpeningTimes> result = new HashMap<ArrayList<Integer>, OpeningTimes>();
         HashMap<OpeningTimes, ArrayList<Integer>> result = new HashMap<OpeningTimes, ArrayList<Integer>>();
 
         for (Map.Entry<Integer, OpeningTimes> entry :openingTimes.entrySet()) {
@@ -250,8 +232,7 @@ public class Restaurant implements Parcelable {
         }
 
         return result;
-        //returns the same structure as using Guava
-        //use Google Guava library
+        //returns the same structure as using Google Guava library
         //HashMultimap<OpeningTimes, Integer> multiMap = Multimaps.invertFrom(Multimaps.forMap(openingTimes), HashMultimap.<OpeningTimes, Integer> create());
     }
 
@@ -262,16 +243,6 @@ public class Restaurant implements Parcelable {
     public List<Table> getTables(){
         return tables;
     }
-
-    //TODO: fix to include both starting and ending hour
-//    public Integer[] getTimeSlots() {
-//        Integer[] timeSlots = new Integer[closingHour-openingHour];
-//        for (int i=0; i<timeSlots.length; i++) {
-//            timeSlots[i] = openingHour + i;
-//        }
-//
-//        return timeSlots;
-//    }
 
     @Override
     public int describeContents() {
@@ -285,22 +256,18 @@ public class Restaurant implements Parcelable {
         dest.writeString(address);
         gpsLocation.writeToParcel(dest, flags);
         dest.writeString(type.name());
-        //dest.writeDouble(averagePrice);
         dest.writeInt(priceCategory);
         dest.writeFloat(getAverageRating());
         dest.writeFloat(distanceFromUserLocation);
         dest.writeTypedList(tables);
         //reviews
         dest.writeTypedList(reviews);
-        //dest.writeMap(x); //Hashtable implements Serializable
+
         dest.writeInt(openingTimes.size());
         for (HashMap.Entry<Integer, OpeningTimes> entry : openingTimes.entrySet()) {
             dest.writeInt(entry.getKey());
             dest.writeParcelable(entry.getValue(), flags);
         }
-//        dest.writeInt(tablesNumber);
-//        dest.writeInt(openingHour);
-//        dest.writeInt(closingHour);
     }
 
     // Creator
@@ -326,10 +293,9 @@ public class Restaurant implements Parcelable {
             averageRating = in.readFloat();
             distanceFromUserLocation = in.readFloat();
             in.readTypedList(tables,Table.CREATOR);
-            //try adding reviews as tables
             in.readTypedList(reviews,RestaurantReview.CREATOR);
-            //x = (HashMap<Integer, String>) in.readHashMap(HashMap.class.getClassLoader());
-            //openingTimes = (HashMap<Integer, OpeningTimes>) in.readValue(HashMap.class.getClassLoader());
+
+            //get opening times
             int size = in.readInt();
             openingTimes = new HashMap<Integer, OpeningTimes>();
             for (int i = 0; i < size; i++) {
@@ -337,12 +303,7 @@ public class Restaurant implements Parcelable {
                 OpeningTimes value = in.readParcelable(OpeningTimes.class.getClassLoader());
                 openingTimes.put(key, value);
             }
-
-//            tablesNumber = in.readInt();
-//            openingHour = in.readInt();
-//            closingHour = in.readInt();
         }
-
 
     public List<Table> getAvailableTables(Calendar date, HourTimeSlot timeSlot) {
         if (date == null || timeSlot == null) {
@@ -362,4 +323,3 @@ public class Restaurant implements Parcelable {
                 .collect(Collectors.toList());
     }
 }
-
