@@ -10,7 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="de.tum.pom16.teamtba.reservationapp.activities.ReservationDetailsActivity"
-    tools:showIn="@layout/activity_reservation_details">
+    tools:showIn="@layout/activity_reservation_details"
+    android:background="@color/gray">
 
     <RelativeLayout
         android:id="@+id/reservation_date_details_layout"
@@ -21,33 +22,65 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:background="@color/red">
 
-        <TextView
-            android:id="@+id/reservation_month_textview"
+        <!-- add linear layout, in order to be able to center the text -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:text="OCT"
-            android:textSize="16dp"
-            android:layout_centerInParent="true"/>
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/reservation_date_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/reservation_month_textview"
-            android:text="8"
-            android:textSize="30dp" />
+            <TextView
+                android:id="@+id/reservation_month_textview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="OCT"
+                android:textSize="16dp"
+                android:gravity="center" />
 
-        <TextView
-            android:id="@+id/reservation_dayOfWeek_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/reservation_date_textview"
-            android:text="Saturday"
-            android:textSize="16dp" />
+            <TextView
+                android:id="@+id/reservation_date_textview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="8"
+                android:textSize="30dp"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/reservation_dayOfWeek_textview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Saturday"
+                android:textSize="16dp"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <!--<TextView-->
+            <!--android:id="@+id/reservation_month_textview"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:text="OCT"-->
+            <!--android:textSize="16dp"-->
+            <!--android:layout_centerInParent="true"/>-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/reservation_date_textview"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_below="@id/reservation_month_textview"-->
+            <!--android:text="8"-->
+            <!--android:textSize="30dp" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/reservation_dayOfWeek_textview"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_below="@id/reservation_date_textview"-->
+            <!--android:text="Saturday"-->
+            <!--android:textSize="16dp" />-->
 
     </RelativeLayout>
 
@@ -58,6 +91,7 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@id/reservation_date_details_layout"
         android:layout_alignParentRight="true"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
         android:background="@color/orange"
         android:layout_alignBottom="@id/reservation_date_details_layout">
 
@@ -86,7 +120,8 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@id/reservation_nrOfPeople_textview"
             android:text="18:00"
-            android:textSize="16dp"/>
+            android:textSize="16dp"
+            android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
 

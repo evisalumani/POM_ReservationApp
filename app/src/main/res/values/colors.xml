@@ -8,5 +8,6 @@
     <color name="red_dark">#C0392B</color>
     <color name="red">#CD6155</color>
     <color name="light_gray_Accent">#D5DBDB</color>
+    <color name="gray">#CACFD2</color>
 
 </resources>
