@@ -94,21 +94,21 @@ public class DataGenerator {
         r7.setOpeningTimes(Calendar.TUESDAY, new HourTimeSlot(7, 0), new HourTimeSlot(15, 0));
         r7.setOpeningTimes(Calendar.FRIDAY, new HourTimeSlot(10, 0), new HourTimeSlot(19, 0));
 
-        Table table1 = new Table(1, 4);
-        Table table2 = new Table(2, 4);
-        Table table3 = new Table(3, 4);
-        Table table4 = new Table(4, 4);
-        Table table5 = new Table(5, 4);
-        Table table6 = new Table(6, 4);
-        Table table7 = new Table(7, 4);
-        Table table8 = new Table(8, 4);
+        Table table1 = new Table(1, 4, r1);
+        Table table2 = new Table(2, 4, r2);
+        Table table3 = new Table(3, 4, r3);
+        Table table4 = new Table(4, 4, r4);
+        Table table5 = new Table(5, 4, r5);
+        Table table6 = new Table(6, 4, r6);
+        Table table7 = new Table(7, 4, r7);
+        Table table8 = new Table(8, 4, r2);
 
 
         r1.addTable(table1);
         r2.addTable(table2);
         r2.addTable(table8);
-        r2.addTable(table1); //test
-        r2.addTable(table3);//test
+//        r2.addTable(table1); //test
+//        r2.addTable(table3);//test
         r3.addTable(table3);
         r4.addTable(table4);
         r5.addTable(table5);

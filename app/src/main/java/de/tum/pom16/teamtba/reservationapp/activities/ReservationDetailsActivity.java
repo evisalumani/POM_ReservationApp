@@ -83,6 +83,7 @@ public class ReservationDetailsActivity extends AppActivity {
         monthTextView.setText(Helpers.getMonthString(dateTimeSlot.getDate()).toUpperCase());
         dateTextView.setText(String.valueOf(Helpers.getDate(dateTimeSlot.getDate())));
         dayOfWeekTextView.setText(Helpers.getDayOfWeekString(dateTimeSlot.getDate()));
+        restaurantNameTextView.setText(table.getRestaurantName());
         tableInfoTextView.setText("Table for " + table.getCapacity() + " person" + (table.getCapacity() == 1 ? "" : "s"));
         timeTextView.setText(reservation.getDateTimeSlot().getStartTime().toString());
     }

@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -18,14 +19,20 @@ public class Table implements Parcelable {
     //Note: assume reservations are valid for 1 hour
     private int tableId;
     private int tableCapacity;
+    private List<Reservation> reservations = new ArrayList<Reservation>();
 
-    Hashtable<Integer, OpeningTimes> openingTimes = new Hashtable<Integer, OpeningTimes>();
+    //restaurant properties needed for the reservation details
+    private String restaurantName;
+    private String restaurantAddress;
+    private HashMap<Integer, OpeningTimes> restaurantOpeningTimes = new HashMap<Integer, OpeningTimes>();
     //Hashtable<DateTimeSlot, Boolean> tableReservationStatus = new Hashtable<DateTimeSlot, Boolean>();
-    List<Reservation> reservations = new ArrayList<Reservation>();
 
-    public Table(int tableId, int capacity) {
+    public Table(int tableId, int capacity, Restaurant restaurant) {
         this.tableId = tableId;
         this.tableCapacity = capacity;
+        this.restaurantName = restaurant.getName();
+        this.restaurantAddress = restaurant.getAddress();
+        this.restaurantOpeningTimes = restaurant.getOpeningTimes();
     }
 
     public int getCapacity() {
@@ -44,8 +51,16 @@ public class Table implements Parcelable {
         this.tableId = tableId;
     }
 
-    public void setOpeningTimes(Hashtable<Integer, OpeningTimes> openingTimes) {
-        this.openingTimes = openingTimes;
+    public void setOpeningTimes(HashMap<Integer, OpeningTimes> openingTimes) {
+        this.restaurantOpeningTimes = openingTimes;
+    }
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public String getRestaurantAddress() {
+        return restaurantAddress;
     }
 
     @Override
@@ -58,6 +73,15 @@ public class Table implements Parcelable {
         dest.writeInt(tableId);
         dest.writeInt(tableCapacity);
         dest.writeTypedList(reservations);
+        dest.writeString(restaurantName);
+        dest.writeString(restaurantAddress);
+
+        //write opening times
+        dest.writeInt(restaurantOpeningTimes.size());
+        for (HashMap.Entry<Integer, OpeningTimes> entry : restaurantOpeningTimes.entrySet()) {
+            dest.writeInt(entry.getKey());
+            dest.writeParcelable(entry.getValue(), flags);
+        }
     }
 
     // Creator
@@ -76,6 +100,17 @@ public class Table implements Parcelable {
         tableId = in.readInt();
         tableCapacity = in.readInt();
         in.readTypedList(reservations, Reservation.CREATOR);
+        restaurantName = in.readString();
+        restaurantAddress = in.readString();
+
+        //read opening times
+        int size = in.readInt();
+        restaurantOpeningTimes = new HashMap<Integer, OpeningTimes>();
+        for (int i = 0; i < size; i++) {
+            Integer key = in.readInt();
+            OpeningTimes value = in.readParcelable(OpeningTimes.class.getClassLoader());
+            restaurantOpeningTimes.put(key, value);
+        }
     }
 
     public List<Reservation> getReservations() {
