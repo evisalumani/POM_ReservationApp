@@ -116,4 +116,9 @@ public class AppActivity extends AppCompatActivity {
         intent.putExtra(IntentType.INTENT_TO_RESTAURANT_DETAILS.name(), restaurant);
         startActivity(intent);
     }
+
+    protected void returnToSearchResults() {
+        Intent intent = new Intent(this, SearchResultsActivity.class);
+        startActivity(intent);
+    }
 }

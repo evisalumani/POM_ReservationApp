@@ -18,6 +18,7 @@ import de.tum.pom16.teamtba.reservationapp.models.Constants;
 import de.tum.pom16.teamtba.reservationapp.models.DateTimeSlot;
 import de.tum.pom16.teamtba.reservationapp.models.Reservation;
 import de.tum.pom16.teamtba.reservationapp.models.Table;
+import de.tum.pom16.teamtba.reservationapp.models.UserContact;
 import de.tum.pom16.teamtba.reservationapp.utilities.AlphaNumericTextValidator;
 import de.tum.pom16.teamtba.reservationapp.utilities.EmailValidator;
 import de.tum.pom16.teamtba.reservationapp.utilities.Helpers;
@@ -43,6 +44,7 @@ public class ReservationDetailsActivity extends AppActivity {
 
     //model
     private Reservation reservation;
+    private Table table;
     private String firstName;
     private String lastName;
     private String email;
@@ -75,7 +77,7 @@ public class ReservationDetailsActivity extends AppActivity {
         timeTextView = (TextView)findViewById(R.id.reservation_time_textview);
 
         DateTimeSlot dateTimeSlot = reservation.getDateTimeSlot();
-        Table table = reservation.getTable();
+        table = reservation.getTable();
         if (dateTimeSlot == null || table == null) return;
 
         monthTextView.setText(Helpers.getMonthString(dateTimeSlot.getDate()).toUpperCase());
@@ -93,6 +95,7 @@ public class ReservationDetailsActivity extends AppActivity {
         phoneEditText = (EditText)findViewById(R.id.reservation_details_phone);
         specialRequestsEditText = (EditText)findViewById(R.id.reservation_details_specialRequests);
         reserveButton = (Button)findViewById(R.id.reservation_details_reserve_button);
+        setReserveButtonEnabled();
 
         //add textwatchers for validation
         firstNameEditText.addTextChangedListener(new PersonNameValidator(this, firstNameEditText, true));
@@ -109,20 +112,32 @@ public class ReservationDetailsActivity extends AppActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), TextUtils.join(", ", new String[] {firstName, lastName, email, phone, specialRequests}), Toast.LENGTH_SHORT).show();
+                if (specialRequests!=null) reservation.setSpecialRequests(specialRequests);
+                reservation.setUserContact(new UserContact(firstName, lastName, email, phone));
+
+                //update table's reservations
+                table.addReservation(reservation);
+
+                Toast.makeText(getApplicationContext(), "Reservation successful", Toast.LENGTH_SHORT).show();
+
+                //go to search results
+                returnToSearchResults();
             }
         };
     }
 
     public void setEmail(String email) {
         this.email = email;
+        setReserveButtonEnabled();
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
+        setReserveButtonEnabled();
     }
 
     public void setSpecialRequests(String specialRequests) {
+        //No need to call setReserveButtonEnabled(); because this field is optional
         this.specialRequests = specialRequests;
     }
 
@@ -141,5 +156,10 @@ public class ReservationDetailsActivity extends AppActivity {
     public void setName(EditText editText, String input) {
         if (editText == firstNameEditText) firstName = input;
         if (editText == lastNameEditText) lastName = input; //edit text could be for first or last name
+        setReserveButtonEnabled();
+    }
+
+    private void setReserveButtonEnabled() {
+        reserveButton.setEnabled(firstName != null && lastName != null && email != null && phone != null);
     }
 }

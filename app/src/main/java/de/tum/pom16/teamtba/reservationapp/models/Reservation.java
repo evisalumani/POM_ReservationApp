@@ -9,6 +9,9 @@ import android.os.Parcelable;
 public class Reservation implements Parcelable {
     private Table table; //table links to restaurant
     private DateTimeSlot dateTimeSlot;
+    private String specialRequests;
+    private UserContact userContact;
+
     //TODO: is confirmed for later (use notifications)
     private boolean isConfirmed;
 
@@ -31,6 +34,14 @@ public class Reservation implements Parcelable {
 
     public void setDateTimeSlot(DateTimeSlot dateTimeSlot) {
         this.dateTimeSlot = dateTimeSlot;
+    }
+
+    public void setSpecialRequests(String specialRequirements) {
+        this.specialRequests = specialRequirements;
+    }
+
+    public void setUserContact(UserContact userContact) {
+        this.userContact = userContact;
     }
 
     @Override

@@ -30,7 +30,6 @@ public class Table implements Parcelable {
     public Table(int tableId, int capacity) {
         this.tableId = tableId;
         this.tableCapacity = capacity;
-        reservations.add(new Reservation(null, null)); //TODO:remove, just for testing purposes
     }
 
     public Table(int tableId, int capacity, int openingHour, int closingHour) {
@@ -176,6 +175,10 @@ public class Table implements Parcelable {
 
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    public void addReservation(Reservation reservation) {
+        if (reservation != null) reservations.add(reservation);
     }
 }
 

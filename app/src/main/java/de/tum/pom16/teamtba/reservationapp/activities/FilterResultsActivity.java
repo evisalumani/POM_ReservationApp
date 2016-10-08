@@ -263,9 +263,4 @@ public class FilterResultsActivity extends AppActivity {
           locationTextView.setOnClickListener(getLocationClickListener());
       }
     }
-
-    private void returnToSearchResults() {
-        Intent intent = new Intent(this, SearchResultsActivity.class);
-        startActivity(intent);
-    }
 }
