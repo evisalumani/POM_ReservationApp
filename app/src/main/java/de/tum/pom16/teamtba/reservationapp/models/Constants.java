@@ -20,6 +20,7 @@ public abstract class Constants {
 
     //intents
     public static final String RESERVATION_DETAILS = "RESERVATION_DETAILS";
+    public static final String RESTAURANT_DETAILS = "RESTAURANT_DETAILS";
 
     public static String[] getSortByStrings() {
         return  new String[] { "Nearest Distance", "Lowest Price", "Highest Rating" };

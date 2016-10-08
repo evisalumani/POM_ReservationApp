@@ -181,4 +181,3 @@ public class Table implements Parcelable {
         if (reservation != null) reservations.add(reservation);
     }
 }
-

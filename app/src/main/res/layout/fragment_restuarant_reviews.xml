@@ -206,8 +206,7 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/reviews_listview"
-            android:layout_below="@id/restaurant_reviews_ratingbar"/>
+            android:id="@+id/reviews_listview" />
     </RelativeLayout>
 
 </RelativeLayout>

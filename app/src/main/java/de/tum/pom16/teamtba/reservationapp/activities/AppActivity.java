@@ -20,6 +20,7 @@ import net.hockeyapp.android.FeedbackManager;
 import net.hockeyapp.android.UpdateManager;
 
 import de.tum.pom16.teamtba.reservationapp.R;
+import de.tum.pom16.teamtba.reservationapp.models.Constants;
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 import de.tum.pom16.teamtba.reservationapp.utilities.HockeyAppIntegration;
 
@@ -113,7 +114,7 @@ public class AppActivity extends AppCompatActivity {
     //common transitions between screens
     protected void goToRestaurantDetails(Restaurant restaurant) {
         Intent intent = new Intent(this, RestaurantOverviewActivity.class);
-        intent.putExtra(IntentType.INTENT_TO_RESTAURANT_DETAILS.name(), restaurant);
+        intent.putExtra(Constants.RESTAURANT_DETAILS, restaurant);
         startActivity(intent);
     }
 

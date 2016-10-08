@@ -17,14 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="200dp" >
 
-    <!--<Button-->
-        <!--android:id="@+id/searchResults_filter_button"-->
-        <!--android:layout_gravity="right|top"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Filter"-->
-        <!--android:padding="5dp"-->
-        <!--android:onClick="filterSearchResults" />-->
     </fragment>
 
     <ListView
@@ -34,5 +26,3 @@
         android:id="@+id/searchResults_listview"
         android:layout_below="@id/map" />
 </RelativeLayout>
-
-    <!--android:layout_below="@id/searchResults_filter_button"-->

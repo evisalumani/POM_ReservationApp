@@ -26,6 +26,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 
 import de.tum.pom16.teamtba.reservationapp.R;
 import de.tum.pom16.teamtba.reservationapp.customviews.SectionsPagerAdapter;
+import de.tum.pom16.teamtba.reservationapp.models.Constants;
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 
 public class RestaurantOverviewActivity extends AppActivity {
@@ -56,7 +57,7 @@ public class RestaurantOverviewActivity extends AppActivity {
 
         //get restaurant
         Intent mIntent = getIntent();
-        restaurant = (Restaurant) mIntent.getParcelableExtra(IntentType.INTENT_TO_RESTAURANT_DETAILS.name());
+        restaurant = (Restaurant) mIntent.getParcelableExtra(Constants.RESTAURANT_DETAILS);
         getSupportActionBar().setTitle(restaurant.getName());
 
 

@@ -60,10 +60,6 @@
             android:label="@string/title_activity_filter_results"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.ScrollingActivity"
-            android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme"></activity>
-        <activity
             android:name=".activities.RestaurantOverviewActivity"
             android:label="@string/title_activity_restaurant_overview"
             android:theme="@style/AppTheme">
