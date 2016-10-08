@@ -25,7 +25,9 @@ import de.tum.pom16.teamtba.reservationapp.activities.ReservationDetailsActivity
 import de.tum.pom16.teamtba.reservationapp.dataaccess.GlobalSearchFilters;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.SearchFilterType;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.TimeFilterCriteria;
+import de.tum.pom16.teamtba.reservationapp.models.DateTimeSlot;
 import de.tum.pom16.teamtba.reservationapp.models.HourTimeSlot;
+import de.tum.pom16.teamtba.reservationapp.models.Reservation;
 import de.tum.pom16.teamtba.reservationapp.models.Table;
 import de.tum.pom16.teamtba.reservationapp.utilities.Helpers;
 
@@ -126,6 +128,8 @@ public class RestaurantReservationFragment extends PlaceholderFragment {
                 Table selectedTable = (Table) tablesGridView.getItemAtPosition(position);
                 if (selectedTable != null) {
                     //TODO: proceed to next screen
+                    //create a reservation
+                    Reservation reservation = new Reservation(selectedTable, new DateTimeSlot(dateToReserve, timeSlotToReserve));
                     goToReservationDetails();
                 }
             }

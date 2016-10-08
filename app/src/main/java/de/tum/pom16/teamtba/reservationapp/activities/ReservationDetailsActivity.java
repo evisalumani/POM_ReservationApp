@@ -32,8 +32,12 @@ public class ReservationDetailsActivity extends AppActivity {
         setSupportActionBar(toolbar);
 
         setupActionBar();
-
+        setupReservationDetails();
         setupReservationForm();
+    }
+
+    private void setupReservationDetails() {
+
     }
 
     private void setupReservationForm() {
@@ -63,6 +67,4 @@ public class ReservationDetailsActivity extends AppActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
 }
