@@ -130,14 +130,15 @@ public class RestaurantReservationFragment extends PlaceholderFragment {
                     //TODO: proceed to next screen
                     //create a reservation
                     Reservation reservation = new Reservation(selectedTable, new DateTimeSlot(dateToReserve, timeSlotToReserve));
-                    goToReservationDetails();
+                    goToReservationDetails(reservation);
                 }
             }
         };
     }
 
-    private void goToReservationDetails() {
+    private void goToReservationDetails(Reservation reservation) {
         Intent intent = new Intent(getActivity(), ReservationDetailsActivity.class);
+        intent.putExtra("RESERVATION_DETAILS", reservation);
         startActivity(intent);
     }
 

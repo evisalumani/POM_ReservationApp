@@ -1,12 +1,15 @@
 package de.tum.pom16.teamtba.reservationapp.models;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Calendar;
 
 /**
  * Created by evisa on 9/6/16.
  */
-public class DateTimeSlot {
+public class DateTimeSlot implements Parcelable {
     private Calendar date;
     private HourTimeSlot startTime;
     private HourTimeSlot endTime;
@@ -20,6 +23,7 @@ public class DateTimeSlot {
 
     public void setEndTime() {
         if (startTime != null) {
+            //TODO: find a better way to add hours, keep date in mind, e.g. 23:30 + 1 hr = 00:30 instead of 24:30
             endTime = startTime.addHour(DateTimeSlot.duration);
         }
     }
@@ -45,5 +49,37 @@ public class DateTimeSlot {
         }
 
         return true;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        //TODO: is writeSerializable to most efficient way to parcel Calendar?
+        dest.writeSerializable(date);
+        dest.writeParcelable(startTime, flags);
+        dest.writeParcelable(endTime, flags);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<DateTimeSlot> CREATOR = new Parcelable.Creator<DateTimeSlot>() {
+        @Override
+        public DateTimeSlot createFromParcel(Parcel in) {
+            return new DateTimeSlot(in);
+        }
+
+        @Override
+        public DateTimeSlot[] newArray(int size) {
+            return new DateTimeSlot[size];
+        }
+    };
+
+    protected DateTimeSlot(Parcel in) {
+        date = (Calendar)in.readSerializable();
+        startTime = in.readParcelable(HourTimeSlot.class.getClassLoader());
+        endTime = in.readParcelable(HourTimeSlot.class.getClassLoader());
     }
 }

@@ -30,6 +30,7 @@ public class Table implements Parcelable {
     public Table(int tableId, int capacity) {
         this.tableId = tableId;
         this.tableCapacity = capacity;
+        reservations.add(new Reservation(null, null)); //TODO:remove, just for testing purposes
     }
 
     public Table(int tableId, int capacity, int openingHour, int closingHour) {
@@ -142,7 +143,7 @@ public class Table implements Parcelable {
         dest.writeInt(openingHoursDuration);
         dest.writeBooleanArray(reservationStatus);
         dest.writeInt(tableCapacity);
-
+        dest.writeTypedList(reservations);
     }
 
     // Creator
@@ -165,6 +166,7 @@ public class Table implements Parcelable {
         reservationStatus = new boolean[openingHoursDuration];
         in.readBooleanArray(reservationStatus);
         tableCapacity = in.readInt();
+        in.readTypedList(reservations, Reservation.CREATOR);
 
     }
 

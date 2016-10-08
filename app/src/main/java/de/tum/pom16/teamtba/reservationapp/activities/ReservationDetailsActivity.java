@@ -1,5 +1,6 @@
 package de.tum.pom16.teamtba.reservationapp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,6 +13,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import de.tum.pom16.teamtba.reservationapp.R;
+import de.tum.pom16.teamtba.reservationapp.models.Reservation;
+import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 import de.tum.pom16.teamtba.reservationapp.utilities.AlphaNumericTextValidator;
 import de.tum.pom16.teamtba.reservationapp.utilities.EmailValidator;
 import de.tum.pom16.teamtba.reservationapp.utilities.PersonNameValidator;
@@ -34,6 +37,11 @@ public class ReservationDetailsActivity extends AppActivity {
         setupActionBar();
         setupReservationDetails();
         setupReservationForm();
+
+        Intent mIntent = getIntent();
+        Reservation reservation = (Reservation) mIntent.getParcelableExtra("RESERVATION_DETAILS");
+
+        Reservation x = reservation;
     }
 
     private void setupReservationDetails() {
