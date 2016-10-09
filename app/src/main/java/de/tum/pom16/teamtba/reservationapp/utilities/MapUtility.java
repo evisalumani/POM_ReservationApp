@@ -1,6 +1,7 @@
 package de.tum.pom16.teamtba.reservationapp.utilities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
@@ -14,16 +15,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.tum.pom16.teamtba.reservationapp.activities.SearchResultsActivity;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.GlobalSearchFilters;
 
 /**
  * Created by evisa on 10/9/16.
  */
 public class MapUtility implements OnMapReadyCallback {
-    //TODO: can implement MapUtilityInterface -> later work
-    private static final int ZOOM_LEVEL = 15;
+    private static final int ZOOM_LEVEL = 10;
     private GoogleMap googleMap;
     private List<MarkerOptions> markers;
+    private Context context; //ugly solution - cyclic reference
 
     public MapUtility() {
         markers = new ArrayList<MarkerOptions>();
@@ -35,12 +37,11 @@ public class MapUtility implements OnMapReadyCallback {
         // Enable zoom function
         googleMap.getUiSettings().setZoomGesturesEnabled(true);
 
-        //TODO: getmapasync, draw markers after getting search results
         //draw markers
         drawMarkers();
 
         //show user location
-        //setUserLocationEnabled(true);
+        setUserLocationEnabled(true);
         //move camera to the location by which we're filtering
         if (GlobalSearchFilters.getSharedInstance().getLocationToFilter() != null)
             moveCameraToPosition(new LatLng(GlobalSearchFilters.getSharedInstance().getLocationToFilter().getLatitude(), GlobalSearchFilters.getSharedInstance().getLocationToFilter().getLongitude()), ZOOM_LEVEL, true);
@@ -53,6 +54,10 @@ public class MapUtility implements OnMapReadyCallback {
 
     public void setGoogleMap(GoogleMap map) {
         this.googleMap = map;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     public void drawMarkers() {
@@ -87,10 +92,11 @@ public class MapUtility implements OnMapReadyCallback {
         }
     }
 
-//    public void setUserLocationEnabled(boolean enabled) {
-//        if (ActivityCompat.checkSelfPermission(, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//            googleMap.setMyLocationEnabled(enabled);
-//        }
-//    }
+    public void setUserLocationEnabled(boolean enabled) {
+        if (context == null) return;
 
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            googleMap.setMyLocationEnabled(enabled);
+        }
+    }
 }

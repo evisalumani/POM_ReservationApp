@@ -1,8 +1,11 @@
 package de.tum.pom16.teamtba.reservationapp.customviews;
 
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.List;
@@ -103,6 +107,8 @@ public class SearchResultsFragment extends Fragment {
 
             @Override
             public void onNext(SupportMapFragment supportMapFragment) {
+                //don't know where else to call setContext()
+                mapUtility.setContext(getActivity());
                 if (supportMapFragment != null) supportMapFragment.getMapAsync(mapUtility);
             }
         };
