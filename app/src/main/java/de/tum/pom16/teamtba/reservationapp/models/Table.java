@@ -24,7 +24,7 @@ public class Table implements Parcelable {
     //restaurant properties needed for the reservation details
     private String restaurantName;
     private String restaurantAddress;
-    private HashMap<Integer, OpeningTimes> restaurantOpeningTimes = new HashMap<Integer, OpeningTimes>();
+    private HashMap<Integer, OpeningTimes> restaurantOpeningTimes;
     //Hashtable<DateTimeSlot, Boolean> tableReservationStatus = new Hashtable<DateTimeSlot, Boolean>();
 
     public Table(int tableId, int capacity, Restaurant restaurant) {
@@ -122,6 +122,6 @@ public class Table implements Parcelable {
     }
 
     public void addReservation(Reservation reservation) {
-        if (reservation != null) reservations.add(reservation);
+        if (reservations != null) reservations.add(reservation);
     }
 }

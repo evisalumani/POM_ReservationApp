@@ -31,6 +31,7 @@ public class GlobalSearchFilters {
 
     private Hashtable<SearchFilterType, FilterCriteria> filterCriteria;
     private DataSort dataSort;
+    private List<Restaurant> allRestaurants;
 
     //singleton
     private static GlobalSearchFilters sharedInstance;
@@ -38,6 +39,7 @@ public class GlobalSearchFilters {
     //set up default filters
     private GlobalSearchFilters() {
         filterCriteria = new Hashtable<SearchFilterType, FilterCriteria>();
+        allRestaurants = DataGenerator.generateDummyData();
 
         //setup cuisines
         setupCuisines(); //"All" by default -> no filter on cuisines
@@ -195,8 +197,9 @@ public class GlobalSearchFilters {
     public List<Restaurant> applyFilters() {
         //set distance from user
         //TODO: find another way of setting distance from user
-        List<Restaurant> allRestaurants = DataGenerator.generateDummyData();
-        Stream.of(allRestaurants).forEach(restaurant -> restaurant.setDistanceFromUserLocation(locationToFilter));
+        //List<Restaurant> allRestaurants = DataGenerator.generateDummyData();
+        Stream.of(allRestaurants).forEach(restaurant ->
+                restaurant.setDistanceFromUserLocation(locationToFilter));
 
         //apply filtering
         return DataSearch.filter(allRestaurants, filterCriteria.values());
