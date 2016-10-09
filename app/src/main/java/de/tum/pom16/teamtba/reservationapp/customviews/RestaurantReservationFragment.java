@@ -39,8 +39,6 @@ public class RestaurantReservationFragment extends PlaceholderFragment {
     private TextView dateTextView;
     private TextView timeTextView;
     private Button findTableButton;
-    private RelativeLayout tableResultsLayout;
-    private View tableResultsView;
 
     //criteria to filter tables
     private Calendar dateToReserve;
@@ -67,7 +65,6 @@ public class RestaurantReservationFragment extends PlaceholderFragment {
         dateTextView.setOnClickListener(getDateOnClickListener());
         timeTextView.setOnClickListener(getTimeOnClickListener());
         findTableButton.setOnClickListener(getFindTableClickListener());
-        tableResultsLayout = (RelativeLayout)v.findViewById(R.id.reservation_tableResults_layout);
 
         return v;
     }
@@ -88,58 +85,19 @@ public class RestaurantReservationFragment extends PlaceholderFragment {
     }
 
     private void displayTableResults(List<Table> availableTables) {
-        tableResultsView = null;
+        //use replace for fragments, rather than add, to avoid fragments being placed on top of each other
         if (availableTables == null || availableTables.size() == 0) {
-            //no tables found -> show explanation in a textbox
-            tableResultsView = new TextView(getActivity());
-            tableResultsView.setId(R.id.tables_result_view);
-            ((TextView)tableResultsView).setText("Sorry, no matching tables found. Please refine your search!");
-            ((TextView)tableResultsView).setTextSize(30);
-            ((TextView)tableResultsView).setGravity(Gravity.CENTER);
-
-            tableResultsView.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            NoTablesResultsFragment noTablesFragment = new NoTablesResultsFragment();
+            //TODO: check if container is not null
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.reservation_tableResults_layout, noTablesFragment).commit();
         } else {
-            //tables found -> display results in a gridview
-            tableResultsView = new GridView(getActivity());
-            tableResultsView.setId(R.id.tables_result_view1);
-            tableResultsView.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-            ((GridView)tableResultsView).setNumColumns(GridView.AUTO_FIT);
-            ((GridView)tableResultsView).setColumnWidth(300);
-            ((GridView)tableResultsView).setVerticalSpacing(10);
-            ((GridView)tableResultsView).setHorizontalSpacing(10);
-            ((GridView)tableResultsView).setStretchMode(GridView.STRETCH_SPACING_UNIFORM);
-            ((GridView)tableResultsView).setChoiceMode(GridView.CHOICE_MODE_SINGLE);
-            ((GridView)tableResultsView).setOnItemClickListener(getTableClickListener((GridView) tableResultsView));
-
             TablesGridViewAdapter adapter = new TablesGridViewAdapter(getActivity(), availableTables);
-            ((GridView)tableResultsView).setAdapter(adapter);
+            TablesGridViewFragment tablesGridFragment = new TablesGridViewFragment(adapter, dateToReserve, timeSlotToReserve);
+            //TODO: check if container is not null
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.reservation_tableResults_layout, tablesGridFragment).commit();
         }
-
-        tableResultsLayout.addView(tableResultsView);
-    }
-
-    private AdapterView.OnItemClickListener getTableClickListener(GridView tablesGridView) {
-        return new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Table selectedTable = (Table) tablesGridView.getItemAtPosition(position);
-                if (selectedTable != null) {
-                    //create a reservation
-                    Reservation reservation = new Reservation(selectedTable, new DateTimeSlot(dateToReserve, timeSlotToReserve));
-                    goToReservationDetails(reservation);
-                }
-            }
-        };
-    }
-
-    private void goToReservationDetails(Reservation reservation) {
-        Intent intent = new Intent(getActivity(), ReservationDetailsActivity.class);
-        intent.putExtra(Constants.RESERVATION_DETAILS, reservation);
-        startActivity(intent);
     }
 
     private View.OnClickListener getTimeOnClickListener() {
