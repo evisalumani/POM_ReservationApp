@@ -207,14 +207,6 @@ public class FilterResultsActivity extends AppActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_filter_activity, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
     private View.OnClickListener getTimeClickListener() {
         return new View.OnClickListener() {
             @Override
