@@ -13,17 +13,17 @@
 
     <!--</fragment>-->
 
-    <!--<ListView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="5dp"-->
-        <!--android:id="@+id/searchResults_listview"-->
-        <!--android:layout_below="@id/map" />-->
-
-    <TextView
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Yessss"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:id="@+id/searchResults_listview" />
+    <!--android:layout_below="@id/map"-->
+
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:gravity="center"-->
+        <!--android:text="Yessss"/>-->
 
 </RelativeLayout>

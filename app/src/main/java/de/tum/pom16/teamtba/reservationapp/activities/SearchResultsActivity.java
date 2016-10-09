@@ -88,7 +88,7 @@ public class SearchResultsActivity extends MapCallbackActivity {
 
                 } else {
                     //there are search results ->
-                    SearchResultsFragment resultsFragment = new SearchResultsFragment();
+                    SearchResultsFragment resultsFragment = new SearchResultsFragment(searchResults);
                     //TODO: check if container is not null
                     // Add the fragment to the container FrameLayout
                     getSupportFragmentManager().beginTransaction()
