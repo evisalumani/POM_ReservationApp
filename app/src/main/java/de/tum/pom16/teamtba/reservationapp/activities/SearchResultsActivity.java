@@ -47,6 +47,7 @@ public class SearchResultsActivity extends MapCallbackActivity {
     //view
     ListView searchResultsListView;
     ListAdapter searchResultsAdapter;
+    SupportMapFragment mapFragment;
 
     //model
     GlobalSearchFilters filters;
@@ -74,6 +75,9 @@ public class SearchResultsActivity extends MapCallbackActivity {
                 if (restaurants == null || restaurants.size() == 0) {
                     Toast.makeText(SearchResultsActivity.this, "No Results", Toast.LENGTH_SHORT).show();
                 } else {
+                    //there are search results ->
+                    //get map
+                    mapFragment.getMapAsync(SearchResultsActivity.this);
                     addMarkersForSearchResults(); //TODO: can also pass restaurants here
                     setupListview();
                 }
@@ -102,8 +106,10 @@ public class SearchResultsActivity extends MapCallbackActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+
+        //TODO: call this later
+        //mapFragment.getMapAsync(this);
     }
 
     public static Observer<List<Restaurant>> getOberserverOnRestaurants() {

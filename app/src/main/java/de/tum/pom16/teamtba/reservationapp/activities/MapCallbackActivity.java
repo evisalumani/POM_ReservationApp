@@ -39,6 +39,7 @@ public class MapCallbackActivity extends AppActivity implements OnMapReadyCallba
         // Enable zoom function
         googleMap.getUiSettings().setZoomGesturesEnabled(true);
 
+        //TODO: getmapasync, draw markers after getting search results
         //draw markers
         drawMarkers();
 
@@ -78,7 +79,7 @@ public class MapCallbackActivity extends AppActivity implements OnMapReadyCallba
             MarkerOptions marker = new MarkerOptions().position(latLng).title(name);
             markers.add(marker);
 
-            drawMarker(marker);
+            //drawMarker(marker);
         }
     }
 
