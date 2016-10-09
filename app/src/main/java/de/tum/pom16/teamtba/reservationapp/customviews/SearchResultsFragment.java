@@ -17,9 +17,14 @@ import java.util.List;
 
 import de.tum.pom16.teamtba.reservationapp.R;
 import de.tum.pom16.teamtba.reservationapp.activities.AppActivity;
+import de.tum.pom16.teamtba.reservationapp.activities.SearchResultsActivity;
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
 import de.tum.pom16.teamtba.reservationapp.utilities.Helpers;
 import de.tum.pom16.teamtba.reservationapp.utilities.MapUtility;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by evisa on 10/9/16.
@@ -54,6 +59,13 @@ public class SearchResultsFragment extends Fragment {
         View v = inflater.inflate(R.layout.content_map_listview_search_results, container, false);
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
+        //need rx java, to call getMapAsync as soon as mapFragment gets created
+        Observable.just(mapFragment)
+                //concurrency: observe what happens on main thread; react to it on a separate thread
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getOberserverOnMapFragment());
+
         searchResultsListView = (ListView) v.findViewById(R.id.searchResults_listview);
 
         if (searchResults != null && searchResults.size() > 0) {
@@ -78,13 +90,21 @@ public class SearchResultsFragment extends Fragment {
         return v;
     }
 
-    public void getMap() {
-        if (mapFragment != null) {
-            //cannot call this at onCreateView, because the layout is not inflated yet
-            //call this method after SearchResultsFragment instantiation on SearchResultsActivity
-            mapFragment.getMapAsync(mapUtility);
-        }
-    }
+    private Observer<? super SupportMapFragment> getOberserverOnMapFragment() {
+        return new Observer<SupportMapFragment>() {
 
-    //create an 
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onNext(SupportMapFragment supportMapFragment) {
+                if (supportMapFragment != null) supportMapFragment.getMapAsync(mapUtility);
+            }
+        };
+    }
 }

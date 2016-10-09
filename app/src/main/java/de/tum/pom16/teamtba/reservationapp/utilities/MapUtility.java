@@ -74,8 +74,6 @@ public class MapUtility implements OnMapReadyCallback {
             LatLng latLng = new LatLng(lat, lng);
             MarkerOptions marker = new MarkerOptions().position(latLng).title(name);
             markers.add(marker);
-
-            //drawMarker(marker);
         }
     }
 

@@ -93,7 +93,6 @@ public class SearchResultsActivity extends AppActivity {
                     // Add the fragment to the container FrameLayout
                     getSupportFragmentManager().beginTransaction()
                             .add(R.id.searchResults_frame_container, resultsFragment).commit();
-                    resultsFragment.getMap();
 
 
                     //get map
