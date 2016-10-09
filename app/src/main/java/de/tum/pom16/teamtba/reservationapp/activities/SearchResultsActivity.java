@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -25,12 +26,15 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.vision.Frame;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.tum.pom16.teamtba.reservationapp.R;
+import de.tum.pom16.teamtba.reservationapp.customviews.NoSearchResultsFragment;
 import de.tum.pom16.teamtba.reservationapp.customviews.SearchResultsAdapter;
+import de.tum.pom16.teamtba.reservationapp.customviews.SearchResultsFragment;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.DataGenerator;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.DataSearch;
 import de.tum.pom16.teamtba.reservationapp.dataaccess.GlobalSearchFilters;
@@ -48,6 +52,7 @@ public class SearchResultsActivity extends MapCallbackActivity {
     ListView searchResultsListView;
     ListAdapter searchResultsAdapter;
     SupportMapFragment mapFragment;
+    FrameLayout frameContainer;
 
     //model
     GlobalSearchFilters filters;
@@ -74,12 +79,26 @@ public class SearchResultsActivity extends MapCallbackActivity {
                 searchResults = restaurants;
                 if (restaurants == null || restaurants.size() == 0) {
                     Toast.makeText(SearchResultsActivity.this, "No Results", Toast.LENGTH_SHORT).show();
+
+                    NoSearchResultsFragment noResultsFragment = new NoSearchResultsFragment();
+                    //TODO: check if container is not null
+                    // Add the fragment to the container FrameLayout
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.searchResults_frame_container, noResultsFragment).commit();
+
                 } else {
                     //there are search results ->
+                    SearchResultsFragment resultsFragment = new SearchResultsFragment();
+                    //TODO: check if container is not null
+                    // Add the fragment to the container FrameLayout
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.searchResults_frame_container, resultsFragment).commit();
+
+
                     //get map
-                    mapFragment.getMapAsync(SearchResultsActivity.this);
-                    addMarkersForSearchResults(); //TODO: can also pass restaurants here
-                    setupListview();
+//                    mapFragment.getMapAsync(SearchResultsActivity.this);
+//                    addMarkersForSearchResults(); //TODO: can also pass restaurants here
+//                    setupListview();
                 }
             }
         };
@@ -106,7 +125,9 @@ public class SearchResultsActivity extends MapCallbackActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        frameContainer = (FrameLayout)findViewById(R.id.searchResults_frame_container);
+
+        //mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
         //TODO: call this later
         //mapFragment.getMapAsync(this);
@@ -116,24 +137,24 @@ public class SearchResultsActivity extends MapCallbackActivity {
         return oberserverOnRestaurants;
     }
 
-    private void setupListview() {
-        //use helper method so that: searchResults and the data bound to the array adapter point to different memory locations
-        //needed for the search functionality (search icon on action bar), so that we keep track of the initial searchResults,
-        //independent of the queries issued on the action bar
-        searchResultsAdapter = new SearchResultsAdapter(SearchResultsActivity.this, Helpers.deepCopyRestaurants(searchResults));
-        searchResultsListView = (ListView) findViewById(R.id.searchResults_listview);
-        searchResultsListView.setAdapter(searchResultsAdapter);
-
-        //Handle item click from list view
-        searchResultsListView.setClickable(true);
-        searchResultsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                Restaurant restaurant = (Restaurant) searchResultsListView.getItemAtPosition(position);
-                goToRestaurantDetails(restaurant);
-            }
-        });
-    }
+//    private void setupListview() {
+//        //use helper method so that: searchResults and the data bound to the array adapter point to different memory locations
+//        //needed for the search functionality (search icon on action bar), so that we keep track of the initial searchResults,
+//        //independent of the queries issued on the action bar
+//        searchResultsAdapter = new SearchResultsAdapter(SearchResultsActivity.this, Helpers.deepCopyRestaurants(searchResults));
+//        searchResultsListView = (ListView) findViewById(R.id.searchResults_listview);
+//        searchResultsListView.setAdapter(searchResultsAdapter);
+//
+//        //Handle item click from list view
+//        searchResultsListView.setClickable(true);
+//        searchResultsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+//                Restaurant restaurant = (Restaurant) searchResultsListView.getItemAtPosition(position);
+//                goToRestaurantDetails(restaurant);
+//            }
+//        });
+//    }
 
     @Override
     protected void onStart() {
