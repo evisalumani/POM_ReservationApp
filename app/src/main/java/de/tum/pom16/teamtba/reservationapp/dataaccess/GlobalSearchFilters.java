@@ -98,6 +98,9 @@ public class GlobalSearchFilters {
 
     public void setCurrentUserLocation(Location currentUserLocation) {
         this.currentUserLocation = currentUserLocation;
+        //as soon as current location is set, update distance from user for each restaurant
+        Stream.of(allRestaurants).forEach(restaurant ->
+                restaurant.setDistanceFromUserLocation(currentUserLocation));
     }
 
     public int getMaxPriceCategory() {
@@ -193,12 +196,6 @@ public class GlobalSearchFilters {
     }
 
     public List<Restaurant> applyFilters() {
-        //set distance from user
-        //TODO: find another way of setting distance from user
-        //List<Restaurant> allRestaurants = DataGenerator.generateDummyData();
-        Stream.of(allRestaurants).forEach(restaurant ->
-                restaurant.setDistanceFromUserLocation(locationToFilter));
-
         //apply filtering
         return DataSearch.filter(allRestaurants, filterCriteria.values());
     }

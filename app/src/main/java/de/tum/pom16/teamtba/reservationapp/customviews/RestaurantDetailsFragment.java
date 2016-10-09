@@ -149,7 +149,7 @@ public class RestaurantDetailsFragment extends PlaceholderFragment implements On
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
             addressLine1TextView.setText(restaurant.getAddress());
-            double distanceRounded = Math.round((restaurant.getDistanceFromUserLocation()/1000.0) * 100.0) / 100.0;
+            double distanceRounded = restaurant.getRoundedDistanceFromUserLocation();
             distance1TextView.setText(String.valueOf(distanceRounded));
             distance2TextView.setText("km away");
             cuisineTextView.setText("Cuisine: " + restaurant.getType().name().toLowerCase());

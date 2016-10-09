@@ -162,7 +162,13 @@ public class Restaurant implements Parcelable {
     }
 
     public float getDistanceFromUserLocation() {
+        //returns distance in meters
         return distanceFromUserLocation;
+    }
+
+    public double getRoundedDistanceFromUserLocation() {
+        //returns distance in km, rounded to 2 decimal places
+        return Math.round((distanceFromUserLocation/1000.0) * 100.0) / 100.0;
     }
 
     public void setDistanceFromUserLocation(Location userLocation) {
@@ -177,7 +183,7 @@ public class Restaurant implements Parcelable {
         DecimalFormat df = new DecimalFormat("#.#");
         df.setRoundingMode(RoundingMode.CEILING);
 
-        return type.name() + ", " + getPriceCategoryStr() + ", " + df.format(getDistanceFromUserLocation() / 1000) + " km away";
+        return type.name() + ", " + getPriceCategoryStr() + ", " + getRoundedDistanceFromUserLocation() + " km away";
     }
 
     public void addReview(RestaurantReview review) {
