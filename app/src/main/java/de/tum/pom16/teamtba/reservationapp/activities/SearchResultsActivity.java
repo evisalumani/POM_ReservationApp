@@ -49,7 +49,7 @@ import rx.schedulers.Schedulers;
 
 public class SearchResultsActivity extends AppActivity {
     //view
-    ListAdapter searchResultsAdapter;
+    SearchResultsAdapter searchResultsAdapter;
     FrameLayout frameContainer;
 
     //model
@@ -83,7 +83,8 @@ public class SearchResultsActivity extends AppActivity {
                             .add(R.id.searchResults_frame_container, noResultsFragment).commit();
 
                 } else {
-                    SearchResultsFragment resultsFragment = new SearchResultsFragment(searchResults);
+                    searchResultsAdapter = new SearchResultsAdapter(SearchResultsActivity.this, Helpers.deepCopyRestaurants(searchResults));
+                    SearchResultsFragment resultsFragment = new SearchResultsFragment(searchResults, searchResultsAdapter);
                     getSupportFragmentManager().beginTransaction()
                             .add(R.id.searchResults_frame_container, resultsFragment).commit();
                 }
@@ -233,6 +234,6 @@ public class SearchResultsActivity extends AppActivity {
 
     public void onNewQueryTerm(String newText) {
         List<Restaurant> tempSearchResults = DataSearch.filterRestaurantContainingString(searchResults, newText);
-        ((SearchResultsAdapter) searchResultsAdapter).refreshRestaurants(tempSearchResults);
+        if (searchResults != null) ((SearchResultsAdapter) searchResultsAdapter).refreshRestaurants(tempSearchResults);
     }
 }

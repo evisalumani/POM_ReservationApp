@@ -35,7 +35,7 @@ import rx.schedulers.Schedulers;
  */
 public class SearchResultsFragment extends Fragment {
     ListView searchResultsListView;
-    ListAdapter searchResultsAdapter;
+    SearchResultsAdapter searchResultsAdapter;
     List<Restaurant> searchResults;
     MapUtility mapUtility;
     SupportMapFragment mapFragment;
@@ -44,9 +44,10 @@ public class SearchResultsFragment extends Fragment {
         mapUtility = new MapUtility();
     }
 
-    public SearchResultsFragment(List<Restaurant> searchResults) {
+    public SearchResultsFragment(List<Restaurant> searchResults, SearchResultsAdapter adapter) {
         this();
         this.searchResults = searchResults;
+        this.searchResultsAdapter = adapter;
     }
 
     private void addMarkersForRestaurants(List<Restaurant> searchResults) {
@@ -77,7 +78,6 @@ public class SearchResultsFragment extends Fragment {
             addMarkersForRestaurants(searchResults);
 
             //setup listview
-            searchResultsAdapter = new SearchResultsAdapter(getActivity(), Helpers.deepCopyRestaurants(searchResults));
             searchResultsListView.setAdapter(searchResultsAdapter);
 
             //Handle item click from list view
