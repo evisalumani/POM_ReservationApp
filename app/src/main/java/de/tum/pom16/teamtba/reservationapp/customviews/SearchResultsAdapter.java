@@ -43,7 +43,7 @@ public class SearchResultsAdapter extends ArrayAdapter<Restaurant> {
 
         //set UI elements
         nameText.setText(searchResult.getName());
-        descriptionText.setText(searchResult.getShortDescription());
+        descriptionText.setText(searchResult.getType().name());
 
         // TODO: load corresponding image
         imageView.setImageResource(R.drawable.ic_local_dining);
