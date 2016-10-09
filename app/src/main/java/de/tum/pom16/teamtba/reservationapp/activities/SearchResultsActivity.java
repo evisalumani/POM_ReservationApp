@@ -47,7 +47,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-public class SearchResultsActivity extends MapCallbackActivity {
+public class SearchResultsActivity extends AppActivity {
     //view
     ListView searchResultsListView;
     ListAdapter searchResultsAdapter;
@@ -93,6 +93,7 @@ public class SearchResultsActivity extends MapCallbackActivity {
                     // Add the fragment to the container FrameLayout
                     getSupportFragmentManager().beginTransaction()
                             .add(R.id.searchResults_frame_container, resultsFragment).commit();
+                    resultsFragment.getMap();
 
 
                     //get map
@@ -204,13 +205,13 @@ public class SearchResultsActivity extends MapCallbackActivity {
         }
     }
 
-    public void addMarkersForSearchResults() {
-        if (searchResults != null) {
-            for (Restaurant restaurant : searchResults) {
-                addMarker(restaurant.getLatitude(), restaurant.getLongitude(), restaurant.getName());
-            }
-        }
-    }
+//    public void addMarkersForSearchResults() {
+//        if (searchResults != null) {
+//            for (Restaurant restaurant : searchResults) {
+//                addMarker(restaurant.getLatitude(), restaurant.getLongitude(), restaurant.getName());
+//            }
+//        }
+//    }
 
     //menu
     @Override

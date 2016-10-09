@@ -36,18 +36,31 @@ public class SearchResultsFragment extends Fragment {
     }
 
     public SearchResultsFragment(List<Restaurant> searchResults) {
-        mapUtility = new MapUtility(); //Redundant?
+        this();
         this.searchResults = searchResults;
+    }
+
+    private void addMarkersForRestaurants(List<Restaurant> searchResults) {
+        if (searchResults != null) {
+            for (Restaurant restaurant : searchResults) {
+                mapUtility.addMarker(restaurant.getLatitude(), restaurant.getLongitude(), restaurant.getName());
+            }
+        }
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.content_map_listview_search_results, container, false);
-        mapFragment = (SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+
         searchResultsListView = (ListView) v.findViewById(R.id.searchResults_listview);
 
         if (searchResults != null && searchResults.size() > 0) {
+            //generate markers
+            addMarkersForRestaurants(searchResults);
+
+            //setup listview
             searchResultsAdapter = new SearchResultsAdapter(getActivity(), Helpers.deepCopyRestaurants(searchResults));
             searchResultsListView.setAdapter(searchResultsAdapter);
 
@@ -64,4 +77,14 @@ public class SearchResultsFragment extends Fragment {
         }
         return v;
     }
+
+    public void getMap() {
+        if (mapFragment != null) {
+            //cannot call this at onCreateView, because the layout is not inflated yet
+            //call this method after SearchResultsFragment instantiation on SearchResultsActivity
+            mapFragment.getMapAsync(mapUtility);
+        }
+    }
+
+    //create an 
 }
