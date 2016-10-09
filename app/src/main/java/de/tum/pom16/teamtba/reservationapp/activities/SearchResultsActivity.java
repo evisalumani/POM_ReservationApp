@@ -185,6 +185,7 @@ public class SearchResultsActivity extends MapCallbackActivity {
         }
     }
 
+    //menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -195,6 +196,27 @@ public class SearchResultsActivity extends MapCallbackActivity {
         SearchUtility searchUtility = new SearchUtility(SearchResultsActivity.this, searchMenuItem);
 
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_hockeyapp_feedback:
+                showFeedbackActivity();
+                break;
+            case R.id.menu_filter:
+                showFilterActivity();
+                break;
+            default:
+                break;
+        }
+
+        return true;
+    }
+
+    public void showFilterActivity() {
+        Intent intent = new Intent(this, FilterResultsActivity.class);
+        startActivity(intent);
     }
 
     @Override

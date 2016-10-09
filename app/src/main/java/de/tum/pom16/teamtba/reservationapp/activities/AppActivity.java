@@ -22,46 +22,25 @@ import net.hockeyapp.android.UpdateManager;
 import de.tum.pom16.teamtba.reservationapp.R;
 import de.tum.pom16.teamtba.reservationapp.models.Constants;
 import de.tum.pom16.teamtba.reservationapp.models.Restaurant;
-import de.tum.pom16.teamtba.reservationapp.utilities.HockeyAppIntegration;
 
 /**
  * Created by evisa on 7/7/16.
  */
 public class AppActivity extends AppCompatActivity {
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_hockeyapp_feedback:
-                showFeedbackActivity();
-                break;
-            case R.id.menu_filter:
-                showFilterActivity();
-                break;
-            default:
-                break;
-        }
-
-        return true;
-    }
-
-    //HockeyApp integration
+    // Base activity class for the application
+    // HockeyApp integration
     private void checkForCrashes() {
-        CrashManager.register(this, HockeyAppIntegration.HOCKEY_APP_ID);
+        CrashManager.register(this, Constants.HOCKEY_APP_ID);
     }
 
     private void checkForUpdates() {
         // Remove this for store / production builds!
-        UpdateManager.register(this, HockeyAppIntegration.HOCKEY_APP_ID);
+        UpdateManager.register(this, Constants.HOCKEY_APP_ID);
     }
 
     public void showFeedbackActivity() {
-        FeedbackManager.register(this, HockeyAppIntegration.HOCKEY_APP_ID, null);
+        FeedbackManager.register(this, Constants.HOCKEY_APP_ID, null);
         FeedbackManager.showFeedbackActivity(this);
-    }
-
-    public void showFilterActivity() {
-        Intent intent = new Intent(this, FilterResultsActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -69,13 +48,6 @@ public class AppActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         checkForUpdates(); //HockeyApp
 
-        //setDisplayHomeAsUpEnabled(true) on the
-//        ActionBar actionBar = getSupportActionBar();
-//        if (actionBar != null) {
-//            //actionBar.setHomeAsUpIndicator(0); //use default <- arrow
-//            actionBar.setDisplayHomeAsUpEnabled(true);
-//
-//        }
         initializeModel();
         initializeView();
     }

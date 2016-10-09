@@ -6,6 +6,9 @@ import java.util.HashMap;
  * Created by evisa on 9/21/16.
  */
 public abstract class Constants {
+    //hockey app ID
+    public static final String HOCKEY_APP_ID = "6d9d8d133e5a4faeaf057fa1c29bb630";
+
     //price
     public static final int PRICE_ALL = 0;
     public static final int PRICE_CHEAP = 1;
