@@ -30,7 +30,6 @@
                 android:id="@+id/restaurant_details_address_firstLine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Freisinger Landstr. 86"
                 android:textStyle="bold"
                 android:layout_alignParentLeft="true"/>
 
@@ -38,7 +37,6 @@
                 android:id="@+id/restaurant_details_address_secondLine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="80939 Munchen, DE"
                 android:layout_below="@id/restaurant_details_address_firstLine"
                 android:layout_alignParentLeft="true"/>
 
@@ -46,7 +44,6 @@
                 android:id="@+id/restaurant_details_distance_firstLine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2 km"
                 android:textStyle="bold"
                 android:layout_alignTop="@id/restaurant_details_address_firstLine"
                 android:layout_alignParentRight="true"/>
@@ -55,7 +52,6 @@
                 android:id="@+id/restaurant_details_distance_secondLine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="away"
                 android:layout_below="@id/restaurant_details_distance_firstLine"
                 android:layout_alignTop="@id/restaurant_details_address_secondLine"
                 android:layout_alignParentRight="true"/>
@@ -136,7 +132,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
-                    android:text="07:00 - 10:00"
                     />
 
                 <!-- Tuesday -->
@@ -155,7 +150,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/opening_times_monday"
-                    android:text="07:00 - 10:00"
                     />
 
 
@@ -175,7 +169,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/opening_times_tuesday"
-                    android:text="07:00 - 10:00"
                     />
 
 
@@ -195,7 +188,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/opening_times_wednesday"
-                    android:text="07:00 - 10:00"
                     />
 
                 <!-- Friday -->
@@ -214,7 +206,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/opening_times_thursday"
-                    android:text="07:00 - 10:00"
                     />
 
                 <!-- Saturday -->
@@ -233,7 +224,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/opening_times_friday"
-                    android:text="07:00 - 10:00"
                     />
 
                 <!-- Sunday -->
@@ -252,7 +242,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/opening_times_saturday"
-                    android:text="07:00 - 10:00"
                     />
 
             </RelativeLayout>
@@ -276,11 +265,6 @@
                 />
 
         </RelativeLayout>
-
-        <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="2dp"-->
-        <!--android:background="?android:attr/listDivider"/>-->
 
     </RelativeLayout>
 

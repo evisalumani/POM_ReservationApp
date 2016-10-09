@@ -112,18 +112,6 @@ public class RestaurantDetailsFragment extends PlaceholderFragment implements On
     }
 
     private void setupOpeningTimesLayout() {
-//        for (int i=1; i<8; i++) {
-//            if (restaurant.getOpeningTimes().get(i) != null) {
-//                TextView txtView = new TextView(getActivity());
-//                txtView.setText(Helpers.getDaysOfWeekString()[i] + ", " + restaurant.getOpeningTimes().get(i).toString());
-//                txtView.setLayoutParams(new LinearLayout.LayoutParams(
-//                        LinearLayout.LayoutParams.WRAP_CONTENT,
-//                        LinearLayout.LayoutParams.WRAP_CONTENT,
-//                        RelativeLayout.RIGHT_OF));
-//                openingTimesLayout.addView(txtView);
-//            }
-//        }
-
         for (int i=0; i<openingTimesTextViews.length; i++) {
             //Monday is 0th in this array, but corresponds to int value 2 on the Calendar API (Calendar.MONDAY)
             OpeningTimes openingTimes = restaurant.getOpeningTimes().get((i+2)%7);
@@ -149,8 +137,7 @@ public class RestaurantDetailsFragment extends PlaceholderFragment implements On
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
             addressLine1TextView.setText(restaurant.getAddress());
-            double distanceRounded = restaurant.getRoundedDistanceFromUserLocation();
-            distance1TextView.setText(String.valueOf(distanceRounded));
+            distance1TextView.setText(String.valueOf(restaurant.getRoundedDistanceFromUserLocation()));
             distance2TextView.setText("km away");
             cuisineTextView.setText("Cuisine: " + restaurant.getType().name().toLowerCase());
             priceTextView.setText("Price: " + restaurant.getPriceCategoryStr());
