@@ -128,7 +128,6 @@ public class RestaurantReservationFragment extends PlaceholderFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Table selectedTable = (Table) tablesGridView.getItemAtPosition(position);
                 if (selectedTable != null) {
-                    //TODO: proceed to next screen
                     //create a reservation
                     Reservation reservation = new Reservation(selectedTable, new DateTimeSlot(dateToReserve, timeSlotToReserve));
                     goToReservationDetails(reservation);

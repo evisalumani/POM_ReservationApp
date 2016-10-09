@@ -155,12 +155,10 @@ public class GlobalSearchFilters {
         this.timeSlot = timeSlot;
 
         if (filterCriteria != null) {
-            //TODO:
             TimeFilterCriteria dateFilterCriteria = (TimeFilterCriteria) filterCriteria.get(SearchFilterType.DATE);
             if (dateFilterCriteria != null) {
                 dateFilterCriteria.setTimeSlot(timeSlot);
             }
-            //filterCriteria.put(SearchFilterType.TIMESLOT, new TimeSlotFilterCriteria(timeSlot));
         }
     }
 

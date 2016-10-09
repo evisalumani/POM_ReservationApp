@@ -65,8 +65,6 @@ public class DataGenerator {
         r1.setOpeningTimes(Calendar.WEDNESDAY, new HourTimeSlot(10, 0), new HourTimeSlot(24, 0));
         r1.setOpeningTimes(Calendar.THURSDAY, new HourTimeSlot(10, 0), new HourTimeSlot(24, 0));
         r1.setOpeningTimes(Calendar.FRIDAY, new HourTimeSlot(10, 0), new HourTimeSlot(24, 0));
-//        r1.setOpeningTimes(6, new HourTimeSlot(10, 0), new HourTimeSlot(24, 0));
-//        r1.setOpeningTimes(7, new HourTimeSlot(10, 0), new HourTimeSlot(24, 0));
 
         r2.setOpeningTimes(Calendar.MONDAY, new HourTimeSlot(7, 0), new HourTimeSlot(13, 0));
         r2.setOpeningTimes(Calendar.TUESDAY, new HourTimeSlot(7, 0), new HourTimeSlot(15, 0));
