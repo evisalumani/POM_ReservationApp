@@ -155,10 +155,7 @@ public class Restaurant implements Parcelable {
     }
 
     public int getReviewsNr() {
-        if (reviews != null) {
-            return reviews.size();
-        }
-        return 0;
+        return reviews != null ? reviews.size() : 0;
     }
 
     public float getDistanceFromUserLocation() {

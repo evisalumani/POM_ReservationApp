@@ -31,7 +31,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
-                android:text="Restaurant name"
                 android:textSize="16sp" />
 
             <RatingBar
@@ -44,15 +43,16 @@
                 android:layout_below="@id/searchResult_restaurantName" />
 
             <TextView
+                android:id="@+id/searchResult_nrOfReviews"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="(32)"
                 android:paddingLeft="6dp"
                 android:layout_toRightOf="@id/searchResult_ratingbar"
+                android:layout_alignBottom="@id/searchResult_ratingbar"
                 android:layout_below="@id/searchResult_restaurantName"/>
 
             <TextView
-                android:id="@+id/searchResult_restaurantDescription"
+                android:id="@+id/searchResult_cuisine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -63,27 +63,29 @@
                 android:textStyle="italic"/>
 
             <TextView
-                android:id="@+id/searchResult_price_category_textview"
+                android:id="@+id/searchResult_price_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/searchResult_ratingbar"
-                android:layout_alignParentRight="true"
-                android:text="$$"/>
+                android:layout_alignParentRight="true" />
 
             <TextView
-                android:id="@+id/searchResult_distance_textview"
+                android:id="@+id/searchResult_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/searchResult_restaurantDescription"
-                android:layout_alignParentRight="true"
-                android:text="3.4 km"/>
+                android:layout_alignBottom="@id/searchResult_cuisine"
+                android:layout_alignParentRight="true" />
 
-
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_location_gray_24dp"
+                android:layout_toLeftOf="@id/searchResult_distance"
+                android:layout_below="@id/searchResult_ratingbar"
+                android:layout_alignBottom="@id/searchResult_distance"
+                />
         </RelativeLayout>
 
-
-
     </RelativeLayout>
-
 
 </RelativeLayout>
