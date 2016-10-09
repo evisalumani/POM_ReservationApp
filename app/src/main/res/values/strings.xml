@@ -22,7 +22,7 @@
         <item>7</item>
         <item>8</item>
     </string-array>
-    <string name="title_activity_filter_results">FilterResultsActivity</string>
+    <string name="title_activity_filter_results">Filter Restaurants</string>
     <string name="title_activity_restaurant_overview">RestaurantOverviewActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>

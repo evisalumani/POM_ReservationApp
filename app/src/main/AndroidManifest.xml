@@ -40,8 +40,6 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".activities.RestaurantDetailsActivity" />
-        <activity android:name=".activities.ReservationActivity" />
 
         <!-- HockeyApp -->
         <activity android:name="net.hockeyapp.android.FeedbackActivity" />
@@ -53,8 +51,6 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
-        <activity android:name=".activities.RestaurantReviewsActivity" />
         <activity
             android:name=".activities.FilterResultsActivity"
             android:label="@string/title_activity_filter_results"
@@ -63,14 +59,8 @@
             android:name=".activities.RestaurantOverviewActivity"
             android:label="@string/title_activity_restaurant_overview"
             android:theme="@style/AppTheme">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
+
         <activity
             android:name=".activities.ReservationDetailsActivity"
             android:label="@string/title_activity_reservation_details"
